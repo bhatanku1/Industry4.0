@@ -18,12 +18,13 @@
 */
 package org.apache.cordova;
 
-import java.util.List;
+import android.util.Base64;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.util.Base64;
+import java.util.List;
 
 public class PluginResult {
     private final int status;
@@ -53,6 +54,7 @@ public class PluginResult {
         this.status = status.ordinal();
         this.messageType = MESSAGE_TYPE_JSON;
         encodedMessage = message.toString();
+        Log.d("Inside plugin", "String" + encodedMessage);
     }
 
     public PluginResult(Status status, int i) {

@@ -42,13 +42,14 @@
 			function publish() {
 
 				MqttPlugin.publish({
-				data:"Mqtt data",
-				topic:"$EDC/plugin"
+				topic:"$EDC/plugin",
+				data:"Mqtt data"
+
 				});
 			}
 
 			function subscribe() {
-				CoolPlugin.showToast("ankur");
+				MqttPlugin.subscribe({topic: "$EDC/plugin"});
 			}
 
 

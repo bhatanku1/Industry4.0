@@ -18,16 +18,12 @@
 */
 package org.apache.cordova;
 
-import org.apache.cordova.CordovaArgs;
-import org.apache.cordova.CordovaWebView;
-import org.apache.cordova.CordovaInterface;
-import org.apache.cordova.CallbackContext;
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,7 +31,8 @@ import java.io.IOException;
 /**
  * Plugins must extend this class and override one of the execute methods.
  */
-public class CordovaPlugin {
+public class
+        CordovaPlugin {
     public CordovaWebView webView;
     public CordovaInterface cordova;
     protected CordovaPreferences preferences;
