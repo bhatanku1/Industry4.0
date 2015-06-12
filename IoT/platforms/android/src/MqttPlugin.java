@@ -1,6 +1,7 @@
 
 import android.os.StrictMode;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -58,6 +59,7 @@ public class MqttPlugin extends CordovaPlugin {
 				}
 			});
 			this.pluginCallbackContext = callbackContext;
+
 			Log.d("callbackcontext", pluginCallbackContext.toString());
 
 			return true;
@@ -68,7 +70,9 @@ public class MqttPlugin extends CordovaPlugin {
 			Log.d("Kura....",  args.get(0).toString());
 			this.setOpts(args);
 			publish();
-			this.pluginCallbackContext = callbackContext;
+			callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, args.get(0).toString()));
+
+			//this.pluginCallbackContext = callbackContext;
 			return true;
 		}
 		return false;
@@ -99,6 +103,23 @@ public class MqttPlugin extends CordovaPlugin {
 				}
 				Log.d("JSON", "called subs");
 				sendUpdate(object, true);
+				cordova.getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						try{
+							Toast toast = Toast.makeText(cordova.getActivity().getApplicationContext(), object.toString(), Toast.LENGTH_LONG);
+							toast.show();
+							toast.setGravity(0,1,1);
+
+						}
+						catch(Exception e)
+						{
+							Log.d("Exception", e.getMessage());
+						}
+					}
+				});
+
+
 				Log.d("JSON", "called SendUpdate" + object.toString());
 			}
 		});
@@ -127,14 +148,15 @@ public class MqttPlugin extends CordovaPlugin {
 			Log.d("SendUpdate", "inside the if condition");
 			final PluginResult result = new PluginResult(
 					PluginResult.Status.OK, info);
-			Log.d("SendUpdate", "inside the second statement of if condition");
+			Log.d("SendUpdate", "inside the second statement of if condition" + info.toString());
 
 			try {
-				String r ;
-				r = result.getStrMessage();
-				Log.d("Final subscribe", r);
+				//String r ;
+				//r = result.getStrMessage();
+				Log.d("Final subscribe", result.getStrMessage());
 			}
 			catch (Exception e){
+				Log.d("Exceeption", e.getMessage());
 
 			}
 
