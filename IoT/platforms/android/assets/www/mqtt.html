@@ -3,41 +3,27 @@
 <meta charset="UTF-8">
 
 <head>
-    <script type="text/javascript" src="js/mqttws31.js"></script>
 
-    <script type="text/javascript" src="js/Long.min.js"></script>
-    <script type="text/javascript" src="js/ByteBufferAB.min.js"></script>
-    <script type="text/javascript" src="js/ProtoBuf.min.js"></script>
-    <script type="text/javascript" src="js/fs.js"></script>
-    <script type="text/javascript" src="js/bundle.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="cordova_plugins.js"></script>
 
 </head>
-<body>
+<body onload ="construct()">
 
-<h2>A demo for showing the pub/sub between clients and the message broker</h2> <h3>IoTGateway</h3>
-    Topic :
-    <input type="text" name="pub"/>
-    Message:
-    <input type="text" name="pub"/>
-    <button onclick="connect()">
-        Connect
-    </button>
-    <br>
-    <button onclick="publish()">
-        Publish
-    </button>
-    <br>
+<h2>Bluetooth Devices</h2>
+<p id ="broker_status"> Initializing connection with the Broker</p>
+<img id="connection_state"  width="10" height="10"> <p id ="pi_status"> </p>
+<br>
 
-    <h3>BluetoothID</h3> Topic:
-    <input type="text" name="sub"/>
-    <button onclick="subscribe()">
+    <h3>BluetoothID</h3>
+    <input id ="text_macid" type="text" name="sub" disabled/>
+    <button id = "btn_sub"onclick="subscribe()" disabled>
         Subscribe
     </button>
     <br>
 	<p id = "test"></p>
     <p id="sub"></p>
+
     <script>
 			function publish() {
 
@@ -49,11 +35,32 @@
 			}
 
 			function subscribe() {
-				MqttPlugin.subscribe({topic: "$EDC/plugin"});
+
+				var a = MqttPlugin.subscribe({topic: "$EDC/plugin12"});
+			}
+            function heartbeat() {
+
+				MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
+				//a = MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
+
+			}
+			function kill() {
+
+				MqttPlugin.kill({topic: "$EDC/plugin"});
+			}
+			function InitFunc() {
+
+				document.getElementById("pi_status").innerHTML = "Connecting to Raspberry Pi...";
 			}
 
 
+            function construct() {
 
+                setTimeout(InitFunc, 1500);
+                setTimeout(heartbeat, 2500);
+                //setTimeout(kill, 3000);
+
+            }
     </script>
 </body>
 </html>

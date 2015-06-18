@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+
+<head>
+    <script type="text/javascript" src="js/mqttws31.js"></script>
+
+    <script type="text/javascript" src="js/Long.min.js"></script>
+    <script type="text/javascript" src="js/ByteBufferAB.min.js"></script>
+    <script type="text/javascript" src="js/ProtoBuf.min.js"></script>
+    <script type="text/javascript" src="js/fs.js"></script>
+    <script type="text/javascript" src="js/bundle.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="cordova_plugins.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"/>
+
+</head>
+<body>
+
+<h2>A demo for showing the pub/sub between clients and the message broker</h2> <h3>IoTGateway</h3>
+    Topic :
+    <input type="text" name="pub"/>
+    Message:
+    <input type="text" name="pub"/>
+    <button onclick="connect()">
+        Connect
+    </button>
+    <br>
+    <button onclick="publish()">
+        Publish
+    </button>
+    <br>
+
+    <h3>BluetoothID</h3> Topic:
+    <input type="text" name="sub"/>
+    <button onclick="heartbeat()">
+        Subscribe
+    </button>
+    <br>
+	<p id = "test"></p>
+    <p id="sub"></p>
+    <script>
+            function heartbeat() {
+                alert("hello");
+                try{
+                MqttPlugin.subscribe({topic: "$EDC/plugin"});
+                }
+                catch(err){
+                alert(err.message);
+                }
+
+            }
+            $(document).ready(function(){
+                    heartbeat();
+             });
+           /* try{
+            MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
+            }
+            catch(err){
+            alert(err.message);
+            }*/
+
+
+
+			function publish() {
+
+				MqttPlugin.publish({
+				topic:"$EDC/plugin",
+				data:"Mqtt data"
+
+				});
+			}
+
+			function subscribe() {
+				MqttPlugin.subscribe({topic: "$EDC/plugin"});
+			}
+
+
+
+    </script>
+</body>
+</html>

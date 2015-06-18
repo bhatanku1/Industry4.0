@@ -18,7 +18,7 @@ public class MqttPlugin extends CordovaPlugin {
 	private static final String LOG_TAG = "MqttPlugin";
 
 	private CallbackContext pluginCallbackContext = null;
-
+	private  String val = null;
 	private final String clientID = null;
 	private final String brokerUrl = null;
 	private final String userName = null;
@@ -28,7 +28,7 @@ public class MqttPlugin extends CordovaPlugin {
 
 	final IKuraMQTTClient client = new KuraMQTTClient.Builder()
 			.setHost("m20.cloudmqtt.com").setPort("11143")
-			.setClientId("CLIENT_1294378").setUsername("user@email.com")
+			.setClientId("CLIENT_129437").setUsername("user@email.com")
 			.setPassword("iotiwbiot").build();
 
 	// Connect to the Message Broker
@@ -38,32 +38,47 @@ public class MqttPlugin extends CordovaPlugin {
 	// args = [url, username, password, clientID, topic]
 	@Override
 	public boolean execute(String action,  JSONArray args,
-						   CallbackContext callbackContext) throws JSONException {
+						    final CallbackContext callbackContext) throws JSONException {
 		Log.d("Kura-MQTT", String.valueOf(status));
 		if (android.os.Build.VERSION.SDK_INT >= 11) {
 			final StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
 					.permitAll().build();
 			StrictMode.setThreadPolicy(policy);
 		}
-
 		if (action.equals("subscribe")) {
 			this.setOpts(args);
 			Log.d("Topic in subscribe", args.get(0).toString());
-
-			//subscribe();
-
 			this.cordova.getActivity().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					subscribe();
+					val = subscribe();
 				}
 			});
 			this.pluginCallbackContext = callbackContext;
-
-			Log.d("callbackcontext", pluginCallbackContext.toString());
-
 			return true;
-		} else if (action.equals("stop")) {
+		}
+		if (action.equals("heartbeat")) {
+			this.setOpts(args);
+			Log.d("Topic in heartbeat", args.get(0).toString());
+			this.cordova.getActivity().runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					heartBeat();
+				}
+			});
+			this.pluginCallbackContext = callbackContext;
+			return true;
+		}
+		else if (action.equals("kill")) {
+			Log.d("Kura....",  args.get(0).toString());
+			this.setOpts(args);
+			kill();
+			callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, args.get(0).toString()));
+
+			//this.pluginCallbackContext = callbackContext;
+			return true;
+		}
+		else if (action.equals("stop")) {
 			callbackContext.success("stopped");
 			return true;
 		} else if (action.equals("publish")) {
@@ -86,8 +101,50 @@ public class MqttPlugin extends CordovaPlugin {
 		client.publish(m_topic, payload);
 	}
 
-	private void subscribe() {
+	private String  subscribe() {
 		Log.d("subs", "Subscribe inside");
+		final JSONObject object = new JSONObject();
+
+		client.subscribe(m_topic, new MessageListener() {
+			@Override
+			public void processMessage(KuraPayload payload) {
+				Log.d("Process", "Got the pubished message");
+				final Map<String, Object> metrics = payload.metrics();
+				for (final Map.Entry entry : metrics.entrySet()) {
+					try {
+						object.put((String) entry.getKey(), entry.getValue());
+					} catch (final JSONException e) {
+						e.printStackTrace();
+					}
+
+				}
+
+				Log.d("JSON", "called subs");
+				sendUpdate(object, true);
+				cordova.getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							//callbackContext.success(object.toString());
+							Toast toast = Toast.makeText(cordova.getActivity().getApplicationContext(), object.toString(), Toast.LENGTH_LONG);
+							toast.show();
+							toast.setGravity(0, 1, 1);
+
+						} catch (Exception e) {
+							Log.d("Exception", e.getMessage());
+						}
+					}
+				});
+
+				//pluginCallbackContext.success(object.toString());
+				Log.d("JSON", "called SendUpdate" + object.toString());
+
+			}
+		});
+		return  object.toString();
+	}
+	private void heartBeat() {
+		Log.d("heartbeat", " inside");
 		client.subscribe(m_topic, new MessageListener() {
 			@Override
 			public void processMessage(KuraPayload payload) {
@@ -101,7 +158,7 @@ public class MqttPlugin extends CordovaPlugin {
 						e.printStackTrace();
 					}
 				}
-				Log.d("JSON", "called subs");
+				Log.d("heartbeat", "called subs from Heartbeat");
 				sendUpdate(object, true);
 				cordova.getActivity().runOnUiThread(new Runnable() {
 					@Override
@@ -119,12 +176,50 @@ public class MqttPlugin extends CordovaPlugin {
 					}
 				});
 
-
-				Log.d("JSON", "called SendUpdate" + object.toString());
+				//pluginCallbackContext.success(object);
+				Log.d("heartbeat", "called SendUpdate from Heartbeat" + object.toString());
 			}
 		});
 	}
 
+	private void kill() {
+		Log.d("kill", "kill inside");
+		client.subscribe(m_topic, new MessageListener() {
+			@Override
+			public void processMessage(KuraPayload payload) {
+				Log.d("Process", "Got the kill message");
+				final JSONObject object = new JSONObject();
+				final Map<String, Object> metrics = payload.metrics();
+				for (final Map.Entry entry : metrics.entrySet()) {
+					try {
+						object.put((String) entry.getKey(), entry.getValue());
+					} catch (final JSONException e) {
+						e.printStackTrace();
+					}
+				}
+				Log.d("kill", "called subs");
+				sendUpdate(object, true);
+				cordova.getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						try{
+							Toast toast = Toast.makeText(cordova.getActivity().getApplicationContext(), object.toString(), Toast.LENGTH_LONG);
+							toast.show();
+							//toast.setGravity(0,1,1);
+
+						}
+						catch(Exception e)
+						{
+							Log.d("Exception", e.getMessage());
+						}
+					}
+				});
+
+
+				Log.d("kill", "called SendUpdate from Kill" + object.toString());
+			}
+		});
+	}
 	private void disconnect() {
 
 	}
@@ -187,7 +282,7 @@ public class MqttPlugin extends CordovaPlugin {
 			Log.d("subsribe", "there is no published data as it is a subscribed function");
 		}
 		this.m_topic = (String) args.get(0);
-		Log.d("qwerz", m_publishData+ " and " +m_topic);
+		Log.d("Subscribed", m_publishData+ " and " +m_topic);
 
 	}
 
