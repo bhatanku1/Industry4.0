@@ -69,7 +69,7 @@ android {
         compile 'org.fusesource.mqtt-client:mqtt-client:1.10'
         compile 'com.google.protobuf:protobuf-java:2.6.1'
         compile 'org.slf4j:slf4j-api:1.7.12'
-        compile 'org.fusesource.hawtbuf:hawtbuf:1.10'
+        compile 'org.fusesource.hawtbuf:hawtbuf:1.11'
 
 
     }

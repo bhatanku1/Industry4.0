@@ -14,8 +14,9 @@ MqttPlugin.prototype.subscribe = function(aString){
 
     console.log("MqttPlugin.js: subscribe");
     exec(
-        function(result){ document.getElementById("test").innerHTML = "Mqtt Sub got the value from the topic" + result['request.id'],
-                           document.getElementById('connection_state').src = 'img/bck.png' },
+        function(result){   document.getElementById("fHeader").innerHTML = "Values received from the device:",
+                            document.getElementById("test").innerHTML = "Force X = " + result['request.id']
+                        },
 
     //function(result){ alert("Mqtt Sub got the value from the topic" + result['request.id']) },
     function(result){ /*alert("Error" + reply);*/ },
