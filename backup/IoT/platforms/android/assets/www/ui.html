@@ -3,6 +3,8 @@
 <html>
 <head>
     <title>Home page</title>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="cordova_plugins.js"></script>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
@@ -11,17 +13,43 @@
 
 
 
-<body>
+<body onload ="construct()">
+<script>
+
+            function heartbeat() {
+                alert("hello");
+				MqttPlugin.heartbeat({topic: "$EDC/heart"});
+				//MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
+				//a = MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
+
+			}
+			function InitFunc() {
+				document.getElementById("pi_status").innerHTML = "Connecting to Raspberry Pi. Please Wait.";
+			}
+
+
+            function construct() {
+
+                setTimeout(InitFunc, 1500);
+                setTimeout(heartbeat, 2500);
+                //setTimeout(kill, 3000);
+
+            }
+    </script>
 <div class="bar bar-header bar-positive">
     <h1 class="title">INDUSTRY 4.0</h1>
     <button class="button button-clear button-light"><b>Log Out</b></button>
 </div>
 <br>
 <br>
-<button class="button button-full icon-left ion-wifi">WIFI Devices</button>
-<a href = "mqtt.html"><button class="button button-full icon-left ion-bluetooth">Bluetooth Devices</button></a>
-<button class="button button-full icon-left ion-ios-paper">OPC UA Devices</button>
+<button id = "wifi_ui_btn" class="button button-full icon-left ion-wifi" disabled>WIFI Devices</button>
+<a href = "bluetooth.html"><button id = "bluetooth_ui_btn" class="button button-full icon-left ion-bluetooth" disabled>Bluetooth Devices</button></a>
+<button id = "opc_ui_btn" class="button button-full icon-left ion-ios-paper" disabled>OPC UA Devices</button>
 <button class="button button-full icon-left ion-help-circled">Help</button><br>
-<button onmouseup="whichButton(event);" oncontextmenu="event.preventDefault();">Click with mouse...</button>
+<div id ="status_ui" style="background-color: lightblue">
+<p id ="pi_status"> Initializing connection with the Broker....</p>
+
+</div>
 </body>
+
 </html>
