@@ -32,6 +32,36 @@
 	History of devices paired with the device(Click to subscribe to the device)
 </div>
 <script>
+			function onDeviceReady() {
+				var bluetooth_id = document.getElementById("text_macid").value;
+				var a = MqttPlugin.subscribe({topic: "$EDC/"+bluetooth_id});
+            	var db = window.sqlitePlugin.openDatabase({name: "my.db"});
+            	db.transaction(populateDB, errorDB, successDB);
+            	db.transaction(function(tx) {
+        			tx.executeSql("select macid  from device;", function(tx, res) {
+       				   document.getElementById("sub").innerHTML = "res.rows.length: " + res.rows.length;
+
+    			    });
+    			  });
+            }
+            function populateDB(tx) {
+				var mac = document.getElementById("text_macid").value;
+				var typedevice = "bluetooth";
+				tx.executeSql('CREATE TABLE IF NOT EXISTS device (macid text, devicetype text)');
+				alert("table created");
+				tx.executeSql("INSERT INTO device (macid, devicetype) VALUES ('"+ mac + "','" + typedevice + "')");
+
+
+				alert("values inserted");
+
+            }
+            function errorDB(tx) {
+				alert("Error: " + tx);
+            }
+            function successDB() {
+            ;
+				navigator.notification.alert("Success in DB creation",null,"Information", "OK");
+            }
 
 			function publish() {
 
@@ -43,8 +73,8 @@
 			}
 
 			function subscribe() {
-				var bluetooth_id = document.getElementById("text_macid").value;
-				var a = MqttPlugin.subscribe({topic: "$EDC/"+bluetooth_id});
+				document.addEventListener("deviceready", onDeviceReady, false);
+
 			}
 
 

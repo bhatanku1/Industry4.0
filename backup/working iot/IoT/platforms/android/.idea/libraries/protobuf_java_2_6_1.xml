@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="protobuf-java-2.6.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/google/protobuf/protobuf-java/2.6.1/protobuf-java-2.6.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/2.6.1/cf47bfc6a10f85d14bc4c078a48d163b5903a291/protobuf-java-2.6.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
