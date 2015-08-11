@@ -33,36 +33,39 @@
 </div>
 <script>
 			function onDeviceReady() {
-				var bluetooth_id = document.getElementById("text_macid").value;
-				var a = MqttPlugin.subscribe({topic: "$EDC/"+bluetooth_id});
-            	var db = window.sqlitePlugin.openDatabase({name: "my.db"});
-            	db.transaction(populateDB, errorDB, successDB);
-            	db.transaction(function(tx) {
-        			tx.executeSql("select macid  from device;", function(tx, res) {
-       				   document.getElementById("sub").innerHTML = "res.rows.length: " + res.rows.length;
+				var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+                
+  db.transaction(function(tx) {
+    tx.executeSql('DROP TABLE IF EXISTS test_table');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data text, data_num integer)');
 
-    			    });
-    			  });
-            }
-            function populateDB(tx) {
-				var mac = document.getElementById("text_macid").value;
-				var typedevice = "bluetooth";
-				tx.executeSql('CREATE TABLE IF NOT EXISTS device (macid text, devicetype text)');
-				alert("table created");
-				tx.executeSql("INSERT INTO device (macid, devicetype) VALUES ('"+ mac + "','" + typedevice + "')");
+    // demonstrate PRAGMA:
+    db.executeSql("pragma table_info (test_table);", [], function(res) {
+      console.log("PRAGMA res: " + JSON.stringify(res));
+    });
 
+    tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", ["test", 100], function(tx, res) {
+      alert("insertId: " + res.insertId + " -- probably 1");
+      alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
 
-				alert("values inserted");
+      db.transaction(function(tx) {
 
-            }
-            function errorDB(tx) {
-				alert("Error: " + tx);
-            }
-            function successDB() {
-            ;
-				navigator.notification.alert("Success in DB creation",null,"Information", "OK");
-            }
+        tx.executeSql("select * from test_table;", [], function(tx, res) {
+          var len = res.rows.length;
+          alert(len);
+          for (var i=0; i<len; i++){
+            alert( res.rows.item(i).data);
+          }
+          //alert("res.rows.length: " + res.rows.length + " -- should be 1");
+          //alert("res.rows.item(0) " + res.rows.item(0).data + " -- should be 1");
+        });
+      });
 
+    }, function(e) {
+      console.log("ERROR: " + e.message);
+    });
+  });
+}
 			function publish() {
 
 				MqttPlugin.publish({
