@@ -95,8 +95,8 @@ public class MqttPlugin extends CordovaPlugin {
 
 	private void publish() {
 		final KuraPayload payload = new KuraPayload();
-		payload.addMetric("request.id", "55361535117");
-		payload.addMetric("requester.client.id", "AMIT_083027868");
+		payload.addMetric("request.id", "4234216342143261");
+		payload.addMetric("requester.client.id", "ANKUR");
 		payload.setBody(m_publishData.getBytes());
 		client.publish(m_topic, payload);
 	}

@@ -21,9 +21,18 @@
 
 <h3>PAIR A NEW DEVICE: ENTER THE BLUETOOTHID</h3>
 <input id ="text_macid" type="text" name="sub"/>
-<button id = "btn_sub" onclick="subscribe()">
-	CONNECT
+<button id = "btn_pub" onclick="publish()">
+	PUBLISH
+</button><button id = "btn_sub" onclick="subscribe()">
+  SUBSCRIBE
 </button>
+</button><button id = "btn_start" onclick="start()">
+  START
+</button>
+</button><button id = "btn_stop" onclick="stop()">
+  STOP
+</button>
+
 <br>
 <h3 id="fHeader"></h3><br>
 <p id = "test"></p>
@@ -34,7 +43,7 @@
 <script>
 			function onDeviceReady() {
 				var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
-                
+
   db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS test_table');
     tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data text, data_num integer)');
@@ -43,8 +52,8 @@
     db.executeSql("pragma table_info (test_table);", [], function(res) {
       console.log("PRAGMA res: " + JSON.stringify(res));
     });
-
-    tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", ["test", 100], function(tx, res) {
+    var mac = document.getElementById("text_macid").value
+    tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", [mac, 100], function(tx, res) {
       alert("insertId: " + res.insertId + " -- probably 1");
       alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
 
@@ -69,13 +78,31 @@
 			function publish() {
 
 				MqttPlugin.publish({
-				topic:"$EDC/plugin",
+				topic:"$EDC/tum/B8:27:EB:A6:A9:8A/BLUETOOTH-V1/GET/configurations",
 				data:"Mqtt data"
 
 				});
 			}
 
+			function start() {
+
+				MqttPlugin.publish({
+				topic:"$EDC/tum/B8:27:EB:A6:A9:8A/BLUETOOTH-V1/EXEC/start",
+				data:"Mqtt data"
+
+				});
+			}
+            function stop() {
+
+				MqttPlugin.publish({
+				topic:"$EDC/tum/B8:27:EB:A6:A9:8A/BLUETOOTH-V1/EXEC/stop",
+				data:"Mqtt data"
+
+				});
+			}
 			function subscribe() {
+			    var bluetooth_id = document.getElementById("text_macid").value;
+				var a = MqttPlugin.subscribe({topic: "$EDC/tum/ANKUR/BLUETOOTH-V1/REPLY/4234216342143261"});
 				document.addEventListener("deviceready", onDeviceReady, false);
 
 			}
