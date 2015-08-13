@@ -18,6 +18,7 @@ public class MqttPlugin extends CordovaPlugin {
 	private static final String LOG_TAG = "MqttPlugin";
 
 	private CallbackContext pluginCallbackContext = null;
+	private CallbackContext pluginCallbackContextSub = null;
 	private  String val = null;
 	private final String clientID = null;
 	private final String brokerUrl = null;
@@ -54,7 +55,7 @@ public class MqttPlugin extends CordovaPlugin {
 					val = subscribe();
 				}
 			});
-			this.pluginCallbackContext = callbackContext;
+			this.pluginCallbackContextSub = callbackContext;
 			return true;
 		}
 		if (action.equals("heartbeat")) {
@@ -120,7 +121,7 @@ public class MqttPlugin extends CordovaPlugin {
 				}
 
 				Log.d("JSON", "called subs");
-				sendUpdate(object, true);
+				sendUpdateSub(object, true);
 				cordova.getActivity().runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -235,6 +236,17 @@ public class MqttPlugin extends CordovaPlugin {
 			this.pluginCallbackContext.sendPluginResult(result);
 		}
 	}
+	private void sendUpdateSub(String info, boolean keepCallback) {
+		Log.d("JSON", "insode SendUpdate");
+
+		if (this.pluginCallbackContextSub != null) {
+			final PluginResult result = new PluginResult(
+					PluginResult.Status.OK, info);
+			result.setKeepCallback(keepCallback);
+
+			this.pluginCallbackContextSub.sendPluginResult(result);
+		}
+	}
 
 	private void sendUpdate(JSONObject info, boolean keepCallback) {
 		Log.d("In SendUpdate123", "called");
@@ -260,7 +272,30 @@ public class MqttPlugin extends CordovaPlugin {
 			this.pluginCallbackContext.sendPluginResult(result);
 		}
 	}
+	private void sendUpdateSub(JSONObject info, boolean keepCallback) {
+		Log.d("In SendUpdate123", "called");
 
+		if (this.pluginCallbackContextSub != null) {
+			Log.d("SendUpdate", "inside the if condition");
+			final PluginResult result = new PluginResult(
+					PluginResult.Status.OK, info);
+			Log.d("SendUpdate", "inside the second statement of if condition" + info.toString());
+
+			try {
+				//String r ;
+				//r = result.getStrMessage();
+				Log.d("Final subscribe", result.getStrMessage());
+			}
+			catch (Exception e){
+				Log.d("Exceeption", e.getMessage());
+
+			}
+
+			result.setKeepCallback(keepCallback);
+
+			this.pluginCallbackContextSub.sendPluginResult(result);
+		}
+	}
 	public static String getStackTrace(final Throwable throwable) {
 		final StringWriter sw = new StringWriter();
 		final PrintWriter pw = new PrintWriter(sw, true);
