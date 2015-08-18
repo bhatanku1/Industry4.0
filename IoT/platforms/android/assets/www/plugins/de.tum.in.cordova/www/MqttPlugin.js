@@ -15,7 +15,7 @@ MqttPlugin.prototype.subscribe = function(aString){
     console.log("MqttPlugin.js: subscribe");
     exec(
         function(result){   document.getElementById("fHeader").innerHTML = "Values received from the device:",
-                            document.getElementById("test").innerHTML = "Force X = " + result['request.id']
+                            document.getElementById("test").innerHTML = "Force X = " + result['result']
                         },
 
     //function(result){ alert("Mqtt Sub got the value from the topic" + result['request.id']) },

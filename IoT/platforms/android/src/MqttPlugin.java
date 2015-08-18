@@ -29,7 +29,7 @@ public class MqttPlugin extends CordovaPlugin {
 
 	final IKuraMQTTClient client = new KuraMQTTClient.Builder()
 			.setHost("m20.cloudmqtt.com").setPort("11143")
-			.setClientId("CLIENT_129787").setUsername("user@email.com")
+			.setClientId("CLIENT_122327").setUsername("user@email.com")
 			.setPassword("iotiwbiot").build();
 
 	// Connect to the Message Broker

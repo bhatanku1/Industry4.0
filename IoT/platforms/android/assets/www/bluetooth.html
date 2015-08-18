@@ -5,7 +5,15 @@
 <head>
 
 	<script type="text/javascript" src="cordova.js"></script>
-	<script type="text/javascript" src="cordova_plugins.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript"
+			src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+              'name':'visualization',
+              'version':'1',
+              'packages':['corechart']
+            }]
+          }"></script>
 	<link href="lib/ionic/css/ionic.css" rel="stylesheet">
 
 
@@ -22,26 +30,53 @@
 <h3>PAIR A NEW DEVICE: ENTER THE BLUETOOTHID</h3>
 <input id ="text_macid" type="text" name="sub"/>
 <button id = "btn_pub" onclick="publish()">
-	PUBLISH
+	START MILLING MACHINE COMMUNICATION
 </button>
 <button id = "btn_sub" onclick="subscribe()">
   SUBSCRIBE
 </button>
 <button id = "btn_start" onclick="start()">
-  START
+  START BLUETOOTH
 </button>
 <button id = "btn_stop" onclick="stop()">
-  STOP
+	STOP BLUETOOTH
+</button>
+<button id = "milling_stop" onclick="milling_stop()">
+	STOP MILLING MACHINE COMMUNICATION
+</button>
+<button id = "graph" onclick="generateGraph()">
+	GRAPH
 </button>
 
 <br>
 <h3 id="fHeader"></h3><br>
 <p id = "test"></p>
 <p id="sub"></p>
-<div>
-	History of devices paired with the device(Click to subscribe to the device)
+
+	<div id="curve_chart" style="width: 900px; height: 500px">
 </div>
 <script>
+			 google.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales', 'Expenses'],
+          ['2004',  1000,      400],
+          ['2005',  1170,      460],
+          ['2006',  660,       1120],
+          ['2007',  1030,      540]
+        ]);
+
+        var options = {
+          title: 'Company Performance',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
 
 			function publish() {
 
@@ -60,6 +95,14 @@
 
 				});
 			}
+			function milling_stop() {
+
+				MqttPlugin.publish({
+				topic:"$EDC/tum/B8:27:EB:A6:A9:8A/MILLING-V1/EXEC/stop",
+				data:"Mqtt data"
+
+				});
+			}
             function stop() {
 
 				MqttPlugin.publish({
@@ -70,13 +113,12 @@
 			}
 			function subscribe() {
 			    var bluetooth_id = document.getElementById("text_macid").value;
-				 MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/MILLING-V1/milling_machine"});
+				 MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/MILLING-V1/data"});
 
 				//var a = MqttPlugin.subscribe({topic: "$EDC/tum/ANKUR/BLUETOOTH-V1/REPLY/4234216342143261"});
 
 
-
-			}
+		}
 
 
 
