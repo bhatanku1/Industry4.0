@@ -18,6 +18,13 @@
 
 
 </head>
+<style>
+	div.graph {
+	position: relative;
+	left: 2px;
+	border: 3px solid #8AC007;
+	}
+</style>
 <body>
 <div class="bar bar-header bar-positive">
 	<h1 class="title">BLUETOOTH DEVICES</h1>
@@ -44,39 +51,59 @@
 <button id = "milling_stop" onclick="milling_stop()">
 	STOP MILLING MACHINE COMMUNICATION
 </button>
-<button id = "graph" onclick="generateGraph()">
-	GRAPH
-</button>
+<button id="addDataPoint" onclick="setInterval(graphUpdate,1000);">generategraph</button>
+
 
 <br>
 <h3 id="fHeader"></h3><br>
 <p id = "test"></p>
 <p id="sub"></p>
 
-	<div id="curve_chart" style="width: 900px; height: 500px">
+	<div class = "graph", id="curve_chart" style="width: 340px; height: 200px">
 </div>
 <script>
 			 google.setOnLoadCallback(drawChart);
-
+	var chart = null;
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Sales', 'Expenses'],
-          ['2004',  1000,      400],
-          ['2005',  1170,      460],
-          ['2006',  660,       1120],
-          ['2007',  1030,      540]
+         data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales'],
+          ['2004',  1000],
+          ['2005',  1170],
+          ['2006',  660],
+          ['2007',  1030]
         ]);
 
-        var options = {
+         options = {
           title: 'Company Performance',
           curveType: 'function',
           legend: { position: 'bottom' }
         };
 
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+         chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
         chart.draw(data, options);
       }
+      function graphUpdate() {
+		i = Math.random();
+		j = Math.random();
+		k = Math.random();
+		l = Math.random();
+		data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales'],
+          ['2004',  i],
+          ['2005',  j],
+          ['2006',  k],
+          ['2007',  l]
+        ]);
+        try{
+        	chart.draw(data, options);
+
+        }
+        catch(err)
+       {
+       	alert(err.message);
+       }
+	}
 
 			function publish() {
 
