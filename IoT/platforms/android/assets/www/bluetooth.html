@@ -40,10 +40,10 @@
 	START MILLING MACHINE COMMUNICATION
 </button>
 <button id = "btn_sub" onclick="subscribe()">
-  SUBSCRIBE
+	SUBSCRIBE
 </button>
 <button id = "btn_start" onclick="start()">
-  START BLUETOOTH
+	START BLUETOOTH
 </button>
 <button id = "btn_stop" onclick="stop()">
 	STOP BLUETOOTH
@@ -59,11 +59,15 @@
 <p id = "test"></p>
 <p id="sub"></p>
 
-	<div class = "graph", id="curve_chart" style="width: 340px; height: 200px">
+<div class = "graph", id="curve_chart" style="width: 340px; height: 200px">
 </div>
 <script>
-			 google.setOnLoadCallback(drawChart);
-	var chart = null;
+		var i = Math.random();
+		var j = Math.random();
+		var k = Math.random();
+		var l = Math.random();
+		 google.setOnLoadCallback(drawChart);
+	   var chart = null;
       function drawChart() {
          data = google.visualization.arrayToDataTable([
           ['Year', 'Sales'],
@@ -74,7 +78,7 @@
         ]);
 
          options = {
-          title: 'Company Performance',
+          title: 'Data from the Intelligent device',
           curveType: 'function',
           legend: { position: 'bottom' }
         };
@@ -84,16 +88,13 @@
         chart.draw(data, options);
       }
       function graphUpdate() {
-		i = Math.random();
-		j = Math.random();
-		k = Math.random();
-		l = Math.random();
+
 		data = google.visualization.arrayToDataTable([
           ['Year', 'Sales'],
-          ['2004',  i],
-          ['2005',  j],
-          ['2006',  k],
-          ['2007',  l]
+          ['-9 sec',  i],
+          ['-6 sec',  j],
+          ['-3 sec',  k],
+          ['Current',  l]
         ]);
         try{
         	chart.draw(data, options);
@@ -103,6 +104,10 @@
        {
        	alert(err.message);
        }
+        i = j;
+		j = k;
+		k = l;
+		l = Math.random();
 	}
 
 			function publish() {
@@ -141,7 +146,7 @@
 			function subscribe() {
 			    var bluetooth_id = document.getElementById("text_macid").value;
 				 MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/MILLING-V1/data"});
-
+				 //MqttPlugin.subscribe({topic: "$EDC/data"});
 				//var a = MqttPlugin.subscribe({topic: "$EDC/tum/ANKUR/BLUETOOTH-V1/REPLY/4234216342143261"});
 
 

@@ -1,6 +1,8 @@
 cordova.define("de.tum.in.cordova.MqttPlugin", function(require, exports, module) { var exec = require('cordova/exec');
 function MqttPlugin() { console.log("MqttPlugin.js: is created");
 }
+var i = 0;
+
 MqttPlugin.prototype.publish = function(aString){ console.log("MqttPlugin.js: showToast");
     var t = aString.data + aString.topic;
     exec(
@@ -15,7 +17,9 @@ MqttPlugin.prototype.subscribe = function(aString){
     console.log("MqttPlugin.js: subscribe");
     exec(
         function(result){   document.getElementById("fHeader").innerHTML = "Values received from the device:",
-                            document.getElementById("test").innerHTML = "Force X = " + result['result']
+                            i = i + 1,
+                            document.getElementById("test").innerHTML = result['result'] + i;
+                            //document.getElementById("test").innerHTML = i;
                         },
 
     //function(result){ alert("Mqtt Sub got the value from the topic" + result['request.id']) },
@@ -55,6 +59,6 @@ MqttPlugin.prototype.kill = function(aString){
     "kill",
     [aString.topic]);
 };
-var MqttPlugin = new MqttPlugin(); 
+var MqttPlugin = new MqttPlugin();
 module.exports = MqttPlugin;
 });
