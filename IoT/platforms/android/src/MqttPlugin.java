@@ -128,8 +128,8 @@ public class MqttPlugin extends CordovaPlugin {
 						try {
 							//callbackContext.success(object.toString());
 							Toast toast = Toast.makeText(cordova.getActivity().getApplicationContext(), object.toString(), Toast.LENGTH_LONG);
-							toast.show();
-							toast.setGravity(0, 1, 1);
+							//toast.show();
+							//toast.setGravity(0, 1, 1);
 
 						} catch (Exception e) {
 							Log.d("Exception", e.getMessage());
@@ -166,8 +166,8 @@ public class MqttPlugin extends CordovaPlugin {
 					public void run() {
 						try{
 							Toast toast = Toast.makeText(cordova.getActivity().getApplicationContext(), object.toString(), Toast.LENGTH_LONG);
-							toast.show();
-							toast.setGravity(0,1,1);
+							//toast.show();
+							//toast.setGravity(0,1,1);
 
 						}
 						catch(Exception e)
