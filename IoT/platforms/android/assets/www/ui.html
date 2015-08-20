@@ -10,46 +10,80 @@
 
 </head>
 
-
-
-
-<body onload ="construct()">
-<script>
-
-            function heartbeat() {
-                
-				MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
-				//MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
-				//a = MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
-
-			}
-			function InitFunc() {
-				document.getElementById("pi_status").innerHTML = "Connecting to Raspberry Pi. Please Wait.";
-			}
-
-
-            function construct() {
-
-                setTimeout(InitFunc, 1500);
-                setTimeout(heartbeat, 2500);
-                //setTimeout(kill, 3000);
-
-            }
-    </script>
-<div class="bar bar-header bar-positive">
-    <h1 class="title">INDUSTRY 4.0</h1>
-    <button class="button button-clear button-light"><b>Log Out</b></button>
+<body>
+<div class="bar bar-header bar-dark">
+    <h1 class="title">Industry 4.0</h1>
+    <a href = "index.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
+    <!--    <button class="button button-clear button-light"><b>Log Out</b></button> -->
 </div>
-<br>
-<br>
-<a href = "wifi.html"><button id = "wifi_ui_btn" class="button button-full icon-left ion-wifi" disabled>WIFI Devices</button></a>
-<a href = "bluetooth_python.html"><button id = "bluetooth_ui_btn" class="button button-full icon-left ion-bluetooth" disabled>Bluetooth Devices</button></a>
-<button id = "opc_ui_btn" class="button button-full icon-left ion-ios-paper" disabled>OPC UA Devices</button>
-<button class="button button-full icon-left ion-help-circled">Help</button><br>
-<div id ="status_ui" style="background-color: lightblue">
-<p id ="pi_status"> Initializing connection with the Broker....</p>
 
+<div class="tabs-striped tabs-top tabs-background-light tabs-color-dark">
+    <div class="tabs">
+        <a class="tab-item" href="#">
+            <i class="icon ion-home"></i>
+            Home
+        </a>
+        <a class="tab-item" href="#">
+            <i class="icon ion-help"></i>
+            Help
+        </a>
+        <a class="tab-item" href="#">
+            <i class="icon ion-gear-a"></i>
+            Settings
+        </a>
+    </div>
 </div>
+<div class="tabs-striped tabs-background-dark tabs-color-light">
+    <div class="tabs">
+        <a class="tab-item" href="wifi.html">
+            <i class="icon ion-wifi"></i>
+            Wifi
+        </a>
+        <a class="tab-item" href="bluetooth_python.html">
+            <i class="icon ion-bluetooth"></i>
+            Bluetooth
+        </a>
+        <a class="tab-item" href="#">
+            <i class="icon ion-shuffle"></i>
+            OPCUA
+        </a>
+    </div>
+</div>
+
+<!--
+<div id="wifi">
+    <a>
+        <button id = "wifi_ui_btn" class="button button-clear button-large button-light ion-wifi" >
+            wifi
+        </button>
+    </a>
+</div>
+
+<div id="btooth">
+    <a href = "bluetooth.html">
+        <button id = "bluetooth_ui_btn" class="button button-clear button-large button-light ion-bluetooth">
+            Bltooth
+        </button>
+    </a>
+</div>
+
+<div id="opcua">
+    <a>
+        <button id = "opc_ui_btn" class="button button-clear button-large button-light ion-shuffle">
+            opcua
+        </button>
+    </a>
+</div>
+
+<div id="help">
+    <a>
+        <button class="button button-clear button-large button-light ion-help">
+            Help
+        </button>
+    </a>
+</div>
+-->
+
 </body>
 
 </html>

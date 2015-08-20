@@ -36,11 +36,12 @@ MqttPlugin.prototype.heartbeat = function(aString){
     function(result){ //alert("Mqtt heartbeat got the value" + result["data"]),
                      // document.getElementById('connection_state').src = 'img/green.png',
                      document.getElementById("status_ui").style.backgroundColor = "green",
-
-                      document.getElementById("pi_status").innerHTML = "Connection Successful",
-                      document.getElementById("wifi_ui_btn").disabled = false,
-                      document.getElementById("bluetooth_ui_btn").disabled = false,
-                      document.getElementById("opc_ui_btn").disabled = false
+                     document.getElementById("pi_status").innerHTML = "Connection Successful",
+                     //document.getElementById("wifi_ui_btn").disabled = false,
+                     //document.getElementById("bluetooth_ui_btn").disabled = false,
+                     document.getElementById("start_ui_btn").disabled = false
+                     //document.getElementById("start_ui_btn").getElementsByClassName("button")[0].className="button button-clear button-large ion-locked",
+                     //document.getElementById("opc_ui_btn").disabled = false
 
                       },
     function(result){ /*alert("Error" + reply);*/ },
