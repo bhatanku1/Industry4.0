@@ -125,6 +125,7 @@
 	  }
 
       function milling_stop() {
+        clientPublish.unsubscribe($EDC/tum/BLUETOOTH-V1/00:1A:7D:DA:71:15/data);
 	    alert("milling machine stopped");
 		MqttPlugin.publish({
 			topic:"$EDC/tum/B8:27:EB:A6:A9:8A/PY-MILLING-V1/EXEC/stop",
