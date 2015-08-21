@@ -40,12 +40,12 @@ MqttPlugin.prototype.heartbeat = function(aString){
                      document.getElementById("wifi_ui_btn").disabled = false,
                      document.getElementById("bluetooth_ui_btn").disabled = false,
                      document.getElementById("opc_ui_btn").disabled = false
+                     document.getElementById("status_ui").style.backgroundColor = "black",
+                     document.getElementById("status_ui").style.color = "green",
+                     document.getElementById("pi_status").style.font = "bold",
+                     document.getElementById("start").disabled = false,
                      */
-                     //document.getElementById("status_ui").style.backgroundColor = "black",
-                     //document.getElementById("status_ui").style.color = "green",
-                     //document.getElementById("pi_status").style.font = "bold",
                      document.getElementById("pi_status").innerHTML = "Connection Successful",
-                     //document.getElementById("start").disabled = false,
                      document.getElementById("start").getElementsByClassName("button")[0].removeAttribute("disabled"),
                      document.getElementById("start").getElementsByClassName("button")[0].className="button button-clear button-balanced button-large ion-unlocked"
                     },
