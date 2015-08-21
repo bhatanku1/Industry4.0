@@ -18,6 +18,7 @@ public class MqttPlugin extends CordovaPlugin {
 	private static final String LOG_TAG = "MqttPlugin";
 
 	private CallbackContext pluginCallbackContext = null;
+	private CallbackContext pluginCallbackContextSub = null;
 	private  String val = null;
 	private final String clientID = null;
 	private final String brokerUrl = null;
@@ -28,7 +29,7 @@ public class MqttPlugin extends CordovaPlugin {
 
 	final IKuraMQTTClient client = new KuraMQTTClient.Builder()
 			.setHost("m20.cloudmqtt.com").setPort("11143")
-			.setClientId("CLIENT_129787").setUsername("user@email.com")
+			.setClientId("CLIENT_122327").setUsername("user@email.com")
 			.setPassword("iotiwbiot").build();
 
 	// Connect to the Message Broker
@@ -54,7 +55,7 @@ public class MqttPlugin extends CordovaPlugin {
 					val = subscribe();
 				}
 			});
-			this.pluginCallbackContext = callbackContext;
+			this.pluginCallbackContextSub = callbackContext;
 			return true;
 		}
 		if (action.equals("heartbeat")) {
@@ -95,8 +96,8 @@ public class MqttPlugin extends CordovaPlugin {
 
 	private void publish() {
 		final KuraPayload payload = new KuraPayload();
-		payload.addMetric("request.id", "55361535117");
-		payload.addMetric("requester.client.id", "AMIT_083027868");
+		payload.addMetric("request.id", "4234216342143261");
+		payload.addMetric("requester.client.id", "ANKUR");
 		payload.setBody(m_publishData.getBytes());
 		client.publish(m_topic, payload);
 	}
@@ -120,15 +121,15 @@ public class MqttPlugin extends CordovaPlugin {
 				}
 
 				Log.d("JSON", "called subs");
-				sendUpdate(object, true);
+				sendUpdateSub(object, true);
 				cordova.getActivity().runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						try {
 							//callbackContext.success(object.toString());
 							Toast toast = Toast.makeText(cordova.getActivity().getApplicationContext(), object.toString(), Toast.LENGTH_LONG);
-							toast.show();
-							toast.setGravity(0, 1, 1);
+							//toast.show();
+							//toast.setGravity(0, 1, 1);
 
 						} catch (Exception e) {
 							Log.d("Exception", e.getMessage());
@@ -165,8 +166,8 @@ public class MqttPlugin extends CordovaPlugin {
 					public void run() {
 						try{
 							Toast toast = Toast.makeText(cordova.getActivity().getApplicationContext(), object.toString(), Toast.LENGTH_LONG);
-							toast.show();
-							toast.setGravity(0,1,1);
+							//toast.show();
+							//toast.setGravity(0,1,1);
 
 						}
 						catch(Exception e)
@@ -235,6 +236,17 @@ public class MqttPlugin extends CordovaPlugin {
 			this.pluginCallbackContext.sendPluginResult(result);
 		}
 	}
+	private void sendUpdateSub(String info, boolean keepCallback) {
+		Log.d("JSON", "insode SendUpdate");
+
+		if (this.pluginCallbackContextSub != null) {
+			final PluginResult result = new PluginResult(
+					PluginResult.Status.OK, info);
+			result.setKeepCallback(keepCallback);
+
+			this.pluginCallbackContextSub.sendPluginResult(result);
+		}
+	}
 
 	private void sendUpdate(JSONObject info, boolean keepCallback) {
 		Log.d("In SendUpdate123", "called");
@@ -260,7 +272,30 @@ public class MqttPlugin extends CordovaPlugin {
 			this.pluginCallbackContext.sendPluginResult(result);
 		}
 	}
+	private void sendUpdateSub(JSONObject info, boolean keepCallback) {
+		Log.d("In SendUpdate123", "called");
 
+		if (this.pluginCallbackContextSub != null) {
+			Log.d("SendUpdate", "inside the if condition");
+			final PluginResult result = new PluginResult(
+					PluginResult.Status.OK, info);
+			Log.d("SendUpdate", "inside the second statement of if condition" + info.toString());
+
+			try {
+				//String r ;
+				//r = result.getStrMessage();
+				Log.d("Final subscribe", result.getStrMessage());
+			}
+			catch (Exception e){
+				Log.d("Exceeption", e.getMessage());
+
+			}
+
+			result.setKeepCallback(keepCallback);
+
+			this.pluginCallbackContextSub.sendPluginResult(result);
+		}
+	}
 	public static String getStackTrace(final Throwable throwable) {
 		final StringWriter sw = new StringWriter();
 		final PrintWriter pw = new PrintWriter(sw, true);

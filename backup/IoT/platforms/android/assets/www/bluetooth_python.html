@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+
+<head>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript"
+            src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+              'name':'visualization',
+              'version':'1',
+              'packages':['corechart']
+            }]
+          }"></script>
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <script type="text/javascript" src="js/mqttws31.js"></script>
+
+
+
+</head>
+<style>
+    div.graph {
+    position: relative;
+    left: 2px;
+    border: 3px solid #8AC007;
+    }
+</style>
+<body>
+<div class="bar bar-header bar-positive">
+    <h1 class="title">BLUETOOTH DEVICES</h1>
+    <a href = "index.html"><button class="button button-clear button-light"><b>BACK</b></button></a>
+</div>
+<br>
+<br>
+<br>
+
+<h3>PAIR A NEW DEVICE: ENTER THE BLUETOOTHID</h3>
+<input id ="text_macid" type="text" name="sub"/>
+<button id = "btn_pub" onclick="startMillingMachine()">
+    START MILLING MACHINE COMMUNICATION
+</button>
+<button id = "btn_sub" onclick="subscribe()">
+	SUBCRIBE
+</button>
+
+<button id = "milling_stop" onclick="milling_stop()">
+    STOP MILLING MACHINE COMMUNICATION
+</button>
+
+
+
+<br>
+<h3 id="fHeader"></h3><br>
+<p id = "bluetoothData"></p>
+<p id="sub"></p>
+
+<div class = "graph", id="curve_chart" style="width: 340px; height: 200px">
+</div>
+<script>
+	  var currentForce = 0;
+	  var i = 0;
+	  var j = 0;
+	  var k = 0;
+	  var chart = null;
+	  google.setOnLoadCallback(drawChart);
+	  function drawChart() {
+          data = google.visualization.arrayToDataTable([
+          ['time', 'Force'],
+          ['-9 sec',  0],
+          ['-6 sec',  0],
+          ['-3 sec',  0],
+          ['current',  0]
+        ]);
+         options = {
+         title: 'Data from the Intelligent device',
+         curveType: 'function',
+         legend: { position: 'bottom' }
+         };
+         chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+         chart.draw(data, options);
+      }
+
+      function graphUpdate() {
+         data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales'],
+          ['-9 sec',  i],
+          ['-6 sec',  j],
+          ['-3 sec',  k],
+          ['Current', currentForce ]
+         ]);
+        try{
+        	chart.draw(data, options);
+        }
+        catch(err)
+       {
+       	alert(err.message);
+       }
+        i = j;
+		j = k;
+		k = currentForce;
+
+	  }
+	  function connect() {
+		clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
+		clientPublish.connect({
+				onSuccess : onConnect
+		});
+	    function onConnect() {
+	     alert("connection successful");
+	    }
+
+	  }
+      function publish() {
+    	MqttPlugin.publish({
+			topic:"$EDC/tum/B8:27:EB:A6:A9:8A/PY-MILLING-V1/EXEC/start",
+			data:"Mqtt data"
+		});
+		alert("published");
+	  }
+	  function startMillingMachine() {
+	    connect();
+        publish();
+
+	  }
+
+      function milling_stop() {
+        clientPublish.unsubscribe($EDC/tum/BLUETOOTH-V1/00:1A:7D:DA:71:15/data);
+	    alert("milling machine stopped");
+		MqttPlugin.publish({
+			topic:"$EDC/tum/B8:27:EB:A6:A9:8A/PY-MILLING-V1/EXEC/stop",
+			data:"Mqtt data"
+
+		});
+	  }
+	  function subscribe() {
+		alert("in subscribe");
+		clientPublish.onMessageArrived = onMessageArrived;
+		TopicToSubscribe = "$EDC/tum/BLUETOOTH-V1/00:1A:7D:DA:71:15/data";
+		// Once a connection has been made, make a subscription and send a message.
+		clientPublish.subscribe(TopicToSubscribe);
+		alert("successfuly subscribed to the get the force values");
+		function onConnect() {
+			// Once a connection has been made, make a subscription and send a message.
+			clientPublish.subscribe(TopicToSubscribe);
+			alert("successfuly subscribed to the get the force values");
+		}
+			// called when the client loses its connection
+		function onConnectionLost(responseObject) {
+			if (responseObject.errorCode !== 0) {
+				console.log("onConnectionLost:" + responseObject.errorMessage);
+				//setTimeout(function() { clientPublish.connect() }, 5000);
+			}
+		}
+		// called when a message arrives
+		function onMessageArrived(message) {
+			currentForce = parseInt(message.payloadString);
+			graphUpdate();
+			document.getElementById("bluetoothData").innerHTML = message.payloadString;
+		}
+
+	  }
+    </script>
+</body>
+</html>

@@ -18,6 +18,27 @@ module.exports = [
         "clobbers": [
             "MqttPlugin"
         ]
+    },
+    {
+        "file": "plugins/io.litehelpers.cordova.sqlite/www/SQLitePlugin.js",
+        "id": "io.litehelpers.cordova.sqlite.SQLitePlugin",
+        "clobbers": [
+            "SQLitePlugin"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-dialogs/www/notification.js",
+        "id": "cordova-plugin-dialogs.notification",
+        "merges": [
+            "navigator.notification"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-dialogs/www/android/notification.js",
+        "id": "cordova-plugin-dialogs.notification_android",
+        "merges": [
+            "navigator.notification"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -25,7 +46,9 @@ module.exports.metadata =
 {
     "cordova-plugin-whitelist": "1.0.0",
     "com.matd.coolplugin": "0.2.11",
-    "de.tum.in.cordova": "0.2.11"
+    "de.tum.in.cordova": "0.2.11",
+    "io.litehelpers.cordova.sqlite": "0.7.10",
+    "cordova-plugin-dialogs": "1.1.1"
 }
 // BOTTOM OF METADATA
 });

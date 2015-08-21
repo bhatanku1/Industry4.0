@@ -18,64 +18,31 @@
     under the License.
 -->
 <html>
-<head>
-    <!--
-    Customize this policy to fit your own app's needs. For more guidance, see:
-        https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-    Some notes:
-        * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-        * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-        * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-            * Enable inline JS: add 'unsafe-inline' to default-src
-    -->
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
-    <title>Hello World</title>
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="cordova_plugins.js"></script>
-    <script type="text/javascript" src="js/mqttws31.js"></script>
-    <script type="text/javascript" src="js/mqttws31-min.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-
-</head>
-<body onload="construct()">
-
-<script>
-
-            function heartbeat() {
-
-				MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
-				//MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
-				//a = MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
-
-			}
-			function InitFunc() {
-				document.getElementById("pi_status").innerHTML = "Connecting to Raspberry Pi. Please Wait.";
-				document.getElementById("status_ui").style.backgroundColor = "yellow";
-			}
-
-
-            function construct() {
-
-                setTimeout(InitFunc, 1500);
-                setTimeout(heartbeat, 2500);
-                //setTimeout(kill, 3000);
-
-            }
-    </script>
-
-<!-- <h2 id = "top_heading">INDUSTRIAL AUTOMATION 4.0</h2> -->
-<div id="start">
-    <!--    <a href="ui.html"><button id = "bluetooth_ui_btn" class="button button-positive ion-ionic"  disabled></button></a> -->
-    <a href="ui.html"><button id="start_ui_btn" class="button button-clear button-large ion-unlocked" disabled></button></a>
-</div>
-<div id ="status_ui">
-    <p id ="pi_status"> Initializing connection with the Broker....</p>
-</div>
-
-</body>
+    <head>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <title>Hello World</title>
+    </head>
+    <body>
+    	<h1 id = "top_heading">INDUSTRIAL AUTOMATION 4.0</h1>
+    	<div id = "background">
+    	<a href="ui.html"><h1 id = "start">START</h1></a>
+   		</div>             
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/mqttws31.js"></script>
+        <script type="text/javascript" src="js/mqttws31-min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+    </body>
 </html>

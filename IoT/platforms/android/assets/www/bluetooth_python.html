@@ -58,6 +58,7 @@
 <div class = "graph", id="curve_chart" style="width: 340px; height: 200px">
 </div>
 <script>
+
 	  var currentForce = 0;
 	  var i = 0;
 	  var j = 0;
@@ -79,9 +80,10 @@
          };
          chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
          chart.draw(data, options);
-      }
 
+      }
       function graphUpdate() {
+
          data = google.visualization.arrayToDataTable([
           ['Year', 'Sales'],
           ['-9 sec',  i],
@@ -101,7 +103,8 @@
 		k = currentForce;
 
 	  }
-	  function connect() {
+      function connect() {
+	  	alert("inconnection");
 		clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
 		clientPublish.connect({
 				onSuccess : onConnect
@@ -118,20 +121,12 @@
 		});
 		alert("published");
 	  }
+
 	  function startMillingMachine() {
+	    alert("in start milling machne");
 	    connect();
         publish();
 
-	  }
-
-      function milling_stop() {
-        clientPublish.unsubscribe($EDC/tum/BLUETOOTH-V1/00:1A:7D:DA:71:15/data);
-	    alert("milling machine stopped");
-		MqttPlugin.publish({
-			topic:"$EDC/tum/B8:27:EB:A6:A9:8A/PY-MILLING-V1/EXEC/stop",
-			data:"Mqtt data"
-
-		});
 	  }
 	  function subscribe() {
 		alert("in subscribe");
@@ -160,6 +155,7 @@
 		}
 
 	  }
+
     </script>
 </body>
 </html>

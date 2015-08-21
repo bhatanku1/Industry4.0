@@ -18,7 +18,7 @@
 
             function heartbeat() {
                 
-				MqttPlugin.heartbeat({topic: "$EDC/heart"});
+				MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
 				//MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
 				//a = MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
 
@@ -42,8 +42,8 @@
 </div>
 <br>
 <br>
-<button id = "wifi_ui_btn" class="button button-full icon-left ion-wifi" disabled>WIFI Devices</button>
-<a href = "bluetooth.html"><button id = "bluetooth_ui_btn" class="button button-full icon-left ion-bluetooth" disabled>Bluetooth Devices</button></a>
+<a href = "wifi.html"><button id = "wifi_ui_btn" class="button button-full icon-left ion-wifi" disabled>WIFI Devices</button></a>
+<a href = "bluetooth_python.html"><button id = "bluetooth_ui_btn" class="button button-full icon-left ion-bluetooth" disabled>Bluetooth Devices</button></a>
 <button id = "opc_ui_btn" class="button button-full icon-left ion-ios-paper" disabled>OPC UA Devices</button>
 <button class="button button-full icon-left ion-help-circled">Help</button><br>
 <div id ="status_ui" style="background-color: lightblue">
