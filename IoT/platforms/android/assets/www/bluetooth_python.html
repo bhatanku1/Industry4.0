@@ -4,6 +4,8 @@
 
 <head>
 
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/jquery.blockUI.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript"
             src="https://www.google.com/jsapi?autoload={
@@ -13,50 +15,113 @@
               'packages':['corechart']
             }]
           }"></script>
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+	<script type="text/javascript" src="cordova_plugins.js"></script>
+	<link href="lib/ionic/css/ionic.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/bluetooth.css">
     <script type="text/javascript" src="js/mqttws31.js"></script>
 
-
-
 </head>
+
 <style>
     div.graph {
-    position: relative;
-    left: 2px;
-    border: 3px solid #8AC007;
+    position: absolute;
+	top: 50%;
+    left: 10px;
+    border: 3px solid #bbbbbb;
     }
 </style>
 <body>
-<div class="bar bar-header bar-positive">
-    <h1 class="title">BLUETOOTH DEVICES</h1>
-    <a href = "index.html"><button class="button button-clear button-light"><b>BACK</b></button></a>
+
+<div class="bar bar-header bar-dark">
+
+	<a href = "ui.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
+	<h1 class="title">Bluetooth Devices</h1>
+	<a class="button button-right button-clear button-light ion-gear-a" href = "settings.html"></a>
+	<!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
+
 </div>
-<br>
-<br>
-<br>
-
-<h3>PAIR A NEW DEVICE: ENTER THE BLUETOOTHID</h3>
-<input id ="text_macid" type="text" name="sub"/>
-<button id = "btn_pub" onclick="startMillingMachine()">
-    START MILLING MACHINE COMMUNICATION
-</button>
-<button id = "btn_sub" onclick="subscribe()">
-	SUBCRIBE
-</button>
-
-<button id = "milling_stop" onclick="milling_stop()">
-    STOP MILLING MACHINE COMMUNICATION
-</button>
-
-
 
 <br>
+<br>
+<br>
+
+<div class="list">
+
+	<div class="item item-input-inset">
+		<label class="item-input-wrapper">
+			<i class="icon ion-search placeholder-icon"></i>
+			<input id="text_macid" type="text" placeholder="Enter the bluetooth id" name="pub"/>
+		</label>
+		<button id = "btn_pub" class="button button-clear button-dark button-small ion-arrow-swap" onclick="#">
+			Pair
+		</button>
+	</div>
+
+</div>
+
+<div id="sub">
+	<a>
+		<button id = "btn_sub" class="button button-clear button-dark ion-compose" onclick="subscribe()">
+			Subscribe
+		</button>
+	</a>
+</div>
+
+<div id="start">
+	<a>
+		<button id = "btn_start" class="button button-clear button-dark ion-power" onclick="startMillingMachine()">
+			Start
+		</button>
+	</a>
+</div>
+
+<div id="stop">
+	<a>
+		<button id = "btn_stop" class="button button-clear button-dark ion-android-hand" onclick="milling_stop()">
+			Stop
+		</button>
+	</a>
+</div>
+
+<br>
+
+<div id="bt_list" class="card">
+	<div class="item item-divider bar bar-header bar-dark">
+		Real Time Data
+	</div>
+	<div class="item item-text-wrap">
+		<p>Force Value: </p>
+		<p id="bluetoothData"></p>
+	</div>
+</div>
+
+<!--
 <h3 id="fHeader"></h3><br>
 <p id = "bluetoothData"></p>
 <p id="sub"></p>
+ -->
 
 <div class = "graph", id="curve_chart" style="width: 340px; height: 200px">
 </div>
+
+<div class="tabs-striped tabs-background-dark tabs-color-light">
+	<div class="tabs">
+		<a class="tab-item" href="wifi.html">
+			<i class="icon ion-wifi"></i>
+			Wifi
+		</a>
+		<a class="tab-item active" href="bluetooth_python.html">
+			<i class="icon ion-bluetooth"></i>
+			Bluetooth
+		</a>
+		<a class="tab-item" href="#">
+			<i class="icon ion-shuffle"></i>
+			OPCUA
+		</a>
+	</div>
+</div>
+
 <script>
 
 	  var currentForce = 0;
@@ -104,13 +169,11 @@
 
 	  }
       function connect() {
-	  	alert("inconnection");
-		clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
+	  	clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
 		clientPublish.connect({
 				onSuccess : onConnect
 		});
 	    function onConnect() {
-	     alert("connection successful");
 	    }
 
 	  }
@@ -123,10 +186,9 @@
 	  }
 
 	  function startMillingMachine() {
-	    alert("in start milling machne");
 	    connect();
         publish();
-
+		$.fn.gotof();
 	  }
 	  function subscribe() {
 		alert("in subscribe");
@@ -156,6 +218,22 @@
 
 	  }
 
-    </script>
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.fn.gotof = function() { // has to be defined as a function, does not need to be inside a nested document ready function
+			$('#start').addClass('loadinggif');
+			$.blockUI({ message: null });
+			setTimeout($.unblockUI, 10000);
+			setTimeout(function() {
+				$('#start').removeClass('loadinggif');
+				},
+				10000
+			);
+		};
+	});
+</script>
+
 </body>
 </html>
