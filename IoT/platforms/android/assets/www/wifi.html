@@ -4,37 +4,92 @@
 
 <head>
 
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
-
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/jquery.blockUI.min.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript"
+			src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+              'name':'visualization',
+              'version':'1',
+              'packages':['corechart']
+            }]
+          }"></script>
+	<script type="text/javascript" src="cordova_plugins.js"></script>
+	<link href="lib/ionic/css/ionic.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/wifi.css">
+	<script type="text/javascript" src="js/mqttws31.js"></script>
 
 </head>
 <body>
-<div class="bar bar-header bar-positive">
-    <h1 class="title">BLUETOOTH DEVICES</h1>
-    <a href = "index.html"><button class="button button-clear button-light"><b>BACK</b></button></a>
+
+<div class="bar bar-header bar-dark">
+
+	<a href = "ui.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
+	<h1 class="title">Wifi Devices</h1>
+	<a class="button button-right button-clear button-light ion-gear-a" href = "settings.html"></a>
+	<!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
+
 </div>
+
 <br>
 <br>
 <br>
 
-<h3>PAIR A NEW DEVICE: ENTER THE WIFIID</h3>
-<input id ="text_macid" type="text" name="sub"/>
-<button id = "start" onclick="start()">
-    START WIFI COMMUNICATION
-</button>
+<div class="list">
 
-<button id = "stop" onclick="stop()">
-    STOP
-</button>
+	<div class="item item-input-inset">
+		<label class="item-input-wrapper">
+			<i class="icon ion-search placeholder-icon"></i>
+			<input id="text_macid" type="text" placeholder="Enter the bluetooth id" name="pub"/>
+		</label>
+		<button id = "btn_pub" class="button button-clear button-dark button-small ion-arrow-swap" onclick="#">
+			Pair
+		</button>
+	</div>
+
+</div>
+
+<div id="wifi_start">
+	<a>
+		<button id = "btn_start" class="button button-clear button-dark ion-power" onclick="start()">
+			Start
+		</button>
+	</a>
+</div>
+
+<div id="wifi_stop">
+	<a>
+		<button id = "btn_stop" class="button button-clear button-dark ion-android-hand" onclick="stop()">
+			Stop
+		</button>
+	</a>
+</div>
 
 <br>
 <h3 id="fHeader"></h3><br>
 <p id = "test"></p>
 <p id="sub"></p>
 </div>
+
+<div class="tabs-striped tabs-background-dark tabs-color-light">
+	<div class="tabs">
+		<a class="tab-item active" href="wifi.html">
+			<i class="icon ion-wifi"></i>
+			Wifi
+		</a>
+		<a class="tab-item" href="bluetooth_python.html">
+			<i class="icon ion-bluetooth"></i>
+			Bluetooth
+		</a>
+		<a class="tab-item" href="#">
+			<i class="icon ion-shuffle"></i>
+			OPCUA
+		</a>
+	</div>
+</div>
+
 <script>
 
 
