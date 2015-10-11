@@ -3,10 +3,69 @@
 <meta charset="UTF-8">
 
 <head>
+
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/jquery.blockUI.min.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript"
+            src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+              'name':'visualization',
+              'version':'1',
+              'packages':['corechart']
+            }]
+          }"></script>
+    <script type="text/javascript" src="cordova_plugins.js"></script>
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/wifi.css">
+    <script type="text/javascript" src="js/mqttws31.js"></script>
+
 </head>
 
 <body>
-<h1>SETTINGS</h1>
-<p>this is settings page</p>
+<div class="bar bar-header bar-dark">
+
+    <a href = "bluetooth_python.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
+    <h1 class="title">Settings</h1>
+    <a class="button button-right button-clear button-light ion-home" href = "ui.html"></a>
+    <!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
+
+</div>
+
+<br>
+<br>
+<br>
+
+<div class="list card">
+
+    <a href="#" class="item item-icon-left">
+        <i class="icon ion-cloud"></i>
+        Enter host address
+    </a>
+
+    <a href="#" class="item item-icon-left">
+        <i class="icon ion-edit"></i>
+        Enter port number
+    </a>
+
+    <a href="#" class="item item-icon-left">
+        <i class="icon ion-card"></i>
+        Enter client id
+    </a>
+
+    <a href="#" class="item item-icon-left">
+        <i class="icon ion-person"></i>
+        Enter username
+    </a>
+
+    <a href="#" class="item item-icon-left">
+        <i class="icon ion-key"></i>
+        Enter password
+    </a>
+
+</div>
+
+
 </body>
 </html>

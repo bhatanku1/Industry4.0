@@ -4,6 +4,8 @@ function MqttPlugin() { console.log("MqttPlugin.js: is created");
 var i = 0;
 
 MqttPlugin.prototype.publish = function(aString){ console.log("MqttPlugin.js: showToast");
+    alert('inside publish');
+    drawChart();
     var t = aString.data + aString.topic;
     exec(
     function(result){ /*alert("Mqttplugin publish got the value returned" + result); */},
@@ -15,6 +17,7 @@ MqttPlugin.prototype.publish = function(aString){ console.log("MqttPlugin.js: sh
 MqttPlugin.prototype.subscribe = function(aString){
 
     console.log("MqttPlugin.js: subscribe");
+    alert('inside subscribe');
     exec(
         function(result){   document.getElementById("fHeader").innerHTML = "Values received from the device:",
                             i = i + 1,
@@ -54,8 +57,8 @@ MqttPlugin.prototype.heartbeat = function(aString){
     "MqttPlugin",
     "heartbeat",
     [aString.topic]);
-
 };
+
 MqttPlugin.prototype.kill = function(aString){
 
     console.log("MqttPlugin.js: subscribe");
@@ -66,6 +69,7 @@ MqttPlugin.prototype.kill = function(aString){
     "kill",
     [aString.topic]);
 };
+
 var MqttPlugin = new MqttPlugin();
 module.exports = MqttPlugin;
 });

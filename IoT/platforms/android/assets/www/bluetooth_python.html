@@ -28,7 +28,7 @@
     position: absolute;
 	top: 50%;
     left: 10px;
-    border: 3px solid #bbbbbb;
+    <!--border: 3px solid #bbbbbb;-->
     }
 </style>
 <body>
@@ -115,7 +115,7 @@
 			<i class="icon ion-bluetooth"></i>
 			Bluetooth
 		</a>
-		<a class="tab-item" href="#">
+		<a class="tab-item" href="opcua.html">
 			<i class="icon ion-shuffle"></i>
 			OPCUA
 		</a>
@@ -124,15 +124,41 @@
 
 <script>
 
+function loadScript()
+    {
+        // Adding the script tag to the head as suggested before
+        alert('inside loadscript');
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement(secondf.js);
+        script.type = 'text/javascript';
+        script.src = 'secondf.js';
+        script.async = false;
+        // Then bind the event to the callback function.
+        // There are several events for cross browser compatibility.
+        script.onreadystatechange = 'demo2';
+        script.onload = 'demo2';
+
+        // Fire the loading
+        head.appendChild('secondf.js');
+    }
+
 	  var currentForce = 0;
 	  var i = 0;
 	  var j = 0;
 	  var k = 0;
+	  var l = 0;
+	  var m = 0;
+	  var n = 0;
+	  var o = 0;
 	  var chart = null;
 	  google.setOnLoadCallback(drawChart);
 	  function drawChart() {
           data = google.visualization.arrayToDataTable([
           ['time', 'Force'],
+          ['-21 sec',  0],
+          ['-18 sec',  0],
+          ['-15 sec',  0],
+          ['-12 sec',  0],
           ['-9 sec',  0],
           ['-6 sec',  0],
           ['-3 sec',  0],
@@ -145,15 +171,19 @@
          };
          chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
          chart.draw(data, options);
-
       }
+
       function graphUpdate() {
 
          data = google.visualization.arrayToDataTable([
           ['Year', 'Sales'],
-          ['-9 sec',  i],
-          ['-6 sec',  j],
-          ['-3 sec',  k],
+          ['-21 sec',  i],
+		  ['-18 sec',  i],
+          ['-15 sec',  j],
+          ['-12 sec',  k],
+          ['-9 sec',  l],
+          ['-6 sec',  m],
+          ['-3 sec',  n],
           ['Current', currentForce ]
          ]);
         try{
@@ -165,9 +195,13 @@
        }
         i = j;
 		j = k;
-		k = currentForce;
+		k = l;
+		l = m;
+		m = n;
+		n = o;
+		o = currentForce;
+      }
 
-	  }
       function connect() {
 	  	clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
 		clientPublish.connect({
@@ -175,8 +209,8 @@
 		});
 	    function onConnect() {
 	    }
-
 	  }
+
       function publish() {
     	MqttPlugin.publish({
 			topic:"$EDC/tum/B8:27:EB:A6:A9:8A/PY-MILLING-V1/EXEC/start",
@@ -190,6 +224,7 @@
         publish();
 		$.fn.gotof();
 	  }
+
 	  function subscribe() {
 		alert("in subscribe");
 		clientPublish.onMessageArrived = onMessageArrived;
@@ -197,22 +232,26 @@
 		// Once a connection has been made, make a subscription and send a message.
 		clientPublish.subscribe(TopicToSubscribe);
 		alert("successfuly subscribed to the get the force values");
+
 		function onConnect() {
 			// Once a connection has been made, make a subscription and send a message.
 			clientPublish.subscribe(TopicToSubscribe);
 			alert("successfuly subscribed to the get the force values");
 		}
-			// called when the client loses its connection
+
+
+		// called when the client loses its connection
 		function onConnectionLost(responseObject) {
 			if (responseObject.errorCode !== 0) {
 				console.log("onConnectionLost:" + responseObject.errorMessage);
 				//setTimeout(function() { clientPublish.connect() }, 5000);
 			}
 		}
+
 		// called when a message arrives
 		function onMessageArrived(message) {
 			currentForce = parseInt(message.payloadString);
-			graphUpdate();
+			//graphUpdate();
 			document.getElementById("bluetoothData").innerHTML = message.payloadString;
 		}
 

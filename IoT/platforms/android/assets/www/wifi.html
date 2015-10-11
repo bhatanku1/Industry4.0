@@ -20,6 +20,7 @@
 	<link href="css/style.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/wifi.css">
 	<script type="text/javascript" src="js/mqttws31.js"></script>
+	<script type="text/javascript" src="js/graphgenerator.js"></script>
 
 </head>
 <body>
@@ -73,6 +74,9 @@
 <p id="sub"></p>
 </div>
 
+<div class = "graph", id="curve_chart" style="width: 340px; height: 200px">
+</div>
+
 <div class="tabs-striped tabs-background-dark tabs-color-light">
 	<div class="tabs">
 		<a class="tab-item active" href="wifi.html">
@@ -83,7 +87,7 @@
 			<i class="icon ion-bluetooth"></i>
 			Bluetooth
 		</a>
-		<a class="tab-item" href="#">
+		<a class="tab-item" href="opcua.html">
 			<i class="icon ion-shuffle"></i>
 			OPCUA
 		</a>
@@ -92,8 +96,47 @@
 
 <script>
 
+	  var currentForce = 0;
+	  var i = 0;
+	  var j = 0;
+	  var k = 0;
+	  var l = 0;
+	  var m = 0;
+	  var n = 0;
+	  var o = 0;
+	  var chart = null;
 
-			function start() {
+
+      function graphUpdate() {
+
+         data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales'],
+          ['-21 sec',  i],
+		  ['-18 sec',  i],
+          ['-15 sec',  j],
+          ['-12 sec',  k],
+          ['-9 sec',  l],
+          ['-6 sec',  m],
+          ['-3 sec',  n],
+          ['Current', '12' ]
+         ]);
+        try{
+        	chart.draw(data, options);
+        }
+        catch(err)
+       {
+       	alert(err.message);
+       }
+        i = j;
+		j = k;
+		k = l;
+		l = m;
+		m = n;
+		n = o;
+		o = '12';
+      }
+
+	  function start() {
                 MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
 				MqttPlugin.publish({
 				topic:"$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/EXEC/start",
