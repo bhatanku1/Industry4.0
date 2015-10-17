@@ -2,10 +2,12 @@ cordova.define("de.tum.in.cordova.MqttPlugin", function(require, exports, module
 function MqttPlugin() { console.log("MqttPlugin.js: is created");
 }
 var i = 0;
+var graph;
 
 MqttPlugin.prototype.publish = function(aString){ console.log("MqttPlugin.js: showToast");
     alert('inside publish');
-    drawChart();
+    //var wf = 100;
+    //drawChart(wf);
     var t = aString.data + aString.topic;
     exec(
     function(result){ /*alert("Mqttplugin publish got the value returned" + result); */},
@@ -19,9 +21,14 @@ MqttPlugin.prototype.subscribe = function(aString){
     console.log("MqttPlugin.js: subscribe");
     alert('inside subscribe');
     exec(
-        function(result){   document.getElementById("fHeader").innerHTML = "Values received from the device:",
+        function(result){   //alert("baalchaal");
+
+                            document.getElementById("fHeader").innerHTML = "Values received from the device:",
                             i = i + 1,
-                            document.getElementById("test").innerHTML = result['result'] + i;
+                            document.getElementById("test").innerHTML = result['request.id'],
+                            graph = parseInt(result['request.id']),
+                            graphUpdate(graph);
+
                             //document.getElementById("test").innerHTML = i;
                         },
 
@@ -30,6 +37,7 @@ MqttPlugin.prototype.subscribe = function(aString){
     "MqttPlugin",
     "subscribe",
     [aString.topic]);
+    alert("kuchbhi");
     //document.getElementById("test").innerHTML = "Mqtt Sub got the value from the topic";
 };
 MqttPlugin.prototype.heartbeat = function(aString){

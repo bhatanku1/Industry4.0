@@ -69,10 +69,22 @@
 </div>
 
 <br>
-<h3 id="fHeader"></h3><br>
+<!--<h3 id="fHeader"></h3><br>
 <p id = "test"></p>
 <p id="sub"></p>
+</div>-->
+
+<div id="wifi_list" class="card">
+	<div class="item item-divider bar bar-header bar-dark">
+		Real Time Data
+	</div>
+	<div class="item item-text-wrap">
+		<p id="fHeader">Force Value: </p>
+		<p id="test"></p>
+	</div>
 </div>
+
+<br>
 
 <div class = "graph", id="curve_chart" style="width: 340px; height: 200px">
 </div>
@@ -106,35 +118,29 @@
 	  var o = 0;
 	  var chart = null;
 
+	//	drawChart();
+    google.setOnLoadCallback(drawChart);
+	function drawChart() {
+          data = google.visualization.arrayToDataTable([
+          ['time', 'Force X'],
+          ['-21 sec',  0],
+          ['-18 sec',  0],
+          ['-15 sec',  100],
+          ['-12 sec',  0],
+          ['-9 sec',  50],
+          ['-6 sec',  175],
+          ['-3 sec',  0],
+          ['current',  100]
+        ]);
+         options = {
+         title: 'Data from the Intelligent device',
+         curveType: 'function',
+         legend: { position: 'bottom' }
+         };
+         chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+         chart.draw(data, options);
+    }
 
-      function graphUpdate() {
-
-         data = google.visualization.arrayToDataTable([
-          ['Year', 'Sales'],
-          ['-21 sec',  i],
-		  ['-18 sec',  i],
-          ['-15 sec',  j],
-          ['-12 sec',  k],
-          ['-9 sec',  l],
-          ['-6 sec',  m],
-          ['-3 sec',  n],
-          ['Current', '12' ]
-         ]);
-        try{
-        	chart.draw(data, options);
-        }
-        catch(err)
-       {
-       	alert(err.message);
-       }
-        i = j;
-		j = k;
-		k = l;
-		l = m;
-		m = n;
-		n = o;
-		o = '12';
-      }
 
 	  function start() {
                 MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
