@@ -72,6 +72,33 @@
                 }
             });
 
+            db.transaction(function(tx) {
+
+                tx.executeSql("select * from test_table;", [], function(tx, res) {
+                    var len = res.rows.length;
+                    //alert(len);
+                    for (var i=0; i<len; i++) {
+                        var newParagraph = document.createElement('p');
+                        newParagraph.textContent = res.rows.item(i).host;
+                        //document.getElementById("clist").appendChild(newParagraph);
+                        host = res.rows.item(i).host
+                        port = res.rows.item(i).port
+                        clientId = res.rows.item(i).client_Id
+                        userName = res.rows.item(i).user_Name
+                        password = res.rows.item(i).pwd
+                        alert(host);
+                        alert(port);
+                        alert(clientId);
+                        alert(userName);
+                        alert(password);
+
+                        //alert( res.rows.item(i).client_Id);
+                    }
+                    //alert("res.rows.length: " + res.rows.length + " -- should be 1");
+                    //alert("res.rows.item(0) " + res.rows.item(0).data + " -- should be 1");
+                });
+            });
+
         },
 
         function() {
