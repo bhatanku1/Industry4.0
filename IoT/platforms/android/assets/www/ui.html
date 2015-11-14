@@ -29,7 +29,7 @@
             <i class="icon ion-help"></i>
             Help
         </a>
-        <a class="tab-item" href="#">
+        <a class="tab-item" href=settings.html>
             <i class="icon ion-gear-a"></i>
             Settings
         </a>
@@ -52,17 +52,25 @@
     <div class="item item-divider bar bar-header bar-dark">
         MQTT Connection Information
     </div>
-    <div id="hostInfo" class="item item-text-wrap">
-        Host:
+    <div class="item item-icon-left item-text-wrap">
+        <i class="icon ion-cloud" onclick="changeHost()"></i>
+        <h2>Host</h2>
+        <p id="hostInfo"></p>
     </div>
-    <div id="portInfo" class="item item-text-wrap">
-        Port:
+    <div class="item item-icon-left item-text-wrap">
+        <i class="icon ion-usb"></i>
+        <h2>Port</h2>
+        <p id="portInfo"></p>
     </div>
-    <div id="clientInfo" class="item item-text-wrap">
-        Client Id:
+    <div class="item item-icon-left item-text-wrap">
+        <i class="icon ion-android-person"></i>
+        <h2>Client Id</h2>
+        <p id="clientInfo"></p>
     </div>
-    <div id="userInfo" class="item item-text-wrap">
-        User Name:
+    <div class="item item-icon-left item-text-wrap">
+        <i class="icon ion-email"></i>
+        <h2>User Name</h2>
+        <p id="userInfo"></p>
     </div>
 
 </div>
@@ -149,9 +157,9 @@
     });
 
     tx.executeSql("select * from test_table;", [], function(tx, res) {
-          alert("inside first tx");
+          //alert("inside first tx");
           len1 = res.rows.length;
-          alert(len1);
+          //alert(len1);
     });
 
 
@@ -169,10 +177,10 @@
               var newParagraph = document.createElement('p');
               newParagraph.textContent = res.rows.item(i).host;
               //document.getElementById("clist").appendChild(newParagraph);
-              document.getElementById("hostInfo").innerHTML = "Host: " + res.rows.item(i).host
-              document.getElementById("portInfo").innerHTML = "Port: " + res.rows.item(i).port
-              document.getElementById("clientInfo").innerHTML = "Client Id: " + res.rows.item(i).client_Id
-              document.getElementById("userInfo").innerHTML = "User Name: " + res.rows.item(i).user_Name
+              document.getElementById("hostInfo").innerHTML = res.rows.item(i).host
+              document.getElementById("portInfo").innerHTML = res.rows.item(i).port
+              document.getElementById("clientInfo").innerHTML = res.rows.item(i).client_Id
+              document.getElementById("userInfo").innerHTML = res.rows.item(i).user_Name
 
               //alert( res.rows.item(i).client_Id);
           }
@@ -181,11 +189,17 @@
         });
       });
 
-    }, function(e) {
+    }, function() {
+  // OK to close here:
+  console.log('transaction ok');
+  db.close(function() {
+    console.log('database is closed ok');
+  });
+}, function(e) {
       console.log("ERROR: " + e.message);
+      db.close();
     //});  pulaMod_fr_14:58
   });
-
 
 }
 
@@ -210,6 +224,12 @@
                 //    randomClient += possible.charAt(Math.floor(Math.random() * possible.length));
                 randomClient = Math.random().toString(36).substring(7);
                 alert(randomClient);
+
+			}
+
+			function changeHost() {
+
+			alert("change host");
 
 			}
 </script>

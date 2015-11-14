@@ -3,9 +3,14 @@ function MqttPlugin() { console.log("MqttPlugin.js: is created");
 }
 var i = 0;
 var graph;
+var res;
+var forceX = 0;
+var forceY= 0;
+var forceZ= 0;
+var forceZAlert= 0;
 
 MqttPlugin.prototype.publish = function(aString){ console.log("MqttPlugin.js: showToast");
-    alert('inside publish');
+    //alert('inside publish');
     //var wf = 100;
     //drawChart(wf);
     var t = aString.data + aString.topic;
@@ -19,17 +24,36 @@ MqttPlugin.prototype.publish = function(aString){ console.log("MqttPlugin.js: sh
 MqttPlugin.prototype.subscribe = function(aString){
 
     console.log("MqttPlugin.js: subscribe");
-    alert('inside subscribe');
+    //alert('inside subscribe');
     exec(
-        function(result){   //alert("baalchaal");
+            function(result){   //alert("baalchaal");
 
-                            document.getElementById("fHeader").innerHTML = "Values received from the device:",
-                            i = i + 1,
-                            document.getElementById("test").innerHTML = result['request.id'],
-                            graph = parseInt(result['request.id']),
-                            graphUpdate(graph);
-
-                            //document.getElementById("test").innerHTML = i;
+                                //document.getElementById("fHeader").innerHTML = "Values received from the device:",
+                                i = i + 1,
+                                res=result['request.id'].split(" ",6),
+                                //alert(parseInt(res[1])),
+                                //alert(parseInt(res[3])),
+                                //alert(parseInt(res[5])),
+                                document.getElementById("forceX").innerHTML = "Force X: " + res[1] + " Nm",
+                                document.getElementById("forceY").innerHTML = "Force Y: " + res[3] + " Nm",
+                                document.getElementById("forceZ").innerHTML = "Force Z: " + res[5] + " Nm",
+                                forceX = parseInt(res[1]),
+                                forceY = parseInt(res[3]),
+                                forceZ = parseInt(res[5]),
+                                /*if ((res[1]) >= 600){
+                                                                    alert("inside if"),
+                                                                    //forceZAlert = forceZAlert + 1,
+                                                                    //document.getElementById("zAlert").innerHTML = forceZAlert,
+                                                                }*/
+                                graphUpdate(forceX, forceY, forceZ),
+                                alert("before if");
+                                /*if ((res[1]) >= 600){
+                                    alert("inside if")
+                                    //forceZAlert = forceZAlert + 1,
+                                    //document.getElementById("zAlert").innerHTML = forceZAlert,
+                                }
+                                else {alert("inside else")}*/
+                                //document.getElementById("test").innerHTML = i;
                         },
 
     //function(result){ alert("Mqtt Sub got the value from the topic" + result['request.id']) },

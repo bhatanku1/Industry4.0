@@ -40,32 +40,171 @@
 <div class="list card">
 
     <a href="#" class="item item-icon-left">
-        <i class="icon ion-cloud"></i>
+        <i class="icon ion-cloud" onclick="updateHost()"></i>
         Enter host address
     </a>
 
     <a href="#" class="item item-icon-left">
-        <i class="icon ion-edit"></i>
+        <i class="icon ion-edit" onclick="updatePort()"></i>
         Enter port number
     </a>
 
     <a href="#" class="item item-icon-left">
-        <i class="icon ion-card"></i>
+        <i class="icon ion-card" onclick="updateClient()"></i>
         Enter client id
     </a>
 
     <a href="#" class="item item-icon-left">
-        <i class="icon ion-person"></i>
+        <i class="icon ion-person" onclick="updateUser()"></i>
         Enter username
     </a>
 
     <a href="#" class="item item-icon-left">
-        <i class="icon ion-key"></i>
+        <i class="icon ion-key" onclick="updatePassword()"></i>
         Enter password
     </a>
 
 </div>
 
+<div class="list">
 
+    <button class="button button-block button-dark">
+        Block Button
+    </button>
+
+
+</div>
+
+
+<script>
+
+    function updateHost(){
+
+        var hostName=prompt("Please enter the host name","Host Name");
+        if (hostName!=null) {
+            var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+            db.transaction(function(tx) {
+                tx.executeSql("UPDATE test_table SET host=? where id=7;", [hostName], function(tx, res) {
+                len1 = res.rows.length;
+                alert(hostName);
+                });
+            },
+            function() {
+                console.log('transaction ok');
+                db.close(function() {
+                console.log('database is closed ok');
+                });
+            },
+            function(e) {
+                console.log("ERROR: " + e.message);
+                db.close();
+            });
+        };
+    }
+
+    function updatePort(){
+
+        var portNumber=prompt("Please enter the port number","");
+        if (portNumber!=null) {
+            var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+            db.transaction(function(tx) {
+                tx.executeSql("UPDATE test_table SET port=? where id=7;", [portNumber], function(tx, res) {
+                len1 = res.rows.length;
+                alert(portNumber);
+                });
+            },
+            function() {
+                console.log('transaction ok');
+                db.close(function() {
+                console.log('database is closed ok');
+                });
+            },
+            function(e) {
+                console.log("ERROR: " + e.message);
+                db.close();
+            });
+        };
+    }
+
+    function updateClient(){
+
+        var clientId=prompt("Please enter the client id","");
+        if (clientId!=null) {
+            var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+            db.transaction(function(tx) {
+                tx.executeSql("UPDATE test_table SET client_Id=? where id=7;", [clientId], function(tx, res) {
+                len1 = res.rows.length;
+                alert(clientId);
+                });
+            },
+            function() {
+                console.log('transaction ok');
+                db.close(function() {
+                console.log('database is closed ok');
+                });
+            },
+            function(e) {
+                console.log("ERROR: " + e.message);
+                db.close();
+            });
+        };
+    }
+
+    function updateUser(){
+
+        var userName=prompt("Please enter the user name","");
+        if (userName!=null) {
+            var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+            db.transaction(function(tx) {
+                tx.executeSql("UPDATE test_table SET user_Name=? where id=7;", [userName], function(tx, res) {
+                len1 = res.rows.length;
+                alert(userName);
+                });
+            },
+            function() {
+                console.log('transaction ok');
+                db.close(function() {
+                console.log('database is closed ok');
+                });
+            },
+            function(e) {
+                console.log("ERROR: " + e.message);
+                db.close();
+            });
+        };
+    }
+
+    function updatePassword(){
+
+        var password1=prompt("Please enter the new password","");
+        if (password1="") {
+            alert("You must type in a password");
+            exit();
+        };
+        var password2=prompt("Please confirm the new password","");
+
+        if (password1!=null) {
+            var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+            db.transaction(function(tx) {
+                tx.executeSql("UPDATE test_table SET pwd=? where id=7;", [password1], function(tx, res) {
+                len1 = res.rows.length;
+                alert(password1);
+                });
+            },
+            function() {
+                console.log('transaction ok');
+                db.close(function() {
+                console.log('database is closed ok');
+                });
+            },
+            function(e) {
+                console.log("ERROR: " + e.message);
+                db.close();
+            });
+        };
+    }
+
+
+</script>
 </body>
 </html>
