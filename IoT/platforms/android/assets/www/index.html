@@ -46,6 +46,49 @@
 
 <script>
 
+    var randomClient = "";
+    var len1 = 0;
+
+    function onDeviceReady() {
+	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+        db.transaction(function(tx) {
+            //tx.executeSql('DROP TABLE IF EXISTS test_table');
+            tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, host text, port integer, client_Id text, user_Name, pwd text)');
+
+            // demonstrate PRAGMA:
+            db.executeSql("pragma table_info (test_table);", [], function(res) {
+                console.log("PRAGMA res: " + JSON.stringify(res));
+            });
+
+            tx.executeSql("select * from test_table;", [], function(tx, res) {
+                //alert("inside first tx");
+                len1 = res.rows.length;
+                //alert(len1);
+                if (len1 == 0) {
+                    genRandom();
+                    tx.executeSql("INSERT INTO test_table (host, port, client_Id, user_Name, pwd) VALUES (?,?,?,?,?)", ["m20.cloudmqtt.com", 11143, randomClient, "user@email.com", "iotiwbiot"], function(tx, res) {});
+                    //alert("insertId: " + res.insertId + " -- probably 1");
+                    //alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
+                }
+            });
+
+        },
+
+        function() {
+            // OK to close here:
+            console.log('transaction ok');
+            db.close(function() {
+                console.log('database is closed ok');
+            });
+        },
+
+        function(e) {
+            console.log("ERROR: " + e.message);
+            db.close();
+            //});  pulaMod_fr_14:58
+        });
+    }
+
             function heartbeat() {
 
 				MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
@@ -53,6 +96,7 @@
 				//a = MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
 
 			}
+
 			function InitFunc() {
 				document.getElementById("pi_status").innerHTML = "Connecting to Raspberry Pi. Please Wait.";
 				//document.getElementById("status_ui").style.backgroundColor = "black";
@@ -64,12 +108,24 @@
 
             function construct() {
 
-                setTimeout(InitFunc, 1500);
-                setTimeout(heartbeat, 2500);
+                //document.addEventListener("deviceready", onDeviceReady, false);
+                setTimeout(onDeviceReady, 1500);
+
+                setTimeout(InitFunc, 2500);
+                setTimeout(heartbeat, 3500);
                 //setTimeout(kill, 3000);
 
             }
-    </script>
+
+    function genRandom() {
+        //var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        //for( var i=0; i < 5; i++ )
+        //randomClient += possible.charAt(Math.floor(Math.random() * possible.length));
+        randomClient = Math.random().toString(36).substring(7);
+        alert(randomClient);
+	}
+
+</script>
 
 <!-- <h2 id = "top_heading">INDUSTRIAL AUTOMATION 4.0</h2> -->
 <div id="start">
