@@ -67,10 +67,14 @@
 </div>
 
 <div class="list">
+    <a href="index.html">
 
-    <button class="button button-block button-dark">
-        Block Button
-    </button>
+        <button class="button button-block button-dark">
+            Aktualisieren
+        </button>
+
+
+    </a>
 
 
 </div>
@@ -84,7 +88,7 @@
         if (hostName!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET host=? where id=7;", [hostName], function(tx, res) {
+                tx.executeSql("UPDATE test_table SET host=? where id=1;", [hostName], function(tx, res) {
                 len1 = res.rows.length;
                 alert(hostName);
                 });
@@ -108,7 +112,7 @@
         if (portNumber!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET port=? where id=7;", [portNumber], function(tx, res) {
+                tx.executeSql("UPDATE test_table SET port=? where id=1;", [portNumber], function(tx, res) {
                 len1 = res.rows.length;
                 alert(portNumber);
                 });
@@ -132,7 +136,7 @@
         if (clientId!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET client_Id=? where id=7;", [clientId], function(tx, res) {
+                tx.executeSql("UPDATE test_table SET client_Id=? where id=1;", [clientId], function(tx, res) {
                 len1 = res.rows.length;
                 alert(clientId);
                 });
@@ -156,7 +160,7 @@
         if (userName!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET user_Name=? where id=7;", [userName], function(tx, res) {
+                tx.executeSql("UPDATE test_table SET user_Name=? where id=1;", [userName], function(tx, res) {
                 len1 = res.rows.length;
                 alert(userName);
                 });
@@ -177,16 +181,16 @@
     function updatePassword(){
 
         var password1=prompt("Please enter the new password","");
-        if (password1="") {
+        if (password1=="") {
             alert("You must type in a password");
             exit();
         };
-        var password2=prompt("Please confirm the new password","");
+        //var password2=prompt("Please confirm the new password","");
 
         if (password1!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET pwd=? where id=7;", [password1], function(tx, res) {
+                tx.executeSql("UPDATE test_table SET pwd=? where id=1;", [password1], function(tx, res) {
                 len1 = res.rows.length;
                 alert(password1);
                 });

@@ -52,7 +52,7 @@
     function onDeviceReady() {
 	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
         db.transaction(function(tx) {
-            tx.executeSql('DROP TABLE IF EXISTS test_table');
+            //tx.executeSql('DROP TABLE IF EXISTS test_table');
             tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, host text, port text, client_Id text, user_Name, pwd text)');
 
             // demonstrate PRAGMA:
@@ -126,7 +126,7 @@
                 });
             }
             function heartbeat() {
-                alert(host);
+                //alert(password);
 				MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat1"});
 				//MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
 				//a = MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});

@@ -58,8 +58,8 @@ MqttPlugin.prototype.subscribe = function(aString){
                                                                     //forceZAlert = forceZAlert + 1,
                                                                     //document.getElementById("zAlert").innerHTML = forceZAlert,
                                                                 }*/
-                                graphUpdate(forceX, forceY, forceZ),
-                                alert("before if");
+                                graphUpdate(forceX, forceY, forceZ);
+                                //alert("before if");
                                 /*if ((res[1]) >= 600){
                                     alert("inside if")
                                     //forceZAlert = forceZAlert + 1,

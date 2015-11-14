@@ -23,12 +23,12 @@ public class MqttPlugin extends CordovaPlugin {
 	private CallbackContext pluginCallbackContextSub = null;
 	private CallbackContext sqlcallback = null;
 	private  String val = null;
-	private  String port = null;
+	private  static String port = null;
 
-	private  String clientID = null;
-	private  String brokerUrl = null;
-	private  String userName = null;
-	private  String password = null;
+	private  static String clientID = null;
+	private  static String brokerUrl = null;
+	private  static String userName = null;
+	private  static String password = null;
 	private String m_publishData = null;
 	private String m_topic = null;
 	final SQLitePlugin sqLitePlugin = new SQLitePlugin();
@@ -66,6 +66,9 @@ public class MqttPlugin extends CordovaPlugin {
 			return true;
 		}
 		if (action.equals("heartbeat")) {
+			if (status == false) {
+				return false;
+			}
 			this.setOpts(args);
 			Log.d("Topic in heartbeat", args.get(0).toString());
 			this.cordova.getActivity().runOnUiThread(new Runnable() {
