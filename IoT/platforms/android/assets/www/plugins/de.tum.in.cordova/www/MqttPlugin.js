@@ -7,6 +7,8 @@ var res;
 var forceX = 0;
 var forceY= 0;
 var forceZ= 0;
+var forceXAlert= 0;
+var forceYAlert= 0;
 var forceZAlert= 0;
 
 MqttPlugin.prototype.publish = function(aString){ console.log("MqttPlugin.js: showToast");
@@ -40,13 +42,8 @@ MqttPlugin.prototype.subscribe = function(aString){
                                 forceX = parseInt(res[1]),
                                 forceY = parseInt(res[3]),
                                 forceZ = parseInt(res[5]),
-                                /*if ((res[1]) >= 600){
-                                                                    alert("inside if"),
-                                                                    //forceZAlert = forceZAlert + 1,
-                                                                    //document.getElementById("zAlert").innerHTML = forceZAlert,
-                                                                }*/
-                                graphUpdate(forceX, forceY, forceZ),
-                                alert("before if");
+                                thresholdAlert(forceX, forceY, forceZ),
+                                graphUpdate(forceX, forceY, forceZ);
                                 /*if ((res[1]) >= 600){
                                     alert("inside if")
                                     //forceZAlert = forceZAlert + 1,

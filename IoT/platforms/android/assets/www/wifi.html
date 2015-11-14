@@ -21,6 +21,7 @@
 	<link rel="stylesheet" type="text/css" href="css/wifi.css">
 	<script type="text/javascript" src="js/mqttws31.js"></script>
 	<script type="text/javascript" src="js/graphgenerator.js"></script>
+	<script type="text/javascript" src="js/thresholdAlert.js"></script>
 
 </head>
 <body>
@@ -66,15 +67,17 @@
 	</div>
 	<div class="item item-text-wrap">
 		<p id="forceX">Force X: 0 Nm</p>
+		<span id="xAlert" class="badge badge-assertive"></span>
 	</div>
 
 	<div class="item item-text-wrap">
 		<p id="forceY">Force Y: 0 Nm</p>
+		<span id="yAlert" class="badge badge-assertive"></span>
 	</div>
 
 	<div class="item item-text-wrap">
 		<p id="forceZ">Force Z: 0 Nm</p>
-		<span id="zAlert" class="badge badge-assertive">0</span>
+		<span id="zAlert" class="badge badge-assertive"></span>
 	</div>
 </div>
 

@@ -53,7 +53,7 @@
         MQTT Connection Information
     </div>
     <div class="item item-icon-left item-text-wrap">
-        <i class="icon ion-cloud" onclick="changeHost()"></i>
+        <i class="icon ion-cloud"></i>
         <h2>Host</h2>
         <p id="hostInfo"></p>
     </div>
@@ -140,98 +140,80 @@
 -->
 
 <script>
-            var randomClient = "";
-            var len1 = 0;
-			function onDeviceReady() {
 
-				genRandom();
-				var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+    var randomClient = "";
+    var len1 = 0;
+    function onDeviceReady() {
+	    genRandom();
+	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+        db.transaction(function(tx) {
+            //tx.executeSql('DROP TABLE IF EXISTS test_table');
+            tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, host text, port integer, client_Id text, user_Name, pwd text)');
 
-  db.transaction(function(tx) {
-    //tx.executeSql('DROP TABLE IF EXISTS test_table');
-    tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, host text, port integer, client_Id text, user_Name, pwd text)');
+            // demonstrate PRAGMA:
+            db.executeSql("pragma table_info (test_table);", [], function(res) {
+                console.log("PRAGMA res: " + JSON.stringify(res));
+            });
 
-    // demonstrate PRAGMA:
-    db.executeSql("pragma table_info (test_table);", [], function(res) {
-      console.log("PRAGMA res: " + JSON.stringify(res));
-    });
+            tx.executeSql("select * from test_table;", [], function(tx, res) {
+                //alert("inside first tx");
+                len1 = res.rows.length;
+                alert(len1);
+                if (len1 == 0) {
+                    tx.executeSql("INSERT INTO test_table (host, port, client_Id, user_Name, pwd) VALUES (?,?,?,?,?)", ["m20.cloudmqtt.com", 11143, randomClient, "user@email.com", "iotiwbiot"], function(tx, res) {});
+                    //alert("insertId: " + res.insertId + " -- probably 1");
+                    //alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
+                }
+            });
 
-    tx.executeSql("select * from test_table;", [], function(tx, res) {
-          //alert("inside first tx");
-          len1 = res.rows.length;
-          //alert(len1);
-    });
+            db.transaction(function(tx) {
 
+                tx.executeSql("select * from test_table;", [], function(tx, res) {
+                    var len = res.rows.length;
+                    //alert(len);
+                    for (var i=0; i<len; i++) {
+                        var newParagraph = document.createElement('p');
+                        newParagraph.textContent = res.rows.item(i).host;
+                        //document.getElementById("clist").appendChild(newParagraph);
+                        document.getElementById("hostInfo").innerHTML = res.rows.item(i).host
+                        document.getElementById("portInfo").innerHTML = res.rows.item(i).port
+                        document.getElementById("clientInfo").innerHTML = res.rows.item(i).client_Id
+                        document.getElementById("userInfo").innerHTML = res.rows.item(i).user_Name
+                        //alert( res.rows.item(i).client_Id);
+                    }
+                    //alert("res.rows.length: " + res.rows.length + " -- should be 1");
+                    //alert("res.rows.item(0) " + res.rows.item(0).data + " -- should be 1");
+                });
+            });
 
-    //tx.executeSql("INSERT INTO test_table (host, port, client_Id, user_Name, pwd) VALUES (?,?,?,?,?)", ["m20.cloudmqtt.com", 11143, randomClient, "user@email.com", "iotiwbiot"], function(tx, res) {
-      //alert("insertId: " + res.insertId + " -- probably 1");
-      //alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
-
-      db.transaction(function(tx) {
-
-        tx.executeSql("select * from test_table;", [], function(tx, res) {
-          var len = res.rows.length;
-          //alert(len);
-          for (var i=0; i<len; i++){
-
-              var newParagraph = document.createElement('p');
-              newParagraph.textContent = res.rows.item(i).host;
-              //document.getElementById("clist").appendChild(newParagraph);
-              document.getElementById("hostInfo").innerHTML = res.rows.item(i).host
-              document.getElementById("portInfo").innerHTML = res.rows.item(i).port
-              document.getElementById("clientInfo").innerHTML = res.rows.item(i).client_Id
-              document.getElementById("userInfo").innerHTML = res.rows.item(i).user_Name
-
-              //alert( res.rows.item(i).client_Id);
-          }
-          //alert("res.rows.length: " + res.rows.length + " -- should be 1");
-          //alert("res.rows.item(0) " + res.rows.item(0).data + " -- should be 1");
+        },
+        function() {
+            // OK to close here:
+            console.log('transaction ok');
+            db.close(function() {
+                console.log('database is closed ok');
+            });
+        },
+        function(e) {
+            console.log("ERROR: " + e.message);
+            db.close();
+            //});  pulaMod_fr_14:58
         });
-      });
-
-    }, function() {
-  // OK to close here:
-  console.log('transaction ok');
-  db.close(function() {
-    console.log('database is closed ok');
-  });
-}, function(e) {
-      console.log("ERROR: " + e.message);
-      db.close();
-    //});  pulaMod_fr_14:58
-  });
-
-}
+    }
 
 
-			function cache() {
-                document.addEventListener("deviceready", onDeviceReady, false);
-                //clickMe();
-			}
+	function cache() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
 
-			function clickMe() {
+	function genRandom() {
+        //var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        //for( var i=0; i < 5; i++ )
+        //randomClient += possible.charAt(Math.floor(Math.random() * possible.length));
+        randomClient = Math.random().toString(36).substring(7);
+        alert(randomClient);
+	}
 
-              document.getElementById("MyEdit").innerHTML = "My new text!"
-
-
-			}
-
-			function genRandom() {
-
-
-                //var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                //for( var i=0; i < 5; i++ )
-                //    randomClient += possible.charAt(Math.floor(Math.random() * possible.length));
-                randomClient = Math.random().toString(36).substring(7);
-                alert(randomClient);
-
-			}
-
-			function changeHost() {
-
-			alert("change host");
-
-			}
 </script>
 
 <body onload="cache()">

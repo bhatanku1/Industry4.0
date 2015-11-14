@@ -1,5 +1,3 @@
-//	function demo2(){
-//	alert('inside demo2');
     graphUpdate(currentForceX, currentForceY, currentForceZ);
 
     function graphUpdate(currentForceX, currentForceY, currentForceZ) {
