@@ -7,10 +7,21 @@ var res;
 var forceX = 0;
 var forceY= 0;
 var forceZ= 0;
-var forceXAlert= 0;
-var forceYAlert= 0;
 var forceZAlert= 0;
 
+
+MqttPlugin.prototype.setMQTT = function(aString){ console.log("MqttPlugin.js: showToast");
+    //alert('inside publish');
+    //var wf = 100;
+    //drawChart(wf);
+    var t = aString.data + aString.topic;
+    exec(
+    function(result){ /*alert("Mqttplugin publish got the value returned" + result); */},
+    function(result){ /*alert("Error" + reply);*/ },
+    "MqttPlugin",
+    "update",
+    [aString.url, aString.port,aString.clientid,aString.username, aString.password]);
+};
 MqttPlugin.prototype.publish = function(aString){ console.log("MqttPlugin.js: showToast");
     //alert('inside publish');
     //var wf = 100;
@@ -42,8 +53,13 @@ MqttPlugin.prototype.subscribe = function(aString){
                                 forceX = parseInt(res[1]),
                                 forceY = parseInt(res[3]),
                                 forceZ = parseInt(res[5]),
-                                thresholdAlert(forceX, forceY, forceZ),
-                                graphUpdate(forceX, forceY, forceZ);
+                                /*if ((res[1]) >= 600){
+                                                                    alert("inside if"),
+                                                                    //forceZAlert = forceZAlert + 1,
+                                                                    //document.getElementById("zAlert").innerHTML = forceZAlert,
+                                                                }*/
+                                graphUpdate(forceX, forceY, forceZ),
+                                alert("before if");
                                 /*if ((res[1]) >= 600){
                                     alert("inside if")
                                     //forceZAlert = forceZAlert + 1,

@@ -1,4 +1,3 @@
-
 import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
@@ -13,33 +12,41 @@ import org.json.JSONObject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Map;
+
+import io.liteglue.SQLitePlugin;
+
 public class MqttPlugin extends CordovaPlugin {
 
 	private static final String LOG_TAG = "MqttPlugin";
 
 	private CallbackContext pluginCallbackContext = null;
 	private CallbackContext pluginCallbackContextSub = null;
+	private CallbackContext sqlcallback = null;
 	private  String val = null;
-	private final String clientID = null;
-	private final String brokerUrl = null;
-	private final String userName = null;
-	private final String password = null;
+	private  String port = null;
+
+	private  String clientID = null;
+	private  String brokerUrl = null;
+	private  String userName = null;
+	private  String password = null;
 	private String m_publishData = null;
 	private String m_topic = null;
+	final SQLitePlugin sqLitePlugin = new SQLitePlugin();
+	final JSONObject jo = new JSONObject();
+	IKuraMQTTClient client = null;
+	boolean status;
+	//final boolean sqlstatus = sqLitePlugin.execute("open",sqlargs,sqlcallback);
 
-	final IKuraMQTTClient client = new KuraMQTTClient.Builder()
-			.setHost("m20.cloudmqtt.com").setPort("11143")
-			.setClientId("CLIENT_696").setUsername("user@email.com")
-			.setPassword("iotiwbiot").build();
+
 
 	// Connect to the Message Broker
-	final boolean status = client.connect();
+
 
 
 	// args = [url, username, password, clientID, topic]
 	@Override
 	public boolean execute(String action,  JSONArray args,
-						    final CallbackContext callbackContext) throws JSONException {
+						   final CallbackContext callbackContext) throws JSONException {
 		Log.d("Kura-MQTT", String.valueOf(status));
 		if (android.os.Build.VERSION.SDK_INT >= 11) {
 			final StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -82,7 +89,13 @@ public class MqttPlugin extends CordovaPlugin {
 		else if (action.equals("stop")) {
 			callbackContext.success("stopped");
 			return true;
-		} else if (action.equals("publish")) {
+		}
+		else if (action.equals("update")) {
+			callbackContext.success("stopped");
+			setMQTT(args);
+			return true;
+		}
+		else if (action.equals("publish")) {
 			Log.d("Kura....",  args.get(0).toString());
 			this.setOpts(args);
 			publish();
@@ -92,6 +105,21 @@ public class MqttPlugin extends CordovaPlugin {
 			return true;
 		}
 		return false;
+	}
+
+	private void setMQTT(JSONArray args) throws JSONException{
+
+		this.port = (String) args.get(1);
+		this.clientID = (String) args.get(2);
+		this.brokerUrl = (String) args.get(0);
+		this.userName = (String) args.get(3);
+		this.password = (String) args.get(4);
+		this.client = new KuraMQTTClient.Builder()
+				.setHost(this.brokerUrl).setPort(this.port)
+				.setClientId(this.clientID).setUsername(this.userName)
+				.setPassword(this.password).build();
+		this.status = this.client.connect();
+
 	}
 
 	private void publish() {
@@ -146,7 +174,7 @@ public class MqttPlugin extends CordovaPlugin {
 	}
 	private void heartBeat() {
 		Log.d("heartbeat", " inside");
-		client.subscribe(m_topic, new MessageListener() {
+			client.subscribe(m_topic, new MessageListener() {
 			@Override
 			public void processMessage(KuraPayload payload) {
 				Log.d("Process", "Got the pubished message");
