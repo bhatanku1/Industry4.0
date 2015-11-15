@@ -55,14 +55,7 @@ MqttPlugin.prototype.subscribe = function(aString){
                                 forceZ = parseInt(res[5]),
                                 thresholdAlert(forceX, forceY, forceZ),
                                 graphUpdate(forceX, forceY, forceZ);
-                                //alert("before if");
-                                /*if ((res[1]) >= 600){
-                                    alert("inside if")
-                                    //forceZAlert = forceZAlert + 1,
-                                    //document.getElementById("zAlert").innerHTML = forceZAlert,
-                                }
-                                else {alert("inside else")}*/
-                                //document.getElementById("test").innerHTML = i;
+
                         },
 
     //function(result){ alert("Mqtt Sub got the value from the topic" + result['request.id']) },

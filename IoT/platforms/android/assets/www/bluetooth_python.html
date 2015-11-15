@@ -20,6 +20,9 @@
 	<link href="css/style.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/bluetooth.css">
     <script type="text/javascript" src="js/mqttws31.js"></script>
+	<script type="text/javascript" src="js/parseString.js"></script>
+    <script type="text/javascript" src="js/graphgenerator.js"></script>
+    <script type="text/javascript" src="js/thresholdAlert.js"></script>
 
 </head>
 
@@ -31,7 +34,7 @@
     <!--border: 3px solid #bbbbbb;-->
     }
 </style>
-<body>
+<body onload="threshold()">
 
 <div class="bar bar-header bar-dark">
 
@@ -75,7 +78,7 @@
 		Real Time Data
 	</div>
 	<div class="item item-text-wrap">
-		<p id="bluetoothData">Force X: 0 Nm</p>
+		<p id="forceX">Force X: 0 Nm</p>
 		<span id="xAlert" class="badge badge-assertive"></span>
 	</div>
 
@@ -130,108 +133,79 @@
 
 <script>
 
-function loadScript()
-    {
-        // Adding the script tag to the head as suggested before
-        alert('inside loadscript');
-        var head = document.getElementsByTagName('head')[0];
-        var script = document.createElement(secondf.js);
-        script.type = 'text/javascript';
-        script.src = 'secondf.js';
-        script.async = false;
-        // Then bind the event to the callback function.
-        // There are several events for cross browser compatibility.
-        script.onreadystatechange = 'demo2';
-        script.onload = 'demo2';
+    var currentForce = 0;
+	var i1 = 0;
+	var j1 = 0;
+	var k1 = 0;
+	var l1 = 0;
+	var m1 = 0;
+	var n1 = 0;
+	var o1 = 0;
 
-        // Fire the loading
-        head.appendChild('secondf.js');
+	var i2 = 0;
+	var j2 = 0;
+	var k2 = 0;
+	var l2 = 0;
+	var m2 = 0;
+	var n2 = 0;
+	var o2 = 0;
+
+	var i3 = 0;
+	var j3 = 0;
+	var k3 = 0;
+	var l3 = 0;
+	var m3 = 0;
+	var n3 = 0;
+	var o3 = 0;
+
+	var chart = null;
+
+	google.setOnLoadCallback(drawChart);
+	function drawChart() {
+        data = google.visualization.arrayToDataTable([
+            ['time', 'Force X', 'Force Y', 'Force Z'],
+            ['-21 sec', 0, 0, 100],
+            ['-18 sec', 0, 100, 0],
+            ['-15 sec', 100, 0, 150],
+            ['-12 sec', 0, 200, 300],
+            ['-9 sec', 50, 100, 100],
+            ['-6 sec', 175, 20, 500],
+            ['-3 sec', 0, 600, 400],
+            ['current', 100, 300, 0]
+        ]);
+        options = {
+            title: 'Data from the Intelligent device',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+        chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+        chart.draw(data, options);
     }
 
-	  var currentForce = 0;
-	  var i = 0;
-	  var j = 0;
-	  var k = 0;
-	  var l = 0;
-	  var m = 0;
-	  var n = 0;
-	  var o = 0;
-	  var chart = null;
-	  google.setOnLoadCallback(drawChart);
-	  function drawChart() {
-          data = google.visualization.arrayToDataTable([
-          ['time', 'Force'],
-          ['-21 sec',  0],
-          ['-18 sec',  0],
-          ['-15 sec',  0],
-          ['-12 sec',  0],
-          ['-9 sec',  0],
-          ['-6 sec',  0],
-          ['-3 sec',  0],
-          ['current',  0]
-        ]);
-         options = {
-         title: 'Data from the Intelligent device',
-         curveType: 'function',
-         legend: { position: 'bottom' }
-         };
-         chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-         chart.draw(data, options);
-      }
-
-      function graphUpdate() {
-
-         data = google.visualization.arrayToDataTable([
-          ['Year', 'Sales'],
-          ['-21 sec',  i],
-		  ['-18 sec',  j],
-          ['-15 sec',  k],
-          ['-12 sec',  l],
-          ['-9 sec',  m],
-          ['-6 sec',  n],
-          ['-3 sec',  o],
-          ['Current', currentForce ]
-         ]);
-        try{
-        	chart.draw(data, options);
-        }
-        catch(err)
-       {
-       	alert(err.message);
-       }
-        i = j;
-		j = k;
-		k = l;
-		l = m;
-		m = n;
-		n = o;
-		o = currentForce;
-      }
-
-      function connect() {
-	  	clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
+    function connect() {
+	    clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
 		clientPublish.connect({
-				onSuccess : onConnect
+		    onSuccess : onConnect
 		});
 	    function onConnect() {
 	    }
-	  }
+	}
 
-      function publish() {
+    function publish() {
     	MqttPlugin.publish({
 			topic:"$EDC/tum/B8:27:EB:A6:A9:8A/PY-MILLING-V1/EXEC/start",
 			data:"Mqtt data"
 		});
 		alert("published");
-	  }
+	}
 
-	  function startMillingMachine() {
+	function startMillingMachine() {
 	    connect();
         publish();
 		$.fn.gotof();
-	  }
+	}
 
-	  function subscribe() {
+	function subscribe() {
 		alert("in subscribe");
 		clientPublish.onMessageArrived = onMessageArrived;
 		TopicToSubscribe = "$EDC/tum/BLUETOOTH-V1/00:1A:7D:DA:71:15/data";
@@ -245,7 +219,6 @@ function loadScript()
 			alert("successfuly subscribed to the get the force values");
 		}
 
-
 		// called when the client loses its connection
 		function onConnectionLost(responseObject) {
 			if (responseObject.errorCode !== 0) {
@@ -256,12 +229,64 @@ function loadScript()
 
 		// called when a message arrives
 		function onMessageArrived(message) {
-			currentForce = parseInt(message.payloadString);
+
+			//res = message.payloadString.
+			parseSubscribedMessage(message.payloadString);
+			//currentForce = parseInt(message.payloadString);
 			//graphUpdate();
-			document.getElementById("bluetoothData").innerHTML = message.payloadString;
+	        //document.getElementById("bluetoothData").innerHTML = message.payloadString;
 		}
 
-	  }
+	}
+
+
+	function onDeviceReady() {
+	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+        db.transaction(function(tx) {
+
+            // demonstrate PRAGMA:
+            db.executeSql("pragma table_info (threshold_table);", [], function(res) {
+                console.log("PRAGMA res: " + JSON.stringify(res));
+            });
+
+            db.transaction(function(tx) {
+
+                tx.executeSql("select * from threshold_table;", [], function(tx, res) {
+                    var len = res.rows.length;
+                    //alert(len);
+                    for (var i=0; i<len; i++) {
+                        //document.getElementById("clist").appendChild(newParagraph);
+                        thresholdX = res.rows.item(i).threshX
+                        thresholdY = res.rows.item(i).threshY
+                        thresholdZ = res.rows.item(i).threshZ
+                        //alert( res.rows.item(i).client_Id);
+                    }
+                    //alert("res.rows.length: " + res.rows.length + " -- should be 1");
+                    //alert("res.rows.item(0) " + res.rows.item(0).data + " -- should be 1");
+                });
+            });
+
+        },
+
+        function() {
+            // OK to close here:
+            console.log('transaction ok');
+            db.close(function() {
+                console.log('database is closed ok');
+            });
+        },
+
+        function(e) {
+            console.log("ERROR: " + e.message);
+            db.close();
+            //});  pulaMod_fr_14:58
+        });
+    }
+
+
+	function threshold() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
 
 </script>
 
