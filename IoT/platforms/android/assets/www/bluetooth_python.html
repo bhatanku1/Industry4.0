@@ -26,7 +26,7 @@
 <style>
     div.graph {
     position: absolute;
-	top: 50%;
+	top: 58%;
     left: 10px;
     <!--border: 3px solid #bbbbbb;-->
     }
@@ -43,22 +43,6 @@
 </div>
 
 <br>
-<br>
-<br>
-
-<div class="list">
-
-	<div class="item item-input-inset">
-		<label class="item-input-wrapper">
-			<i class="icon ion-search placeholder-icon"></i>
-			<input id="text_macid" type="text" placeholder="Enter the bluetooth id" name="pub"/>
-		</label>
-		<button id = "btn_pub" class="button button-clear button-dark button-small ion-arrow-swap" onclick="#">
-			Pair
-		</button>
-	</div>
-
-</div>
 
 <div id="sub">
 	<a>
@@ -91,10 +75,32 @@
 		Real Time Data
 	</div>
 	<div class="item item-text-wrap">
+		<p id="bluetoothData">Force X: 0 Nm</p>
+		<span id="xAlert" class="badge badge-assertive"></span>
+	</div>
+
+	<div class="item item-text-wrap">
+		<p id="forceY">Force Y: 0 Nm</p>
+		<span id="yAlert" class="badge badge-assertive"></span>
+	</div>
+
+	<div class="item item-text-wrap">
+		<p id="forceZ">Force Z: 0 Nm</p>
+		<span id="zAlert" class="badge badge-assertive"></span>
+	</div>
+</div>
+
+<!--
+<div id="bt_list" class="card">
+	<div class="item item-divider bar bar-header bar-dark">
+		Real Time Data
+	</div>
+	<div class="item item-text-wrap">
 		<p>Force Value: </p>
 		<p id="bluetoothData"></p>
 	</div>
 </div>
+-->
 
 <!--
 <h3 id="fHeader"></h3><br>
