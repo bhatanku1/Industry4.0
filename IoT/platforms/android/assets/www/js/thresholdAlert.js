@@ -5,21 +5,22 @@ var forceZAlert = 0;
 function thresholdAlert(forceX, forceY, forceZ) {
 
     if (forceX > 600) {
-
+            alert("inside check force X threshold");
             forceXAlert = forceXAlert + 1;
             document.getElementById("xAlert").innerHTML = forceXAlert;
 
-    },
+    }
 
     if (forceY > 600) {
+            alert("inside check force Y threshold");
 
             forceYAlert = forceYAlert + 1;
             document.getElementById("yAlert").innerHTML = forceYAlert;
 
-    },
+    }
 
     if (forceZ > 600) {
-
+        alert("inside check force Z threshold");
         forceZAlert = forceZAlert + 1;
         document.getElementById("zAlert").innerHTML = forceZAlert;
 

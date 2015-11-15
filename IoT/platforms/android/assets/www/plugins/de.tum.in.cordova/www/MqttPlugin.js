@@ -53,11 +53,7 @@ MqttPlugin.prototype.subscribe = function(aString){
                                 forceX = parseInt(res[1]),
                                 forceY = parseInt(res[3]),
                                 forceZ = parseInt(res[5]),
-                                /*if ((res[1]) >= 600){
-                                                                    alert("inside if"),
-                                                                    //forceZAlert = forceZAlert + 1,
-                                                                    //document.getElementById("zAlert").innerHTML = forceZAlert,
-                                                                }*/
+                                thresholdAlert(forceX, forceY, forceZ),
                                 graphUpdate(forceX, forceY, forceZ);
                                 //alert("before if");
                                 /*if ((res[1]) >= 600){

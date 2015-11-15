@@ -23,11 +23,11 @@
 
 </head>
 
-<body>
+<body onload="threshold()">
 <div class="bar bar-header bar-dark">
 
     <a href = "mainsettings.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
-    <h1 class="title">MQTT Settings</h1>
+    <h1 class="title">Threshold Settings</h1>
     <a class="button button-right button-clear button-light ion-home" href = "ui.html"></a>
     <!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
 
@@ -40,57 +40,85 @@
 <div class="list card">
 
     <a href="#" class="item item-icon-left">
-        <i class="icon ion-cloud" onclick="updateHost()"></i>
-        Enter host address
+        <i class="icon ion-cloud" onclick="updateThresholdX()"></i>
+        <h2>Enter X-moment threshold</h2>
+        <p id="threshXInfo"></p>
     </a>
 
     <a href="#" class="item item-icon-left">
-        <i class="icon ion-usb" onclick="updatePort()"></i>
-        Enter port number
+        <i class="icon ion-usb" onclick="updateThresholdY()"></i>
+        <h2>Enter Y-moment threshold</h2>
+        <p id="threshYInfo"></p>
     </a>
 
     <a href="#" class="item item-icon-left">
-        <i class="icon ion-android-person" onclick="updateClient()"></i>
-        Enter client id
-    </a>
-
-    <a href="#" class="item item-icon-left">
-        <i class="icon ion-email" onclick="updateUser()"></i>
-        Enter username
-    </a>
-
-    <a href="#" class="item item-icon-left">
-        <i class="icon ion-key" onclick="updatePassword()"></i>
-        Enter password
+        <i class="icon ion-android-person" onclick="updateThresholdZ()"></i>
+        <h2>Enter Z-moment threshold</h2>
+        <p id="threshZInfo"></p>
     </a>
 
 </div>
-
-<div class="list">
-    <a href="index.html">
-
-        <button class="button button-block button-dark">
-            Aktualisieren
-        </button>
-
-
-    </a>
-
-
-</div>
-
 
 <script>
 
-    function updateHost(){
+    //var len1 = 0;
+    function onDeviceReady() {
+	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+        db.transaction(function(tx) {
 
-        var hostName=prompt("Please enter the host name","Host Name");
-        if (hostName!=null) {
+            // demonstrate PRAGMA:
+            db.executeSql("pragma table_info (threshold_table);", [], function(res) {
+                console.log("PRAGMA res: " + JSON.stringify(res));
+            });
+
+            db.transaction(function(tx) {
+
+                tx.executeSql("select * from threshold_table;", [], function(tx, res) {
+                    var len = res.rows.length;
+                    //alert(len);
+                    for (var i=0; i<len; i++) {
+                        //document.getElementById("clist").appendChild(newParagraph);
+                        document.getElementById("threshXInfo").innerHTML = res.rows.item(i).threshX
+                        document.getElementById("threshYInfo").innerHTML = res.rows.item(i).threshY
+                        document.getElementById("threshZInfo").innerHTML = res.rows.item(i).threshZ
+                        //alert( res.rows.item(i).client_Id);
+                    }
+                    //alert("res.rows.length: " + res.rows.length + " -- should be 1");
+                    //alert("res.rows.item(0) " + res.rows.item(0).data + " -- should be 1");
+                });
+            });
+
+        },
+
+        function() {
+            // OK to close here:
+            console.log('transaction ok');
+            db.close(function() {
+                console.log('database is closed ok');
+            });
+        },
+
+        function(e) {
+            console.log("ERROR: " + e.message);
+            db.close();
+            //});  pulaMod_fr_14:58
+        });
+    }
+
+
+	function threshold() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
+    function updateThresholdX(){
+
+        var thresholdX=prompt("Please enter the threshold for X-moment","");
+        if (thresholdX!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET host=? where id=1;", [hostName], function(tx, res) {
+                tx.executeSql("UPDATE threshold_table SET threshX=? where id=1;", [thresholdX], function(tx, res) {
                 len1 = res.rows.length;
-                alert(hostName);
+                alert(thresholdX);
                 });
             },
             function() {
@@ -106,15 +134,15 @@
         };
     }
 
-    function updatePort(){
+    function updateThresholdY(){
 
-        var portNumber=prompt("Please enter the port number","");
-        if (portNumber!=null) {
+        var thresholdY=prompt("Please enter the threshold for Y-moment","");
+        if (thresholdY!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET port=? where id=1;", [portNumber], function(tx, res) {
+                tx.executeSql("UPDATE threshold_table SET threshY=? where id=1;", [thresholdY], function(tx, res) {
                 len1 = res.rows.length;
-                alert(portNumber);
+                alert(thresholdY);
                 });
             },
             function() {
@@ -130,15 +158,15 @@
         };
     }
 
-    function updateClient(){
+    function updateThresholdZ(){
 
-        var clientId=prompt("Please enter the client id","");
-        if (clientId!=null) {
+        var thresholdZ=prompt("Please enter the threshold for Z-moment","");
+        if (thresholdZ!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET client_Id=? where id=1;", [clientId], function(tx, res) {
+                tx.executeSql("UPDATE threshold_table SET threshZ=? where id=1;", [thresholdZ], function(tx, res) {
                 len1 = res.rows.length;
-                alert(clientId);
+                alert(thresholdZ);
                 });
             },
             function() {
@@ -153,62 +181,8 @@
             });
         };
     }
-
-    function updateUser(){
-
-        var userName=prompt("Please enter the user name","");
-        if (userName!=null) {
-            var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
-            db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET user_Name=? where id=1;", [userName], function(tx, res) {
-                len1 = res.rows.length;
-                alert(userName);
-                });
-            },
-            function() {
-                console.log('transaction ok');
-                db.close(function() {
-                console.log('database is closed ok');
-                });
-            },
-            function(e) {
-                console.log("ERROR: " + e.message);
-                db.close();
-            });
-        };
-    }
-
-    function updatePassword(){
-
-        var password1=prompt("Please enter the new password","");
-        if (password1=="") {
-            alert("You must type in a password");
-            exit();
-        };
-        //var password2=prompt("Please confirm the new password","");
-
-        if (password1!=null) {
-            var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
-            db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET pwd=? where id=1;", [password1], function(tx, res) {
-                len1 = res.rows.length;
-                alert(password1);
-                });
-            },
-            function() {
-                console.log('transaction ok');
-                db.close(function() {
-                console.log('database is closed ok');
-                });
-            },
-            function(e) {
-                console.log("ERROR: " + e.message);
-                db.close();
-            });
-        };
-    }
-
 
 </script>
 </body>
 </html>
+

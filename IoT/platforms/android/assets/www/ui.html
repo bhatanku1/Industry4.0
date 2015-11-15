@@ -29,7 +29,7 @@
             <i class="icon ion-help"></i>
             Help
         </a>
-        <a class="tab-item" href=settings.html>
+        <a class="tab-item" href="mainsettings.html">
             <i class="icon ion-gear-a"></i>
             Settings
         </a>
@@ -144,6 +144,7 @@
     var randomClient = "";
     var len1 = 0;
     function onDeviceReady() {
+        alert("len2");
 	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
         db.transaction(function(tx) {
 

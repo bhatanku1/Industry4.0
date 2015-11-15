@@ -103,80 +103,74 @@
 
 <script>
 
-	  var currentForce = 0;
-	  var i1 = 0;
-	  var j1 = 0;
-	  var k1 = 0;
-	  var l1 = 0;
-	  var m1 = 0;
-	  var n1 = 0;
-	  var o1 = 0;
+	var currentForce = 0;
+	var i1 = 0;
+	var j1 = 0;
+	var k1 = 0;
+	var l1 = 0;
+	var m1 = 0;
+	var n1 = 0;
+	var o1 = 0;
 
-	  var i2 = 0;
-	  var j2 = 0;
-	  var k2 = 0;
-	  var l2 = 0;
-	  var m2 = 0;
-	  var n2 = 0;
-	  var o2 = 0;
+	var i2 = 0;
+	var j2 = 0;
+	var k2 = 0;
+	var l2 = 0;
+	var m2 = 0;
+	var n2 = 0;
+	var o2 = 0;
 
-	  var i3 = 0;
-	  var j3 = 0;
-	  var k3 = 0;
-	  var l3 = 0;
-	  var m3 = 0;
-	  var n3 = 0;
-	  var o3 = 0;
+	var i3 = 0;
+	var j3 = 0;
+	var k3 = 0;
+	var l3 = 0;
+	var m3 = 0;
+	var n3 = 0;
+	var o3 = 0;
 
-	  var chart = null;
+	var chart = null;
 
 	//	drawChart();
     google.setOnLoadCallback(drawChart);
 	function drawChart() {
-          data = google.visualization.arrayToDataTable([
-          ['time', 'Force X', 'Force Y', 'Force Z'],
-          ['-21 sec', 0, 0, 100],
-          ['-18 sec', 0, 100, 0],
-          ['-15 sec', 100, 0, 150],
-          ['-12 sec', 0, 200, 300],
-          ['-9 sec', 50, 100, 100],
-          ['-6 sec', 175, 20, 500],
-          ['-3 sec', 0, 600, 400],
-          ['current', 100, 300, 0]
+        data = google.visualization.arrayToDataTable([
+            ['time', 'Force X', 'Force Y', 'Force Z'],
+            ['-21 sec', 0, 0, 100],
+            ['-18 sec', 0, 100, 0],
+            ['-15 sec', 100, 0, 150],
+            ['-12 sec', 0, 200, 300],
+            ['-9 sec', 50, 100, 100],
+            ['-6 sec', 175, 20, 500],
+            ['-3 sec', 0, 600, 400],
+            ['current', 100, 300, 0]
         ]);
-         options = {
-         title: 'Data from the Intelligent device',
-         curveType: 'function',
-         legend: { position: 'bottom' }
-         };
-         chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-         chart.draw(data, options);
+        options = {
+            title: 'Data from the Intelligent device',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+        chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+        chart.draw(data, options);
     }
 
 
-	  function start() {
-                MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
-				MqttPlugin.publish({
-				topic:"$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/EXEC/start",
-				data:"Mqtt data"
+	function start() {
+        MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
+	    MqttPlugin.publish({
+		    topic:"$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/EXEC/start",
+			data:"Mqtt data"
+		});
+	}
 
-				});
-			}
+	function stop() {
+		MqttPlugin.publish({
+			topic:"$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/EXEC/stop",
+			data:"Mqtt data"
+		});
+	}
 
-			function stop() {
+</script>
 
-				MqttPlugin.publish({
-				topic:"$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/EXEC/stop",
-				data:"Mqtt data"
-
-				});
-			}
-
-
-
-
-
-
-    </script>
 </body>
+
 </html>

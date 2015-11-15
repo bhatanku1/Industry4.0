@@ -48,11 +48,51 @@
 
     var randomClient = "";
     var len1 = 0;
+    var len2 = 0;
 
     function onDeviceReady() {
 	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+
+	    db.transaction(function(tx) {
+            tx.executeSql('DROP TABLE IF EXISTS threshold_table');
+            tx.executeSql('CREATE TABLE IF NOT EXISTS threshold_table (id integer primary key, threshX text, threshY text, threshZ text)');
+
+            // demonstrate PRAGMA:
+            db.executeSql("pragma table_info (threshold_table);", [], function(res) {
+                console.log("PRAGMA res: " + JSON.stringify(res));
+            });
+
+            tx.executeSql("select * from threshold_table;", [], function(tx, res) {
+                //alert("inside first tx");
+                len2 = res.rows.length;
+                //alert(len2);
+                if (len2 == 0) {
+                    tx.executeSql("INSERT INTO threshold_table (threshX, threshY, threshZ) VALUES (?,?,?)", ["600", "600", "600"], function(tx, res) {});
+                    //alert("insertId: " + res.insertId + " -- probably 1");
+                    //alert("rowsAffected: " + res.rowsAffected + " -- should be 1");
+                    //alert(res.rows.item(0).threshX);
+                    //alert(res.rows.item(0).threshY);
+                    //alert(res.rows.item(0).threshZ);
+                }
+            });
+        },
+
+        function() {
+            // OK to close here:
+            console.log('transaction ok');
+            db.close(function() {
+                console.log('database is closed ok');
+            });
+        },
+
+        function(e) {
+            console.log("ERROR: " + e.message);
+            db.close();
+            //});  pulaMod_fr_14:58
+        });
+
         db.transaction(function(tx) {
-            //tx.executeSql('DROP TABLE IF EXISTS test_table');
+            //tx.executeSql('DROP TABLE IF EXISTS threshold_table');
             tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, host text, port text, client_Id text, user_Name, pwd text)');
 
             // demonstrate PRAGMA:
@@ -72,6 +112,8 @@
                 }
             });
 
+
+
             db.transaction(function(tx) {
 
                 tx.executeSql("select * from test_table;", [], function(tx, res) {
@@ -86,8 +128,8 @@
                         clientId = res.rows.item(i).client_Id
                         userName = res.rows.item(i).user_Name
                         password = res.rows.item(i).pwd
-                        //alert(host);
-                        //alert(port);
+                        //alert(res.rows.item(i).host);
+                        alert(port);
                         //alert(clientId);
                         //alert(userName);
                         //alert(password);
