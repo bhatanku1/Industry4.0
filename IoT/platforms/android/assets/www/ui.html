@@ -144,7 +144,7 @@
     var randomClient = "";
     var len1 = 0;
     function onDeviceReady() {
-        alert("len2");
+        //alert("len2");
 	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
         db.transaction(function(tx) {
 
@@ -190,18 +190,9 @@
         });
     }
 
-
 	function cache() {
         document.addEventListener("deviceready", onDeviceReady, false);
     }
-
-	function genRandom() {
-        //var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        //for( var i=0; i < 5; i++ )
-        //randomClient += possible.charAt(Math.floor(Math.random() * possible.length));
-        randomClient = Math.random().toString(36).substring(7);
-        alert(randomClient);
-	}
 
 </script>
 

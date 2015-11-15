@@ -24,7 +24,7 @@
 	<script type="text/javascript" src="js/thresholdAlert.js"></script>
 
 </head>
-<body>
+<body onload="threshold()">
 
 <div class="bar bar-header bar-dark">
 
@@ -155,7 +155,7 @@
 
 
 	function start() {
-        MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
+		MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
 	    MqttPlugin.publish({
 		    topic:"$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/EXEC/start",
 			data:"Mqtt data"
@@ -168,6 +168,55 @@
 			data:"Mqtt data"
 		});
 	}
+
+	function onDeviceReady() {
+	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+        db.transaction(function(tx) {
+
+            // demonstrate PRAGMA:
+            db.executeSql("pragma table_info (threshold_table);", [], function(res) {
+                console.log("PRAGMA res: " + JSON.stringify(res));
+            });
+
+            db.transaction(function(tx) {
+
+                tx.executeSql("select * from threshold_table;", [], function(tx, res) {
+                    var len = res.rows.length;
+                    //alert(len);
+                    for (var i=0; i<len; i++) {
+                        //document.getElementById("clist").appendChild(newParagraph);
+                        thresholdX = res.rows.item(i).threshX
+                        thresholdY = res.rows.item(i).threshY
+                        thresholdZ = res.rows.item(i).threshZ
+                        //alert( res.rows.item(i).client_Id);
+                    }
+                    //alert("res.rows.length: " + res.rows.length + " -- should be 1");
+                    //alert("res.rows.item(0) " + res.rows.item(0).data + " -- should be 1");
+                });
+            });
+
+        },
+
+        function() {
+            // OK to close here:
+            console.log('transaction ok');
+            db.close(function() {
+                console.log('database is closed ok');
+            });
+        },
+
+        function(e) {
+            console.log("ERROR: " + e.message);
+            db.close();
+            //});  pulaMod_fr_14:58
+        });
+    }
+
+
+	function threshold() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
+
 
 </script>
 

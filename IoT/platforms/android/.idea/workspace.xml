@@ -34,18 +34,18 @@
       <file leaf-file-name="ui.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/www/ui.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.875">
-              <caret line="146" column="21" selection-start-line="146" selection-start-column="21" selection-end-line="146" selection-end-column="21" />
+            <state vertical-scroll-proportion="-3.4166667">
+              <caret line="167" column="58" selection-start-line="167" selection-start-column="58" selection-end-line="167" selection-end-column="58" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="thresholdSettings.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="thresholdSettings.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/www/thresholdSettings.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.166667">
-              <caret line="54" column="28" selection-start-line="54" selection-start-column="28" selection-end-line="54" selection-end-column="28" />
+            <state vertical-scroll-proportion="0.32822758">
+              <caret line="31" column="125" selection-start-line="31" selection-start-column="125" selection-end-line="31" selection-end-column="125" />
               <folding />
             </state>
           </provider>
@@ -54,8 +54,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/www/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-34.041668">
-              <caret line="93" column="37" selection-start-line="93" selection-start-column="37" selection-end-line="93" selection-end-column="37" />
+            <state vertical-scroll-proportion="22.208334">
+              <caret line="131" column="26" selection-start-line="131" selection-start-column="26" selection-end-line="131" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -74,18 +74,18 @@
       <file leaf-file-name="settings.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/www/settings.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.125">
+            <state vertical-scroll-proportion="27.5">
               <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="wifi.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="wifi.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/www/wifi.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.40697673">
-              <caret line="162" column="0" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+            <state vertical-scroll-proportion="-1.372549">
+              <caret line="157" column="8" selection-start-line="157" selection-start-column="8" selection-end-line="157" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -105,7 +105,7 @@
         <entry file="file://$PROJECT_DIR$/assets/www/js/thresholdAlert.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="2" column="20" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
+              <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -1648,13 +1648,13 @@
         <option value="$PROJECT_DIR$/assets/www/js/graphgenerator.js" />
         <option value="$PROJECT_DIR$/src/MqttPlugin.java" />
         <option value="$PROJECT_DIR$/assets/www/plugins/de.tum.in.cordova/www/MqttPlugin.js" />
-        <option value="$PROJECT_DIR$/assets/www/js/thresholdAlert.js" />
         <option value="$PROJECT_DIR$/assets/www/settings.html" />
-        <option value="$PROJECT_DIR$/assets/www/index.html" />
         <option value="$PROJECT_DIR$/assets/www/mainsettings.html" />
-        <option value="$PROJECT_DIR$/assets/www/thresholdSettings.html" />
-        <option value="$PROJECT_DIR$/assets/www/ui.html" />
+        <option value="$PROJECT_DIR$/assets/www/js/thresholdAlert.js" />
         <option value="$PROJECT_DIR$/assets/www/wifi.html" />
+        <option value="$PROJECT_DIR$/assets/www/index.html" />
+        <option value="$PROJECT_DIR$/assets/www/ui.html" />
+        <option value="$PROJECT_DIR$/assets/www/thresholdSettings.html" />
       </list>
     </option>
   </component>
@@ -2448,14 +2448,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/www/settings.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.125">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/www/plugins/de.tum.in.cordova/www/MqttPlugin.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2472,42 +2464,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/www/thresholdSettings.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.166667">
-          <caret line="54" column="28" selection-start-line="54" selection-start-column="28" selection-end-line="54" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/www/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-34.041668">
-          <caret line="93" column="37" selection-start-line="93" selection-start-column="37" selection-end-line="93" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/www/ui.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.875">
-          <caret line="146" column="21" selection-start-line="146" selection-start-column="21" selection-end-line="146" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/www/js/thresholdAlert.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="20" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
+          <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/www/wifi.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40697673">
-          <caret line="162" column="0" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+        <state vertical-scroll-proportion="-1.372549">
+          <caret line="157" column="8" selection-start-line="157" selection-start-column="8" selection-end-line="157" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/www/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="22.208334">
+          <caret line="131" column="26" selection-start-line="131" selection-start-column="26" selection-end-line="131" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/www/ui.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.4166667">
+          <caret line="167" column="58" selection-start-line="167" selection-start-column="58" selection-end-line="167" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/www/settings.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="27.5">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/www/thresholdSettings.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32822758">
+          <caret line="31" column="125" selection-start-line="31" selection-start-column="125" selection-end-line="31" selection-end-column="125" />
           <folding />
         </state>
       </provider>

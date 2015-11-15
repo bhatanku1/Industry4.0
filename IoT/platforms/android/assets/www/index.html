@@ -54,7 +54,7 @@
 	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
 
 	    db.transaction(function(tx) {
-            tx.executeSql('DROP TABLE IF EXISTS threshold_table');
+            //tx.executeSql('DROP TABLE IF EXISTS threshold_table');
             tx.executeSql('CREATE TABLE IF NOT EXISTS threshold_table (id integer primary key, threshX text, threshY text, threshZ text)');
 
             // demonstrate PRAGMA:
@@ -129,7 +129,7 @@
                         userName = res.rows.item(i).user_Name
                         password = res.rows.item(i).pwd
                         //alert(res.rows.item(i).host);
-                        alert(port);
+                        //alert(port);
                         //alert(clientId);
                         //alert(userName);
                         //alert(password);
