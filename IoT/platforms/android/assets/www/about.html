@@ -7,14 +7,6 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.blockUI.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript"
-            src="https://www.google.com/jsapi?autoload={
-            'modules':[{
-              'name':'visualization',
-              'version':'1',
-              'packages':['corechart']
-            }]
-          }"></script>
     <script type="text/javascript" src="cordova_plugins.js"></script>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -26,8 +18,8 @@
 <body>
 <div class="bar bar-header bar-dark">
 
-    <a href = "ui.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
-    <h1 class="title">Settings</h1>
+    <a href = "mainsettings.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
+    <h1 class="title">About</h1>
     <a class="button button-right button-clear button-light ion-home" href = "ui.html"></a>
     <!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
 
@@ -36,22 +28,22 @@
 <br>
 <br>
 
-<div class="list">
-
-    <a href="settings.html" class="item item-icon-left">
-        <i class="icon ion-settings"></i>
-        MQTT Settings
-    </a>
-
-    <a href="thresholdSettings.html" class="item item-icon-left">
-        <i class="icon ion-arrow-graph-up-right"></i>
-        Threshold
-    </a>
-
-    <a href="about.html" class="item item-icon-left">
-        <i class="icon ion-help"></i>
-        About
-    </a>
+<div class="card">
+    <div class="item item-divider bar bar-header bar-dark">
+        Software Information
+    </div>
+    <div class="item item-icon-left item-text-wrap">
+        <h2>Industrial Automation 4.0</h2>
+        <p id="swInfo"></p>
+    </div>
+    <div class="item item-icon-left item-text-wrap">
+        <h2>Version</h2>
+        <p id="versionInfo">1.0</p>
+    </div>
+    <div class="item item-icon-left item-text-wrap">
+        <h2>Developed by</h2>
+        <p id="developerInfo"></p>
+    </div>
 
 </div>
 

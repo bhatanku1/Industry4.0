@@ -4,22 +4,11 @@
 
 <head>
 
-    <script src="js/jquery-1.11.3.min.js"></script>
-    <script src="js/jquery.blockUI.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript"
-            src="https://www.google.com/jsapi?autoload={
-            'modules':[{
-              'name':'visualization',
-              'version':'1',
-              'packages':['corechart']
-            }]
-          }"></script>
     <script type="text/javascript" src="cordova_plugins.js"></script>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/opcua.css">
-    <script type="text/javascript" src="js/mqttws31.js"></script>
 
 </head>
 
@@ -37,7 +26,7 @@
 
     <a href = "ui.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
     <h1 class="title">OPCUA Devices</h1>
-    <a class="button button-right button-clear button-light ion-gear-a" href = "settings.html"></a>
+    <a class="button button-right button-clear button-light ion-home" href = "ui.html"></a>
     <!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
 
 </div>
@@ -48,7 +37,7 @@
 
 <div id="opcua_start">
     <a>
-        <button id = "btn_start" class="button button-clear button-dark ion-power" onclick="opcuastart()">
+        <button id = "btn_start" class="button button-dark ion-power" onclick="opcuastart()">
             Start
         </button>
     </a>
@@ -56,7 +45,7 @@
 
 <div id="opcua_stop">
     <a>
-        <button id = "btn_stop" class="button button-clear button-dark ion-android-hand" onclick="opcuastop()">
+        <button id = "btn_stop" class="button button-dark ion-android-hand" onclick="opcuastop()">
             Stop
         </button>
     </a>
@@ -91,7 +80,21 @@
     </div>
 </div>
 
+<script>
 
+function opcuastart() {
+
+    alert("its ON!!!!");
+
+}
+
+function opcuastop() {
+
+    alert("Buzz OFF!!!!");
+
+}
+
+</script>
 
 </body>
 </html>
