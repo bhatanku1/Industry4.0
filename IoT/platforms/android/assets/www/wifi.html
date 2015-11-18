@@ -46,7 +46,9 @@
 		</button>
 	</a>
 </div>
-
+<button id = "btn_sub" class="button  button-clear button-dark ion-compose" onclick="subscribe()">
+	Subscribe
+</button>
 <div id="wifi_stop">
 	<a>
 		<button id = "btn_stop" class="button button-clear button-dark ion-android-hand" onclick="stop()">
@@ -153,13 +155,17 @@
         chart.draw(data, options);
     }
 
+	function subscribe() {
+				alert("in subscribe");
+				MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
 
+	}
 	function start() {
-		MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
-	    MqttPlugin.publish({
+		MqttPlugin.publish({
 		    topic:"$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/EXEC/start",
 			data:"Mqtt data"
 		});
+
 	}
 
 	function stop() {

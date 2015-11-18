@@ -1,7 +1,7 @@
     graphUpdate(currentForceX, currentForceY, currentForceZ);
 
     function graphUpdate(currentForceX, currentForceY, currentForceZ) {
-
+        //alert("in graph"+ currentForceX + currentForceY + currentForceZ);
         data = google.visualization.arrayToDataTable([
             ['time', 'Force X', 'Force Y', 'Force Z'],
             ['-21 sec', i1, i2, i3],

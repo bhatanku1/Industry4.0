@@ -2,6 +2,11 @@ var forceXAlert = 0;
 var forceYAlert = 0;
 var forceZAlert = 0;
 
+
+/*var replaceAll = function(str, target, replacement) {
+  return str.split(target).join(replacement);
+};*/
+
 function thresholdAlert(forceX, forceY, forceZ) {
 
     if (forceX > thresholdX) {

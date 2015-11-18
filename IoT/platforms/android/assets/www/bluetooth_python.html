@@ -25,7 +25,6 @@
     <script type="text/javascript" src="js/thresholdAlert.js"></script>
 
 </head>
-
 <style>
     div.graph {
     position: absolute;
@@ -34,7 +33,8 @@
     <!--border: 3px solid #bbbbbb;-->
     }
 </style>
-<body onload="threshold()">
+
+<body onload="allFunction()">
 
 <div class="bar bar-header bar-dark">
 
@@ -159,7 +159,7 @@
 	var o3 = 0;
 
 	var chart = null;
-
+	var clientPublish = null;
 	google.setOnLoadCallback(drawChart);
 	function drawChart() {
         data = google.visualization.arrayToDataTable([
@@ -182,21 +182,34 @@
         chart.draw(data, options);
     }
 
+	function allFunction() {
+		threshold();
+		connect();
+		//publish();
+		//$.fn.gotof();
+		//subscribe();
+	}
     function connect() {
+
 	    clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
 		clientPublish.connect({
 		    onSuccess : onConnect
 		});
 	    function onConnect() {
+	    	publish(subscribe);
 	    }
 	}
+	function milling_stop() {
+		clientPublish.unsubscribe("$EDC/tum/BLUETOOTH-V1/00:1A:7D:DA:71:15/data");
 
-    function publish() {
+   	 }
+    function publish(callback) {
     	MqttPlugin.publish({
 			topic:"$EDC/tum/B8:27:EB:A6:A9:8A/PY-MILLING-V1/EXEC/start",
 			data:"Mqtt data"
 		});
 		alert("published");
+		callback();
 	}
 
 	function startMillingMachine() {
@@ -206,6 +219,7 @@
 	}
 
 	function subscribe() {
+
 		alert("in subscribe");
 		clientPublish.onMessageArrived = onMessageArrived;
 		TopicToSubscribe = "$EDC/tum/BLUETOOTH-V1/00:1A:7D:DA:71:15/data";
@@ -223,7 +237,7 @@
 		function onConnectionLost(responseObject) {
 			if (responseObject.errorCode !== 0) {
 				console.log("onConnectionLost:" + responseObject.errorMessage);
-				//setTimeout(function() { clientPublish.connect() }, 5000);
+				setTimeout(function() { clientPublish.connect() }, 5000);
 			}
 		}
 
@@ -231,10 +245,12 @@
 		function onMessageArrived(message) {
 
 			//res = message.payloadString.
+			//alert("bluetooth_html" + message.payloadString);
 			parseSubscribedMessage(message.payloadString);
-			//currentForce = parseInt(message.payloadString);
+
+			currentForce = parseInt(message.payloadString);
 			//graphUpdate();
-	        //document.getElementById("bluetoothData").innerHTML = message.payloadString;
+	        //document.getElementById("forceX").innerHTML = message.payloadString;
 		}
 
 	}
