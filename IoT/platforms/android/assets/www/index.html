@@ -173,6 +173,7 @@
 				//MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
 				//a = MqttPlugin.heartbeat({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/HEARTBEAT-V1/mqtt/heartbeat"});
 
+
 			}
 
 			function InitFunc() {
@@ -183,7 +184,14 @@
 
 			}
 
+            function checkTimeOut() {
+                alert("in check time out");
+                if (document.getElementById("pi_status").innerHTML == "Connecting to Raspberry Pi. Please Wait.") {
+                    alert("Check your internet connection or MQTT settings");
+                    window.location.href = "settings_for_first_page.html";
+                }
 
+            }
             function construct() {
 
                 //document.addEventListener("deviceready", onDeviceReady, false);
@@ -192,6 +200,7 @@
                 setTimeout(InitFunc, 2500);
                 setTimeout(SetMQTT, 2500);
                 setTimeout(heartbeat, 3500);
+                setTimeout(checkTimeOut, 30000);
                 //setTimeout(kill, 3000);
 
             }

@@ -24,7 +24,8 @@
 	<script type="text/javascript" src="js/thresholdAlert.js"></script>
 
 </head>
-<body onload="threshold()">
+<body onload="threshold(subscribe)">
+
 
 <div class="bar bar-header bar-dark">
 
@@ -35,34 +36,13 @@
 
 </div>
 
-<br>
-<br>
-<br>
 
-<div id="wifi_start">
-	<a>
-		<button id = "btn_start" class="button button-clear button-dark ion-power" onclick="start()">
-			Start
-		</button>
-	</a>
-</div>
-<button id = "btn_sub" class="button  button-clear button-dark ion-compose" onclick="subscribe()">
-	Subscribe
-</button>
-<div id="wifi_stop">
-	<a>
-		<button id = "btn_stop" class="button button-clear button-dark ion-android-hand" onclick="stop()">
-			Stop
-		</button>
-	</a>
-</div>
-
-<br>
 <!--<h3 id="fHeader"></h3><br>
 <p id = "test"></p>
 <p id="sub"></p>
 </div>-->
-
+<br>
+<br>
 <div id="wifi_list" class="card">
 	<div class="item item-divider bar bar-header bar-dark">
 		Real Time Data
@@ -156,15 +136,22 @@
     }
 
 	function subscribe() {
-				alert("in subscribe");
+				//alert("in subscribe");
 				MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
 
 	}
 	function start() {
+
+		//alert("in start");
+
 		MqttPlugin.publish({
 		    topic:"$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/EXEC/start",
 			data:"Mqtt data"
 		});
+
+		//alert("in subscribe");
+				MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
+		//alert("after subscribe");
 
 	}
 
@@ -218,9 +205,14 @@
         });
     }
 
-
-	function threshold() {
+	function allFunction(){
+		//alert("in allFunction");
+		threshold();
+	}
+	function threshold(callback) {
+		//alert("in threshold");
         document.addEventListener("deviceready", onDeviceReady, false);
+       callback();
     }
 
 

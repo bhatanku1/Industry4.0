@@ -78,7 +78,7 @@ MqttPlugin.prototype.subscribe = function(aString){
     "MqttPlugin",
     "subscribe",
     [aString.topic]);
-    alert("kuchbhi");
+    //alert("kuchbhi");
     //document.getElementById("test").innerHTML = "Mqtt Sub got the value from the topic";
 };
 MqttPlugin.prototype.heartbeat = function(aString){
