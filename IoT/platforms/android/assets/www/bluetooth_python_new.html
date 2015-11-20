@@ -5,79 +5,82 @@
 <head>
 
 	<script type="text/javascript" src="cordova.js"></script>
-	<script type="text/javascript" src="cordova_plugins.js"></script>
+    <script type="text/javascript" src="cordova_plugins.js"></script>
 	<link href="lib/ionic/css/ionic.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="css/wifi.css">
+	<link rel="stylesheet" type="text/css" href="css/bluetooth.css">
 	<script type="text/javascript" src="js/canvasjs.min.js"></script>
-	<script type="text/javascript" src="js/mqttws31.js"></script>
-	<script type="text/javascript" src="js/graphgenerator.js"></script>
-	<script type="text/javascript" src="js/thresholdAlert.js"></script>
+    <script type="text/javascript" src="js/mqttws31.js"></script>
+	<script type="text/javascript" src="js/parseString.js"></script>
+    <script type="text/javascript" src="js/graphgenerator.js"></script>
+    <script type="text/javascript" src="js/thresholdAlert.js"></script>
 
 </head>
-
 <style>
-	.commonGraph {
-	position: absolute;
+    .commonGraph {
+    position: absolute;
 	top: 55%;
-	left: 10px;
-	}
+    left: 10px;
+    }
 </style>
 
-<body onload="threshold(subscribe)">
-
+<body onload="allFunction()">
 
 <div class="bar bar-header bar-dark">
 
 	<a href = "ui.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
-	<h1 class="title">WiFi Devices</h1>
+	<h1 class="title">Bluetooth Devices</h1>
 	<a class="button button-right button-clear button-light ion-home" href = "ui.html"></a>
 	<!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
 
 </div>
 
+<br>
+<br>
 
-<!--<h3 id="fHeader"></h3><br>
-<p id = "test"></p>
-<p id="sub"></p>
-</div>-->
-<br>
-<br>
-<div id="wifi_list" class="card">
+<div id="bluetooth_list" class="card">
 	<div class="item item-divider bar bar-header bar-dark">
 		Real Time Data
 	</div>
-	<div class="item item-stable item-text-wrap">
-		<i class="icon ion-stats-bars" onclick="updateGraphX()"></i>
-		<p id="forceX">Force X: 0 N
-		</p>
+	<div class="item item-text-wrap">
+		<i class="icon icon-stable ion-stats-bars" onclick="updateGraphX()"></i>
+		<p id="forceX">Force X: 0 N</p>
 		<span id="xAlert" class="badge badge-assertive"></span>
 	</div>
 
-	<div class="item item-stable item-text-wrap">
-		<i class="icon ion-stats-bars" onclick="updateGraphY()"></i>
+	<div class="item item-text-wrap">
+		<i class="icon icon-stable ion-stats-bars" onclick="updateGraphY()"></i>
 		<p id="forceY">Force Y: 0 N</p>
 		<span id="yAlert" class="badge badge-balanced"></span>
 	</div>
 
-	<div class="item item-stable item-text-wrap">
-		<i class="icon ion-stats-bars" onclick="updateGraphZ()"></i>
+	<div class="item item-text-wrap">
+		<i class="icon icon-stable ion-stats-bars" onclick="updateGraphZ()"></i>
 		<p id="forceZ">Force Z: 0 N</p>
 		<span id="zAlert" class="badge badge-positive"></span>
 	</div>
 </div>
 
+
+
+
+<!--
+<h3 id="fHeader"></h3><br>
+<p id = "bluetoothData"></p>
+<p id="sub"></p>
+ -->
 <div class="commonGraph" id="chartContainerX" style="width:90%; height:200px"></div>
 <div class="commonGraph" id="chartContainerY" style="width:90%; height:200px"></div>
 <div class="commonGraph" id="chartContainerZ" style="width:90%; height:200px"></div>
 
+
 <div class="tabs-striped tabs-background-dark tabs-color-light">
 	<div class="tabs">
-		<a class="tab-item active" href="wifi.html">
+		<a class="tab-item" href="wifi.html">
 			<i class="icon ion-wifi"></i>
 			Wifi
 		</a>
-		<a class="tab-item" href="bluetooth_python_new.html">
+		<a class="tab-item active" href="bluetooth_python_new.html">
 			<i class="icon ion-bluetooth"></i>
 			Bluetooth
 		</a>
@@ -90,35 +93,88 @@
 
 <script>
 
-	var currentForce = 0;
+    var currentForce = 0;
+
+	var chartX = null;
+	var chartY = null;
+	var chartZ = null;
+
+	var clientPublish = null;
+
+	function allFunction() {
+		threshold();
+		connect();
+		graphInitial();
+		//publish();
+		//$.fn.gotof();
+		//subscribe();
+	}
+    function connect() {
+
+	    clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
+		clientPublish.connect({
+		    onSuccess : onConnect
+		});
+	    function onConnect() {
+	    	publish(subscribe);
+	    }
+	}
+	function milling_stop() {
+		clientPublish.unsubscribe("$EDC/tum/BLUETOOTH-V1/00:1A:7D:DA:71:15/data");
+
+   	 }
+    function publish(callback) {
+    	MqttPlugin.publish({
+			topic:"$EDC/tum/B8:27:EB:A6:A9:8A/PY-MILLING-V1/EXEC/start",
+			data:"Mqtt data"
+		});
+		//alert("published");
+		callback();
+	}
+
+	function startMillingMachine() {
+	    connect();
+        publish();
+		$.fn.gotof();
+	}
 
 	function subscribe() {
-				//alert("in subscribe");
-				MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
-				graphInitial();
-
-	}
-	function start() {
-
-		//alert("in start");
-
-		MqttPlugin.publish({
-		    topic:"$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/EXEC/start",
-			data:"Mqtt data"
-		});
 
 		//alert("in subscribe");
-				MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
-		//alert("after subscribe");
+		clientPublish.onMessageArrived = onMessageArrived;
+		TopicToSubscribe = "$EDC/tum/BLUETOOTH-V1/00:1A:7D:DA:71:15/data";
+		// Once a connection has been made, make a subscription and send a message.
+		clientPublish.subscribe(TopicToSubscribe);
+		//alert("successfuly subscribed to the get the force values");
+
+		function onConnect() {
+			// Once a connection has been made, make a subscription and send a message.
+			clientPublish.subscribe(TopicToSubscribe);
+			//alert("successfuly subscribed to the get the force values");
+		}
+
+		// called when the client loses its connection
+		function onConnectionLost(responseObject) {
+			if (responseObject.errorCode !== 0) {
+				console.log("onConnectionLost:" + responseObject.errorMessage);
+				setTimeout(function() { clientPublish.connect() }, 5000);
+			}
+		}
+
+		// called when a message arrives
+		function onMessageArrived(message) {
+
+			//res = message.payloadString.
+			//alert("bluetooth_html" + message.payloadString);
+			parseSubscribedMessage(message.payloadString);
+
+			currentForce = parseInt(message.payloadString);
+			//graphUpdate();
+	        //document.getElementById("forceX").innerHTML = message.payloadString;
+		}
 
 	}
 
-	function stop() {
-		MqttPlugin.publish({
-			topic:"$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/EXEC/stop",
-			data:"Mqtt data"
-		});
-	}
 
 	function onDeviceReady() {
 	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
@@ -163,29 +219,23 @@
         });
     }
 
-	function allFunction(){
-		//alert("in allFunction");
-		threshold();
-		graphInitial();
-	}
 
-	function threshold(callback) {
-		//alert("in threshold");
+	function threshold() {
         document.addEventListener("deviceready", onDeviceReady, false);
-       callback();
     }
 
-	var graphInitial= function () {
+    var graphInitial= function () {
+
 
      	 chartX = new CanvasJS.Chart("chartContainerX", {
-			zoomEnabled: true,
+     		zoomEnabled: true,
      		title: {
-			    text: "Force X"
-		    },
+			text: "Force X"
+		},
 		data: [
 		{
+			color: "red",
 			type: "spline",
-     		color: "red",
 			dataPoints: [
 				{ y: 10 },
 				{ y:  4 },
@@ -228,7 +278,7 @@
 		},
 		data: [
 		{
-		    color: "blue",
+			color: "blue",
 			type: "spline",
 			dataPoints: [
 				{ y: 100 },
@@ -272,5 +322,4 @@
 </script>
 
 </body>
-
 </html>

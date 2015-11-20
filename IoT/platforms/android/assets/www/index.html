@@ -185,7 +185,7 @@
 			}
 
             function checkTimeOut() {
-                alert("in check time out");
+                //alert("in check time out");
                 if (document.getElementById("pi_status").innerHTML == "Connecting to Raspberry Pi. Please Wait.") {
                     alert("Check your internet connection or MQTT settings");
                     window.location.href = "settings_for_first_page.html";
@@ -210,7 +210,7 @@
         //for( var i=0; i < 5; i++ )
         //randomClient += possible.charAt(Math.floor(Math.random() * possible.length));
         randomClient = Math.random().toString(36).substring(7);
-        alert(randomClient);
+        //alert(randomClient);
 	}
 
 </script>
@@ -219,7 +219,7 @@
 <div id="start">
     <!-- <a href="ui.html"><button id = "bluetooth_ui_btn" class="button button-positive ion-ionic"  disabled></button></a> -->
     <!-- <a href="ui.html"><button id="start_ui_btn" class="button button-clear button-large ion-unlocked" disabled></button></a> -->
-    <a href="ui.html" class="button button-clear button-assertive button-large ion-locked" ></a>
+    <a href="ui.html" class="button button-clear button-assertive button-large ion-locked" disabled></a>
 </div>
 <div id ="status_ui">
     <p id ="pi_status"> Initializing connection with the Broker....</p>

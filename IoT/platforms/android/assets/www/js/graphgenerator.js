@@ -1,6 +1,6 @@
-    graphUpdate(currentForceX, currentForceY, currentForceZ);
+    //graphUpdate(currentForceX, currentForceY, currentForceZ);
 
-    function graphUpdate(currentForceX, currentForceY, currentForceZ) {
+    /*function graphUpdate(currentForceX, currentForceY, currentForceZ) {
         //alert("in graph"+ currentForceX + currentForceY + currentForceZ);
         data = google.visualization.arrayToDataTable([
             ['time', 'Force X', 'Force Y', 'Force Z'],
@@ -43,6 +43,20 @@
       	m3 = n3;
       	n3 = o3;
       	o3 = currentForceZ;
+    }
+    */
+
+    function graphUpdate(currentForceX, currentForceY, currentForceZ) {
+
+        chartX.options.data[0].dataPoints.push({ y: currentForceX});
+        chartX.render();
+
+        chartY.options.data[0].dataPoints.push({ y: currentForceY});
+        chartY.render();
+
+        chartZ.options.data[0].dataPoints.push({ y: currentForceZ});
+        chartZ.render();
+
     }
 
 

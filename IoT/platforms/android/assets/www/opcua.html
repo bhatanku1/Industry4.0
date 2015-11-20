@@ -3,98 +3,93 @@
 <meta charset="UTF-8">
 
 <head>
+	<script type="text/javascript" src="js/mqttws31.js"></script>
 
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="cordova_plugins.js"></script>
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/opcua.css">
+
 
 </head>
+<body onload="allFunction()">
 
-<style>
-    div.graph {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    <!--border: 3px solid #bbbbbb;-->
-    }
-</style>
-<body>
 
-<div class="bar bar-header bar-dark">
-
-    <a href = "ui.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
-    <h1 class="title">OPCUA Devices</h1>
-    <a class="button button-right button-clear button-light ion-home" href = "ui.html"></a>
-    <!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
-
-</div>
 
 <br>
-<br>
-<br>
-
-<div id="opcua_start">
-    <a>
-        <button id = "btn_start" class="button button-dark ion-power" onclick="opcuastart()">
-            Start
-        </button>
-    </a>
-</div>
-
-<div id="opcua_stop">
-    <a>
-        <button id = "btn_stop" class="button button-dark ion-android-hand" onclick="opcuastop()">
-            Stop
-        </button>
-    </a>
-</div>
+<button onclick="publish('on')">
+	On
+</button>
+<button onclick="publish('off')">
+	Off
+</button>
 
 <br>
 
 
-<!--
-<h3 id="fHeader"></h3><br>
-<p id = "bluetoothData"></p>
+<br>
 <p id="sub"></p>
- -->
-
-<div class = "graph", id="curve_chart" style="width: 340px; height: 200px">
-</div>
-
-<div class="tabs-striped tabs-background-dark tabs-color-light">
-    <div class="tabs">
-        <a class="tab-item" href="wifi.html">
-            <i class="icon ion-wifi"></i>
-            Wifi
-        </a>
-        <a class="tab-item" href="bluetooth_python.html">
-            <i class="icon ion-bluetooth"></i>
-            Bluetooth
-        </a>
-        <a class="tab-item active" href="#">
-            <i class="icon ion-shuffle"></i>
-            OPCUA
-        </a>
-    </div>
-</div>
-
 <script>
+			function allFunction() {
+				connect(subscribe);
 
-function opcuastart() {
+			}
+			function publish(val) {
+				message = new Paho.MQTT.Message(val);
+				message.destinationName = "tum/led";
+				clientPublish.send(message);
 
-    alert("its ON!!!!");
+			}
+			function connect(callback) {
+				clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
 
-}
+				clientPublish.connect({
 
-function opcuastop() {
+					onSuccess : onConnect
+				});
+				function onConnect() {
+					console.log("connection successful");
+					callback();
+				}
 
-    alert("Buzz OFF!!!!");
+			}
 
-}
 
-</script>
 
+			function subscribe() {
+
+				clientPublish.onMessageArrived = onMessageArrived;
+				console.log("crossed arrrival");
+				console.log("Trying to subscribe");
+				clientPublish.subscribe("tum/led/status");
+				console.log("successfuly subscribed to the topic");
+				function onConnect() {
+					console.log("Trying to subscribe");
+					clientPublish.subscribe("tum/led/status");
+					console.log("successfuly subscribed to the topic");
+				}
+
+				// called when the client loses its connection
+				function onConnectionLost(responseObject) {
+					if (responseObject.errorCode !== 0) {
+						console.log("onConnectionLost:" + responseObject.errorMessage);
+						//setTimeout(function() { clientSubcribe.connect() }, 5000);
+					}
+				}
+
+				// called when a message arrives
+				function onMessageArrived(message) {
+					console.log("message is received" + message.payloadString);
+
+					if (message.payloadString == "on"){
+						alert("it is on");
+
+					}
+					else{
+						alert("it is off");
+					}
+					document.getElementById("sub").innerHTML = message.payloadString;
+
+
+				}
+
+			}
+		</script>
 </body>
 </html>

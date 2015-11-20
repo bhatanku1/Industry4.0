@@ -93,7 +93,7 @@
             <i class="icon ion-wifi"></i>
             Wifi
         </a>
-        <a class="tab-item" href="bluetooth_python.html">
+        <a class="tab-item" href="bluetooth_python_new.html">
             <i class="icon ion-bluetooth"></i>
             Bluetooth
         </a>
@@ -141,10 +141,8 @@
 <script>
 
     var randomClient = "";
-    var len1 = 0;
     function onDeviceReady() {
-        //alert("len2");
-	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
+        var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
         db.transaction(function(tx) {
 
             // demonstrate PRAGMA:
@@ -156,19 +154,12 @@
 
                 tx.executeSql("select * from test_table;", [], function(tx, res) {
                     var len = res.rows.length;
-                    //alert(len);
                     for (var i=0; i<len; i++) {
-                        var newParagraph = document.createElement('p');
-                        newParagraph.textContent = res.rows.item(i).host;
-                        //document.getElementById("clist").appendChild(newParagraph);
                         document.getElementById("hostInfo").innerHTML = res.rows.item(i).host
                         document.getElementById("portInfo").innerHTML = res.rows.item(i).port
                         document.getElementById("clientInfo").innerHTML = res.rows.item(i).client_Id
                         document.getElementById("userInfo").innerHTML = res.rows.item(i).user_Name
-                        //alert( res.rows.item(i).client_Id);
                     }
-                    //alert("res.rows.length: " + res.rows.length + " -- should be 1");
-                    //alert("res.rows.item(0) " + res.rows.item(0).data + " -- should be 1");
                 });
             });
 

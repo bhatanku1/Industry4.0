@@ -7,14 +7,6 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.blockUI.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript"
-            src="https://www.google.com/jsapi?autoload={
-            'modules':[{
-              'name':'visualization',
-              'version':'1',
-              'packages':['corechart']
-            }]
-          }"></script>
     <script type="text/javascript" src="cordova_plugins.js"></script>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -90,7 +82,7 @@
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE test_table SET host=? where id=1;", [hostName], function(tx, res) {
                 len1 = res.rows.length;
-                alert(hostName);
+                //alert(hostName);
                 });
             },
             function() {
@@ -114,7 +106,7 @@
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE test_table SET port=? where id=1;", [portNumber], function(tx, res) {
                 len1 = res.rows.length;
-                alert(portNumber);
+                //alert(portNumber);
                 });
             },
             function() {
@@ -138,7 +130,7 @@
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE test_table SET client_Id=? where id=1;", [clientId], function(tx, res) {
                 len1 = res.rows.length;
-                alert(clientId);
+                //alert(clientId);
                 });
             },
             function() {
@@ -162,7 +154,7 @@
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE test_table SET user_Name=? where id=1;", [userName], function(tx, res) {
                 len1 = res.rows.length;
-                alert(userName);
+                //alert(userName);
                 });
             },
             function() {
@@ -182,7 +174,7 @@
 
         var password1=prompt("Please enter the new password","");
         if (password1=="") {
-            alert("You must type in a password");
+            //alert("You must type in a password");
             exit();
         };
         password2=prompt("Please confirm the new password","");
@@ -196,7 +188,6 @@
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE test_table SET pwd=? where id=1;", [password1], function(tx, res) {
                 len1 = res.rows.length;
-                alert(password1);
                 });
             },
             function() {
@@ -212,7 +203,7 @@
         }
         else {
 
-            alert("Passwords donot match. Please try again.");
+            alert("Passwords do not match. Please try again.");
             exit();
         };
     }

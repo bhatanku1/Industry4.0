@@ -26,6 +26,7 @@
 <body>
 <div class="bar bar-header bar-dark">
 
+    <a href = "index.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
     <h1 class="title">MQTT Settings</h1>
     <!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
 
@@ -39,27 +40,27 @@
 
     <a href="#" class="item item-icon-left">
         <i class="icon ion-cloud" onclick="updateHost()"></i>
-        Enter host address
+        Enter Host Address
     </a>
 
     <a href="#" class="item item-icon-left">
         <i class="icon ion-usb" onclick="updatePort()"></i>
-        Enter port number
+        Enter Port Number
     </a>
 
     <a href="#" class="item item-icon-left">
         <i class="icon ion-android-person" onclick="updateClient()"></i>
-        Enter client id
+        Enter Client Id
     </a>
 
     <a href="#" class="item item-icon-left">
         <i class="icon ion-email" onclick="updateUser()"></i>
-        Enter username
+        Enter Username
     </a>
 
     <a href="#" class="item item-icon-left">
         <i class="icon ion-key" onclick="updatePassword()"></i>
-        Enter password
+        Enter Password
     </a>
 
 </div>
@@ -88,7 +89,7 @@
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE test_table SET host=? where id=1;", [hostName], function(tx, res) {
                 len1 = res.rows.length;
-                alert(hostName);
+                //alert(hostName);
                 });
             },
             function() {
@@ -112,7 +113,7 @@
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE test_table SET port=? where id=1;", [portNumber], function(tx, res) {
                 len1 = res.rows.length;
-                alert(portNumber);
+                //alert(portNumber);
                 });
             },
             function() {
@@ -136,7 +137,7 @@
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE test_table SET client_Id=? where id=1;", [clientId], function(tx, res) {
                 len1 = res.rows.length;
-                alert(clientId);
+                //alert(clientId);
                 });
             },
             function() {
@@ -160,7 +161,7 @@
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE test_table SET user_Name=? where id=1;", [userName], function(tx, res) {
                 len1 = res.rows.length;
-                alert(userName);
+                //alert(userName);
                 });
             },
             function() {
@@ -194,7 +195,7 @@
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE test_table SET pwd=? where id=1;", [password1], function(tx, res) {
                 len1 = res.rows.length;
-                alert(password1);
+                //alert(password1);
                 });
             },
             function() {
@@ -210,7 +211,7 @@
         }
         else {
 
-            alert("Passwords donot match. Please try again.");
+            alert("Passwords do not match. Please try again.");
             exit();
         };
     }

@@ -12,10 +12,12 @@
         <option name="SELECTED_TEST_ARTIFACT" value="_android_test_" />
         <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
         <option name="COMPILE_JAVA_TASK_NAME" value="compileDebugSources" />
-        <option name="SOURCE_GEN_TASK_NAME" value="generateDebugSources" />
         <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleDebugAndroidTest" />
         <option name="COMPILE_JAVA_TEST_TASK_NAME" value="compileDebugAndroidTestSources" />
-        <option name="TEST_SOURCE_GEN_TASK_NAME" value="generateDebugAndroidTestSources" />
+        <afterSyncTasks>
+          <task>generateDebugAndroidTestSources</task>
+          <task>generateDebugSources</task>
+        </afterSyncTasks>
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/res" />
       </configuration>
@@ -81,14 +83,14 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="sqlite-native-driver" level="project" />
     <orderEntry type="library" exported="" name="protobuf-java-2.6.1" level="project" />
-    <orderEntry type="library" exported="" name="slf4j-api-1.7.12" level="project" />
-    <orderEntry type="library" exported="" name="sqlite-connector" level="project" />
+    <orderEntry type="library" exported="" name="sqlite-native-driver" level="project" />
     <orderEntry type="library" exported="" name="mqtt-client-1.10" level="project" />
+    <orderEntry type="library" exported="" name="sqlite-connector" level="project" />
+    <orderEntry type="library" exported="" name="hawtbuf-1.11" level="project" />
+    <orderEntry type="library" exported="" name="slf4j-api-1.7.12" level="project" />
     <orderEntry type="library" exported="" name="hawtdispatch-transport-1.20" level="project" />
     <orderEntry type="library" exported="" name="hawtdispatch-1.20" level="project" />
-    <orderEntry type="library" exported="" name="hawtbuf-1.11" level="project" />
     <orderEntry type="module" module-name="CordovaLib" exported="" />
   </component>
 </module>

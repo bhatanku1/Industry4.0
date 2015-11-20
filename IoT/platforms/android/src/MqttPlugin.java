@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Map;
+import java.util.Objects;
 
 import io.liteglue.SQLitePlugin;
 
@@ -117,10 +118,18 @@ public class MqttPlugin extends CordovaPlugin {
 		this.brokerUrl = (String) args.get(0);
 		this.userName = (String) args.get(3);
 		this.password = (String) args.get(4);
-		this.client = new KuraMQTTClient.Builder()
-				.setHost(this.brokerUrl).setPort(this.port)
-				.setClientId(this.clientID).setUsername(this.userName)
-				.setPassword(this.password).build();
+		if (userName!= null || password!=null) {
+			this.client = new KuraMQTTClient.Builder()
+					.setHost(this.brokerUrl).setPort(this.port)
+					.setClientId(this.clientID).setUsername(this.userName)
+					.setPassword(this.password).build();
+		}
+		else {
+			this.client = new KuraMQTTClient.Builder()
+					.setHost(this.brokerUrl).setPort(this.port)
+					.setClientId(this.clientID).build();
+
+		}
 		this.status = this.client.connect();
 
 	}

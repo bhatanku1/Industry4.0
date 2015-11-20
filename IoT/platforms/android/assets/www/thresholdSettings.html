@@ -7,14 +7,6 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.blockUI.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript"
-            src="https://www.google.com/jsapi?autoload={
-            'modules':[{
-              'name':'visualization',
-              'version':'1',
-              'packages':['corechart']
-            }]
-          }"></script>
     <script type="text/javascript" src="cordova_plugins.js"></script>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -42,19 +34,19 @@
 
     <a href="#" class="item item-icon-left">
         <i class="icon ion-arrow-right-c" onclick="updateThresholdX()"></i>
-        <h2>Enter X-moment threshold</h2>
+        <h2>Enter X-moment Threshold</h2>
         <p id="threshXInfo"></p>
     </a>
 
     <a href="#" class="item item-icon-left">
         <i class="icon ion-arrow-up-c" onclick="updateThresholdY()"></i>
-        <h2>Enter Y-moment threshold</h2>
+        <h2>Enter Y-moment Threshold</h2>
         <p id="threshYInfo"></p>
     </a>
 
     <a href="#" class="item item-icon-left">
         <i class="icon ion-arrow-return-right" onclick="updateThresholdZ()"></i>
-        <h2>Enter Z-moment threshold</h2>
+        <h2>Enter Z-moment Threshold</h2>
         <p id="threshZInfo"></p>
     </a>
 
@@ -119,7 +111,7 @@
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE threshold_table SET threshX=? where id=1;", [thresholdX], function(tx, res) {
                 len1 = res.rows.length;
-                alert(thresholdX);
+                document.getElementById("threshXInfo").innerHTML = thresholdX;
                 });
             },
             function() {
@@ -143,7 +135,7 @@
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE threshold_table SET threshY=? where id=1;", [thresholdY], function(tx, res) {
                 len1 = res.rows.length;
-                alert(thresholdY);
+                document.getElementById("threshYInfo").innerHTML = thresholdY;
                 });
             },
             function() {
@@ -167,7 +159,7 @@
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE threshold_table SET threshZ=? where id=1;", [thresholdZ], function(tx, res) {
                 len1 = res.rows.length;
-                alert(thresholdZ);
+                document.getElementById("threshZInfo").innerHTML = thresholdZ;
                 });
             },
             function() {
