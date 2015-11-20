@@ -62,7 +62,7 @@
     <a href="index.html">
 
         <button class="button button-block button-dark">
-            UPDATE
+            Reconnect
         </button>
 
 
@@ -173,7 +173,7 @@
     function updatePassword(){
 
         var password1=prompt("Please enter the new password","");
-        if (password1=="") {
+        if (password1=="" || password1!=null) {
             //alert("You must type in a password");
             exit();
         };

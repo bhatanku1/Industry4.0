@@ -61,7 +61,7 @@
     <a href="index.html">
 
         <button class="button button-block button-dark">
-            UPDATE
+            Reconnect
         </button>
 
 
@@ -177,7 +177,7 @@
             exit();
         };
 
-        if (password1!="") {
+        if (password1!="" || password1!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE test_table SET pwd=? where id=1;", [password1], function(tx, res) {
