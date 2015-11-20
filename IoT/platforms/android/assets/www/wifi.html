@@ -19,7 +19,7 @@
 <style>
 	.commonGraph {
 	position: absolute;
-	top: 55%;
+	top: 50%;
 	left: 10px;
 	}
 </style>
@@ -47,29 +47,26 @@
 	<div class="item item-divider bar bar-header bar-dark">
 		Real Time Data
 	</div>
-	<div class="item item-stable item-text-wrap">
-		<i class="icon ion-stats-bars" onclick="updateGraphX()"></i>
+	<div class="item item-stable item-text-wrap" onclick="updateGraphX()">
 		<p id="forceX">Force X: 0 N
 		</p>
 		<span id="xAlert" class="badge badge-assertive"></span>
 	</div>
 
-	<div class="item item-stable item-text-wrap">
-		<i class="icon ion-stats-bars" onclick="updateGraphY()"></i>
+	<div class="item item-stable item-text-wrap" onclick="updateGraphY()">
 		<p id="forceY">Force Y: 0 N</p>
 		<span id="yAlert" class="badge badge-balanced"></span>
 	</div>
 
-	<div class="item item-stable item-text-wrap">
-		<i class="icon ion-stats-bars" onclick="updateGraphZ()"></i>
+	<div class="item item-stable item-text-wrap" onclick="updateGraphZ()">
 		<p id="forceZ">Force Z: 0 N</p>
 		<span id="zAlert" class="badge badge-positive"></span>
 	</div>
 </div>
 
-<div class="commonGraph" id="chartContainerX" style="width:90%; height:200px"></div>
-<div class="commonGraph" id="chartContainerY" style="width:90%; height:200px"></div>
-<div class="commonGraph" id="chartContainerZ" style="width:90%; height:200px"></div>
+<div class="commonGraph" id="chartContainerX" style="width:90%; height:230px"></div>
+<div class="commonGraph" id="chartContainerY" style="width:90%; height:230px"></div>
+<div class="commonGraph" id="chartContainerZ" style="width:90%; height:230px"></div>
 
 <div class="tabs-striped tabs-background-dark tabs-color-light">
 	<div class="tabs">
