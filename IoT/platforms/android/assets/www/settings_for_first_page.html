@@ -7,14 +7,6 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.blockUI.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript"
-            src="https://www.google.com/jsapi?autoload={
-            'modules':[{
-              'name':'visualization',
-              'version':'1',
-              'packages':['corechart']
-            }]
-          }"></script>
     <script type="text/javascript" src="cordova_plugins.js"></script>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -83,7 +75,7 @@
 
     function updateHost(){
 
-        var hostName=prompt("Please enter the host name","Host Name");
+        var hostName=prompt("Please enter the host name","");
         if (hostName!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
@@ -184,13 +176,8 @@
             alert("You must type in a password");
             exit();
         };
-        password2=prompt("Please confirm the new password","");
-        if (password2=="") {
-            alert("You must type in a password");
-            exit();
-        };
 
-        if (password1!=null && password2!=null && password1==password2) {
+        if (password1!="") {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
                 tx.executeSql("UPDATE test_table SET pwd=? where id=1;", [password1], function(tx, res) {
@@ -211,7 +198,7 @@
         }
         else {
 
-            alert("Passwords do not match. Please try again.");
+            //alert("Passwords do not match. Please try again.");
             exit();
         };
     }
