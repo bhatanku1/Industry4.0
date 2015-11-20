@@ -43,6 +43,10 @@
 
 <br>
 
+<div id="bulb" style="width: 256px; height: 256px">
+	<img id="bulbid" src="img/bulb-icon.png" alt="" />
+</div>
+
 <div class="tabs-striped tabs-background-dark tabs-color-light">
 	<div class="tabs">
 		<a class="tab-item" href="wifi.html">
@@ -115,14 +119,13 @@
 					console.log("message is received" + message.payloadString);
 
 					if (message.payloadString == "on"){
-						alert("it is on");
+						document.getElementById("bulbid").src = "img/light-bulb-icon.png";
+
 
 					}
 					else{
-						alert("it is off");
+						document.getElementById("bulbid").src = "img/bulb-icon.png";
 					}
-					document.getElementById("sub").innerHTML = message.payloadString;
-
 
 				}
 

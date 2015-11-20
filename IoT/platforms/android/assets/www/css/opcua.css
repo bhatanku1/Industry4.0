@@ -2,6 +2,15 @@
 	float: right;
 }
 
+#bulb{
+	position:absolute;
+	top:40%;
+	left:15%;
+	/*background-color:blue;
+	animation:fade 1500ms infinite;
+    -webkit-animation:fade 1500ms infinite;*/
+}
+
 #opcua_start{
 	text-align : center;
 	position:absolute;
