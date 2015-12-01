@@ -1,4 +1,21 @@
 <!DOCTYPE HTML>
+
+<!-- HTML page for Main screen: contains HTML and JavaScript codes
+     User can be directed to this page either from
+     the Welcome screen,
+     the WiFi screen,
+     the Bluetooth screen,
+     the OPC/UA screen
+     the Settings screen
+
+     User can navigate to
+     the Settings screen,
+     the Welcome screen,
+     the Bluetooth screen,
+     the WiFi screen,
+     the OPC/UA screen
+-->
+
 <meta charset ="UTF-8" />
 <html>
 <head>
@@ -8,20 +25,15 @@
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <script>
-
+        // script to be called when the user presses the back button in the header bar
         var confirmAction = function() {
-
-        var value=confirm("Do you want to leave this page and reconnect?");
-        if (value == true) {
-
-            window.location.href = "index.html";
-
+            var value=confirm("Do you want to leave this page and reconnect?");
+            if (value == true) {
+                window.location.href = "index.html";
             }
         }
 
     </script>
-
-
 </head>
 
 <body>
@@ -29,38 +41,13 @@
     <a><button class="button button-clear button-light ion-android-arrow-back" onclick="confirmAction()"></button></a>
     <h1 class="title">Industry 4.0</h1>
     <a class="button button-clear button-light ion-gear-a" href = "mainsettings.html"></a>
-
-    <!--    <button class="button button-clear button-light"><b>Log Out</b></button> -->
 </div>
 
-<!--
-<div class="tabs-striped tabs-top tabs-background-light tabs-color-dark">
-    <div class="tabs">
+<br>
+<br>
 
-        <a class="tab-item" onclick="genRandom()">
-            <i class="icon ion-home"></i>
-            Home
-        </a>
-
-        <a class="tab-item" onclick="cache()">
-            <i class="icon ion-help"></i>
-            Help
-        </a>
-        <a class="tab-item" href="mainsettings.html">
-            <i class="icon ion-gear-a"></i>
-            Settings
-        </a>
-    </div>
-</div>
+<!-- this list card shows the MQTT connection information
 -->
-
-<br>
-<br>
-
-<!--<div id="MyEdit">
-    This text will change
-</div> -->
-
 <div class="card">
     <div class="item item-divider bar bar-header bar-dark">
         MQTT Connection Information
@@ -88,19 +75,6 @@
 
 </div>
 
-<!--<div id="clist" class="list">
-
-    <div id="MyEdit" class="item item-button-right">
-            field1
-        <button class="button button-positive">
-            <i class="icon ion-ios-telephone"></i>
-        </button>
-    </div>
-
-</div>
--->
-
-
 <div class="tabs-striped tabs-background-dark tabs-color-light">
     <div class="tabs">
         <a class="tab-item" href="wifi.html">
@@ -118,43 +92,13 @@
     </div>
 </div>
 
-<!--
-<div id="wifi">
-    <a>
-        <button id = "wifi_ui_btn" class="button button-clear button-large button-light ion-wifi" >
-            wifi
-        </button>
-    </a>
-</div>
-
-<div id="btooth">
-    <a href = "bluetooth.html">
-        <button id = "bluetooth_ui_btn" class="button button-clear button-large button-light ion-bluetooth">
-            Bltooth
-        </button>
-    </a>
-</div>
-
-<div id="opcua">
-    <a>
-        <button id = "opc_ui_btn" class="button button-clear button-large button-light ion-shuffle">
-            opcua
-        </button>
-    </a>
-</div>
-
-<div id="help">
-    <a>
-        <button class="button button-clear button-large button-light ion-help">
-            Help
-        </button>
-    </a>
-</div>
--->
-
 <script>
 
     var randomClient = "";
+
+    /* This function is called as soon as the screen loads and displays
+       MQTT connection information by reading the values from mqtt_table
+    */
     function onDeviceReady() {
         var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
         db.transaction(function(tx) {
@@ -180,7 +124,6 @@
         },
 
         function() {
-            // OK to close here:
             console.log('transaction ok');
             db.close(function() {
                 console.log('database is closed ok');
@@ -190,16 +133,12 @@
         function(e) {
             console.log("ERROR: " + e.message);
             db.close();
-            //});  pulaMod_fr_14:58
         });
     }
 
 	function cache() {
         document.addEventListener("deviceready", onDeviceReady, false);
     }
-
-
-
 </script>
 
 <body onload="cache()">

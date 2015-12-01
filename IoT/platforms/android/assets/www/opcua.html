@@ -1,4 +1,18 @@
 <!DOCTYPE html>
+
+<!-- HTML page for OPC/UA screen: contains HTML and JavaScript codes
+     User can be directed to this page either from
+     the Main screen,
+     the WiFi screen,
+     the Bluetooth screen
+
+     User can navigate to
+     the Settings screen,
+     the Main screen,
+     the Bluetooth screen,
+     the WiFi screen
+-->
+
 <html>
 <meta charset="UTF-8">
 
@@ -7,16 +21,15 @@
 	<link href="lib/ionic/css/ionic.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/opcua.css">
-
 </head>
+
 <body onload="allFunction()">
 
 <div class="bar bar-header bar-dark">
 
 	<a href = "ui.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
 	<h1 class="title">OPCUA Devices</h1>
-	<a class="button button-right button-clear button-light ion-home" href = "ui.html"></a>
-	<!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
+	<a class="button button-right button-clear button-light ion-gear-a" href = "mainsettings.html"></a>
 
 </div>
 
@@ -67,69 +80,63 @@
 <br>
 <p id="sub"></p>
 <script>
-			function allFunction() {
-				connect(subscribe);
 
+	// Connect as soon as the screen loads
+	function allFunction() {
+		connect(subscribe);
+	}
+
+	function publish(val) {
+		message = new Paho.MQTT.Message(val);
+		message.destinationName = "tum/led";
+		clientPublish.send(message);
+	}
+
+	// Connect to the message broker
+	function connect(callback) {
+		clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
+		clientPublish.connect({
+			onSuccess : onConnect
+		});
+
+		function onConnect() {
+			console.log("connection successful");
+			callback();
+		}
+	}
+
+    // Subscribe to the topic after successful connection
+	function subscribe() {
+		clientPublish.onMessageArrived = onMessageArrived;
+		console.log("crossed arrrival");
+		console.log("Trying to subscribe");
+		clientPublish.subscribe("tum/led/status");
+		console.log("successfuly subscribed to the topic");
+
+		function onConnect() {
+			console.log("Trying to subscribe");
+			clientPublish.subscribe("tum/led/status");
+			console.log("successfuly subscribed to the topic");
+		}
+
+		// called when the client loses its connection
+		function onConnectionLost(responseObject) {
+			if (responseObject.errorCode !== 0) {
+				console.log("onConnectionLost:" + responseObject.errorMessage);
 			}
-			function publish(val) {
-				message = new Paho.MQTT.Message(val);
-				message.destinationName = "tum/led";
-				clientPublish.send(message);
+		}
 
+		// called when a message arrives
+		function onMessageArrived(message) {
+			console.log("message is received" + message.payloadString);
+			if (message.payloadString == "on"){
+				document.getElementById("bulbid").src = "img/light-bulb-icon.png";
 			}
-			function connect(callback) {
-				clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
-
-				clientPublish.connect({
-
-					onSuccess : onConnect
-				});
-				function onConnect() {
-					console.log("connection successful");
-					callback();
-				}
-
+			else{
+				document.getElementById("bulbid").src = "img/bulb-icon.png";
 			}
-
-
-
-			function subscribe() {
-
-				clientPublish.onMessageArrived = onMessageArrived;
-				console.log("crossed arrrival");
-				console.log("Trying to subscribe");
-				clientPublish.subscribe("tum/led/status");
-				console.log("successfuly subscribed to the topic");
-				function onConnect() {
-					console.log("Trying to subscribe");
-					clientPublish.subscribe("tum/led/status");
-					console.log("successfuly subscribed to the topic");
-				}
-
-				// called when the client loses its connection
-				function onConnectionLost(responseObject) {
-					if (responseObject.errorCode !== 0) {
-						console.log("onConnectionLost:" + responseObject.errorMessage);
-						//setTimeout(function() { clientSubcribe.connect() }, 5000);
-					}
-				}
-
-				// called when a message arrives
-				function onMessageArrived(message) {
-					console.log("message is received" + message.payloadString);
-
-					if (message.payloadString == "on"){
-						document.getElementById("bulbid").src = "img/light-bulb-icon.png";
-
-
-					}
-					else{
-						document.getElementById("bulbid").src = "img/bulb-icon.png";
-					}
-
-				}
-
-			}
-		</script>
+		}
+	}
+</script>
 </body>
 </html>

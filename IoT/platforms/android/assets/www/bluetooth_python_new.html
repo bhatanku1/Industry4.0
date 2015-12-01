@@ -1,4 +1,18 @@
 <!DOCTYPE html>
+
+<!-- HTML page for Bluetooth screen: contains HTML and JavaScript codes
+     User can be directed to this page either from
+     the Main screen,
+     the WiFi screen,
+     the OPC/UA screen
+
+     User can navigate to
+     the Settings screen,
+     the Main screen,
+     the OPC/UA screen,
+     the WiFi screen
+-->
+
 <html>
 <meta charset="UTF-8">
 
@@ -16,6 +30,9 @@
     <script type="text/javascript" src="js/thresholdAlert.js"></script>
 
 </head>
+
+<!-- CSS style settings for the graph
+-->
 <style>
     .commonGraph {
     position: absolute;
@@ -30,14 +47,16 @@
 
 	<a href = "ui.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
 	<h1 class="title">Bluetooth Devices</h1>
-	<a class="button button-right button-clear button-light ion-home" href = "ui.html"></a>
-	<!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
+	<a class="button button-right button-clear button-light ion-gear-a" href = "mainsettings.html"></a>
 
 </div>
 
 <br>
 <br>
 
+<!-- Display real time data for three force parameters
+  	and also the notification alert
+-->
 <div id="bluetooth_list" class="card">
 	<div class="item item-divider bar bar-header bar-dark">
 		Real Time Data
@@ -58,14 +77,7 @@
 	</div>
 </div>
 
-
-
-
-<!--
-<h3 id="fHeader"></h3><br>
-<p id = "bluetoothData"></p>
-<p id="sub"></p>
- -->
+<!-- Display the graph -->
 <div class="commonGraph" id="chartContainerX" style="width:90%; height:230px"></div>
 <div class="commonGraph" id="chartContainerY" style="width:90%; height:230px"></div>
 <div class="commonGraph" id="chartContainerZ" style="width:90%; height:230px"></div>
@@ -98,17 +110,16 @@
 
 	var clientPublish = null;
 
+	// Call this function when the screen loads
 	function allFunction() {
 		threshold();
 		connect();
 		graphInitial();
-		//publish();
-		//$.fn.gotof();
-		//subscribe();
 	}
-    function connect() {
 
-	    clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
+    // Connect to the message broker
+    function connect() {
+		clientPublish = new Paho.MQTT.Client("ws://iot.eclipse.org/ws", "myClientId1" + new Date().getTime());
 		clientPublish.connect({
 		    onSuccess : onConnect
 		});
@@ -116,16 +127,17 @@
 	    	publish(subscribe);
 	    }
 	}
+
 	function milling_stop() {
 		clientPublish.unsubscribe("$EDC/tum/BLUETOOTH-V1/00:1A:7D:DA:71:15/data");
 
-   	 }
+   	}
+
     function publish(callback) {
     	MqttPlugin.publish({
 			topic:"$EDC/tum/B8:27:EB:A6:A9:8A/PY-MILLING-V1/EXEC/start",
 			data:"Mqtt data"
 		});
-		//alert("published");
 		callback();
 	}
 
@@ -136,14 +148,10 @@
 	}
 
 	function subscribe() {
-
-		//alert("in subscribe");
 		clientPublish.onMessageArrived = onMessageArrived;
 		TopicToSubscribe = "$EDC/tum/BLUETOOTH-V1/00:1A:7D:DA:71:15/data";
 		// Once a connection has been made, make a subscription and send a message.
 		clientPublish.subscribe(TopicToSubscribe);
-		//alert("successfuly subscribed to the get the force values");
-
 		function onConnect() {
 			// Once a connection has been made, make a subscription and send a message.
 			clientPublish.subscribe(TopicToSubscribe);
@@ -160,19 +168,13 @@
 
 		// called when a message arrives
 		function onMessageArrived(message) {
-
-			//res = message.payloadString.
-			//alert("bluetooth_html" + message.payloadString);
 			parseSubscribedMessage(message.payloadString);
 
 			currentForce = parseInt(message.payloadString);
-			//graphUpdate();
-	        //document.getElementById("forceX").innerHTML = message.payloadString;
 		}
-
 	}
 
-
+	// load the variables with the threshold value to be used later on for the notification alert
 	function onDeviceReady() {
 	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
         db.transaction(function(tx) {
@@ -186,7 +188,6 @@
 
                 tx.executeSql("select * from threshold_table;", [], function(tx, res) {
                     var len = res.rows.length;
-                    //alert(len);
                     for (var i=0; i<len; i++) {
                         //document.getElementById("clist").appendChild(newParagraph);
                         thresholdX = res.rows.item(i).threshX
@@ -209,10 +210,10 @@
             });
         },
 
+		// Error handler
         function(e) {
             console.log("ERROR: " + e.message);
             db.close();
-            //});  pulaMod_fr_14:58
         });
     }
 
@@ -221,75 +222,74 @@
         document.addEventListener("deviceready", onDeviceReady, false);
     }
 
+	// Render a static graph for the force parameters as soon as the screen loads
     var graphInitial= function () {
-
-
      	 chartX = new CanvasJS.Chart("chartContainerX", {
      		zoomEnabled: true,
      		title: {
-			text: "Force X"
-		},
-		data: [
-		{
-			color: "red",
-			type: "spline",
-			dataPoints: [
-				{ y: 10 },
-				{ y:  4 },
-				{ y: 18 },
-				{ y:  8 }
+				text: "Force X"
+			},
+			data: [
+			{
+				color: "red",
+				type: "spline",
+				dataPoints: [
+					{ y: 10 },
+					{ y:  4 },
+					{ y: 18 },
+					{ y:  8 }
+				]
+			}
 			]
-		}
-		]
-	});
+		});
 
-	chartX.render();
+		chartX.render();
 
-
-    chartY = new CanvasJS.Chart("chartContainerY", {
+    	chartY = new CanvasJS.Chart("chartContainerY", {
      		zoomEnabled: true,
      		title: {
-			text: "Force Y"
-		},
-		data: [
-		{
-			color: "green",
-			type: "spline",
-			dataPoints: [
-				{ y: 1 },
-				{ y:  4 },
-				{ y: 18 },
-				{ y:  8 }
+				text: "Force Y"
+			},
+			data: [
+			{
+				color: "green",
+				type: "spline",
+				dataPoints: [
+					{ y: 1 },
+					{ y:  4 },
+					{ y: 18 },
+					{ y:  8 }
+				]
+			}
 			]
-		}
-		]
-	});
+		});
 
 
-	chartY.render();
+		chartY.render();
 
-    chartZ = new CanvasJS.Chart("chartContainerZ", {
+    	chartZ = new CanvasJS.Chart("chartContainerZ", {
      		zoomEnabled: true,
      		title: {
-			text: "Force Z"
-		},
-		data: [
-		{
-			color: "blue",
-			type: "spline",
-			dataPoints: [
-				{ y: 100 },
-				{ y:  4 },
-				{ y: 18 },
-				{ y:  8 }
+				text: "Force Z"
+			},
+			data: [
+			{
+				color: "blue",
+				type: "spline",
+				dataPoints: [
+					{ y: 100 },
+					{ y:  4 },
+					{ y: 18 },
+					{ y:  8 }
+				]
+			}
 			]
-		}
-		]
-	});
+		});
 
-	chartZ.render();
+		chartZ.render();
 	}
 
+	// Render only line chart for Force X when the user clicks the Force X button
 	function updateGraphX() {
 
 	        chartContainerX.style.visibility = 'visible';
@@ -298,7 +298,7 @@
 
 	}
 
-
+	// Render only line chart for Force Y when the user clicks the Force Y button
 	function updateGraphY() {
 
 	        chartContainerX.style.visibility = 'hidden';
@@ -307,7 +307,7 @@
 
 	}
 
-
+	// Render only line chart for Force Z when the user clicks the Force Z button
 	function updateGraphZ() {
 
 	        chartContainerX.style.visibility = 'hidden';

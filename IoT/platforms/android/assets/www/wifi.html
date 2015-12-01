@@ -1,4 +1,18 @@
 <!DOCTYPE html>
+
+<!-- HTML page for WiFi screen: contains HTML and JavaScript codes
+     User can be directed to this page either from
+     the Bluetooth screen,
+     the OPC/UA screen
+     the Main screen
+
+     User can navigate to
+     the Settings screen,
+     the Bluetooth screen,
+     the OPC/UA screen,
+     the Main screen
+-->
+
 <html>
 <meta charset="UTF-8">
 
@@ -16,6 +30,8 @@
 
 </head>
 
+<!-- CSS style settings for the graph
+-->
 <style>
 	.commonGraph {
 	position: absolute;
@@ -26,23 +42,20 @@
 
 <body onload="threshold(subscribe)">
 
-
 <div class="bar bar-header bar-dark">
 
 	<a href = "ui.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
 	<h1 class="title">WiFi Devices</h1>
-	<a class="button button-right button-clear button-light ion-home" href = "ui.html"></a>
-	<!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
+	<a class="button button-right button-clear button-light ion-gear-a" href = "mainsettings.html"></a>
 
 </div>
 
+<br>
+<br>
 
-<!--<h3 id="fHeader"></h3><br>
-<p id = "test"></p>
-<p id="sub"></p>
-</div>-->
-<br>
-<br>
+<!-- Display real time data for three force parameters
+  	and also the notification alert
+-->
 <div id="wifi_list" class="card">
 	<div class="item item-divider bar bar-header bar-dark">
 		Real Time Data
@@ -64,6 +77,7 @@
 	</div>
 </div>
 
+<!-- Display the graph -->
 <div class="commonGraph" id="chartContainerX" style="width:90%; height:230px"></div>
 <div class="commonGraph" id="chartContainerY" style="width:90%; height:230px"></div>
 <div class="commonGraph" id="chartContainerZ" style="width:90%; height:230px"></div>
@@ -90,24 +104,16 @@
 	var currentForce = 0;
 
 	function subscribe() {
-				//alert("in subscribe");
-				MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
-				graphInitial();
-
+		MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
+		graphInitial();
 	}
+
 	function start() {
-
-		//alert("in start");
-
 		MqttPlugin.publish({
 		    topic:"$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/EXEC/start",
 			data:"Mqtt data"
 		});
-
-		//alert("in subscribe");
-				MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
-		//alert("after subscribe");
-
+		MqttPlugin.subscribe({topic: "$EDC/tum/B8:27:EB:A6:A9:8A/SOCKET-V1/data"});
 	}
 
 	function stop() {
@@ -117,6 +123,7 @@
 		});
 	}
 
+	// load the variables with the threshold value to be used later on for the notification alert
 	function onDeviceReady() {
 	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
         db.transaction(function(tx) {
@@ -130,48 +137,41 @@
 
                 tx.executeSql("select * from threshold_table;", [], function(tx, res) {
                     var len = res.rows.length;
-                    //alert(len);
                     for (var i=0; i<len; i++) {
-                        //document.getElementById("clist").appendChild(newParagraph);
                         thresholdX = res.rows.item(i).threshX
                         thresholdY = res.rows.item(i).threshY
                         thresholdZ = res.rows.item(i).threshZ
-                        //alert( res.rows.item(i).client_Id);
                     }
-                    //alert("res.rows.length: " + res.rows.length + " -- should be 1");
-                    //alert("res.rows.item(0) " + res.rows.item(0).data + " -- should be 1");
                 });
             });
 
         },
 
         function() {
-            // OK to close here:
             console.log('transaction ok');
             db.close(function() {
                 console.log('database is closed ok');
             });
         },
 
+		// Error handler
         function(e) {
             console.log("ERROR: " + e.message);
             db.close();
-            //});  pulaMod_fr_14:58
         });
     }
 
 	function allFunction(){
-		//alert("in allFunction");
 		threshold();
 		graphInitial();
 	}
 
 	function threshold(callback) {
-		//alert("in threshold");
-        document.addEventListener("deviceready", onDeviceReady, false);
-       callback();
+		document.addEventListener("deviceready", onDeviceReady, false);
+        callback();
     }
 
+	// Render a static graph for the force parameters as soon as the screen loads
 	var graphInitial= function () {
 
      	 chartX = new CanvasJS.Chart("chartContainerX", {
@@ -179,67 +179,66 @@
      		title: {
 			    text: "Force X"
 		    },
-		data: [
-		{
-			type: "spline",
-     		color: "red",
-			dataPoints: [
-				{ y: 10 },
-				{ y:  4 },
-				{ y: 18 },
-				{ y:  8 }
+			data: [
+			{
+				type: "spline",
+     			color: "red",
+				dataPoints: [
+					{ y: 10 },
+					{ y:  4 },
+					{ y: 18 },
+					{ y:  8 }
+				]
+			}
 			]
-		}
-		]
-	});
+		});
 
-	chartX.render();
+		chartX.render();
 
-
-    chartY = new CanvasJS.Chart("chartContainerY", {
+    	chartY = new CanvasJS.Chart("chartContainerY", {
      		zoomEnabled: true,
      		title: {
-			text: "Force Y"
-		},
-		data: [
-		{
-			color: "green",
-			type: "spline",
-			dataPoints: [
-				{ y: 1 },
-				{ y:  4 },
-				{ y: 18 },
-				{ y:  8 }
+				text: "Force Y"
+			},
+			data: [
+			{
+				color: "green",
+				type: "spline",
+				dataPoints: [
+					{ y: 1 },
+					{ y:  4 },
+					{ y: 18 },
+					{ y:  8 }
+				]
+			}
 			]
-		}
-		]
-	});
+		});
 
+		chartY.render();
 
-	chartY.render();
-
-    chartZ = new CanvasJS.Chart("chartContainerZ", {
+    	chartZ = new CanvasJS.Chart("chartContainerZ", {
      		zoomEnabled: true,
      		title: {
-			text: "Force Z"
-		},
-		data: [
-		{
-		    color: "blue",
-			type: "spline",
-			dataPoints: [
-				{ y: 100 },
-				{ y:  4 },
-				{ y: 18 },
-				{ y:  8 }
+				text: "Force Z"
+			},
+			data: [
+			{
+		    	color: "blue",
+				type: "spline",
+				dataPoints: [
+					{ y: 100 },
+					{ y:  4 },
+					{ y: 18 },
+					{ y:  8 }
+				]
+			}
 			]
-		}
-		]
-	});
+		});
 
-	chartZ.render();
+		chartZ.render();
 	}
 
+	// Render only line chart for Force X when the user clicks the Force X button
 	function updateGraphX() {
 
 	        chartContainerX.style.visibility = 'visible';
@@ -248,7 +247,7 @@
 
 	}
 
-
+	// Render only line chart for Force Y when the user clicks the Force Y button
 	function updateGraphY() {
 
 	        chartContainerX.style.visibility = 'hidden';
@@ -257,7 +256,7 @@
 
 	}
 
-
+	// Render only line chart for Force Z when the user clicks the Force Z button
 	function updateGraphZ() {
 
 	        chartContainerX.style.visibility = 'hidden';
