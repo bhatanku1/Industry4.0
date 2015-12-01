@@ -1,9 +1,5 @@
-/*body{
-	background-repeat: no-repeat;
-	background-image : url(../img/backimage.jpg);
-
-}
-*/
+/* CSS settings for bluetooth_python.html
+ */
 
 #btn_settings{
 	float: right;
@@ -17,9 +13,6 @@
 	margin-left:auto;
 	margin-right:auto;
 	width:30%;
-	/*background-color:blue;
-	animation:fade 1500ms infinite;
-    -webkit-animation:fade 1500ms infinite;*/
 }
 
 #start{
@@ -30,9 +23,6 @@
 	margin-left:auto;
 	margin-right:auto;
 	width:30%;
-	/*background-color:blue;
-	animation:fade 1500ms infinite;
-    -webkit-animation:fade 1500ms infinite;*/
 }
 
 #stop{
@@ -43,10 +33,6 @@
 	margin-left:auto;
 	margin-right:auto;
 	width : 30%;
-
-	/*background-color:blue;
-	animation:fade 1500ms infinite;
-    -webkit-animation:fade 1500ms infinite;*/
 }
 
 #bt_list{
@@ -54,48 +40,4 @@
 	top:5%;
 	left:0%;
 	width:94%;
-
-	/*margin-left:auto;
-	margin-right:auto;
-    /*background-color:blue;
-	animation:fade 1500ms infinite;
-    -webkit-animation:fade 1500ms infinite;*/
-}
-
-.loadinggif {
-    background:url('http://www.hsi.com.hk/HSI-Net/pages/images/en/share/ajax-loader.gif') no-repeat right center;
-}
-
-@keyframes spinner {
-    to {transform: rotate(360deg);}
-}
-
-@-webkit-keyframes spinner {
-    to {-webkit-transform: rotate(360deg);}
-}
-
-.spinner {
-    min-width: 24px;
-    min-height: 24px;
-}
-
-.spinner:before {
-    content: 'Loading…';
-    position: absolute;
-    top: 50%;
-    left: 100%;
-    width: 16px;
-    height: 16px;
-    margin-top: -10px;
-    margin-left: -10px;
-}
-
-.spinner:not(:required):before {
-    content: '';
-    border-radius: 50%;
-    border: 2px solid transparent;
-    border-top-color: rgba(0, 0, 0, .6);
-    border-bottom-color: rgba(0, 0, 0, .6);
-    animation: spinner .8s ease infinite;
-    -webkit-animation: spinner .8s ease infinite;
 }
