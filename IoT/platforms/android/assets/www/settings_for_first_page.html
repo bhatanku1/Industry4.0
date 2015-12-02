@@ -89,7 +89,7 @@
         if (hostName!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET host=? where id=1;", [hostName], function(tx, res) {
+                tx.executeSql("UPDATE mqtt_table SET host=? where id=1;", [hostName], function(tx, res) {
                 len1 = res.rows.length;
                 //alert(hostName);
                 });
@@ -120,7 +120,7 @@
         if (portNumber!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET port=? where id=1;", [portNumber], function(tx, res) {
+                tx.executeSql("UPDATE mqtt_table SET port=? where id=1;", [portNumber], function(tx, res) {
                 len1 = res.rows.length;
                 //alert(portNumber);
                 });
@@ -145,7 +145,7 @@
         if (clientId!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET client_Id=? where id=1;", [clientId], function(tx, res) {
+                tx.executeSql("UPDATE mqtt_table SET client_Id=? where id=1;", [clientId], function(tx, res) {
                 len1 = res.rows.length;
                 //alert(clientId);
                 });
@@ -170,7 +170,7 @@
         if (userName!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET user_Name=? where id=1;", [userName], function(tx, res) {
+                tx.executeSql("UPDATE mqtt_table SET user_Name=? where id=1;", [userName], function(tx, res) {
                 len1 = res.rows.length;
                 //alert(userName);
                 });
@@ -200,7 +200,7 @@
         if (password1!="" || password1!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
-                tx.executeSql("UPDATE test_table SET pwd=? where id=1;", [password1], function(tx, res) {
+                tx.executeSql("UPDATE mqtt_table SET pwd=? where id=1;", [password1], function(tx, res) {
                 len1 = res.rows.length;
                 //alert(password1);
                 });

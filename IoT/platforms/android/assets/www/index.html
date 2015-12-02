@@ -94,25 +94,25 @@
 
         // Create the mqtt_table if it does not exist
         db.transaction(function(tx) {
-            tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, host text, port text, client_Id text, user_Name, pwd text)');
+            tx.executeSql('CREATE TABLE IF NOT EXISTS mqtt_table (id integer primary key, host text, port text, client_Id text, user_Name, pwd text)');
 
             // demonstrate PRAGMA:
-            db.executeSql("pragma table_info (test_table);", [], function(res) {
+            db.executeSql("pragma table_info (mqtt_table);", [], function(res) {
                 console.log("PRAGMA res: " + JSON.stringify(res));
             });
 
             // Insert default values for the MQTT connection parameters in the mqtt_table
-            tx.executeSql("select * from test_table;", [], function(tx, res) {
+            tx.executeSql("select * from mqtt_table;", [], function(tx, res) {
                 len1 = res.rows.length;
                 if (len1 == 0) {
                     genRandom();
-                    tx.executeSql("INSERT INTO test_table (host, port, client_Id, user_Name, pwd) VALUES (?,?,?,?,?)", ["m20.cloudmqtt.com", 11143, randomClient, "user@email.com", "iotiwbiot"], function(tx, res) {});
+                    tx.executeSql("INSERT INTO mqtt_table (host, port, client_Id, user_Name, pwd) VALUES (?,?,?,?,?)", ["iot.eclipse.org", 1883, randomClient, "user@email.com", "iotiwbiot"], function(tx, res) {});
                 }
             });
 
             // Load the MQTT connection parameter values in local variables and use them later
             db.transaction(function(tx) {
-                tx.executeSql("select * from test_table;", [], function(tx, res) {
+                tx.executeSql("select * from mqtt_table;", [], function(tx, res) {
                     var len = res.rows.length;
                     for (var i=0; i<len; i++) {
                         var newParagraph = document.createElement('p');

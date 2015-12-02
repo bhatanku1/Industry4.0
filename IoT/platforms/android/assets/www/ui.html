@@ -104,13 +104,13 @@
         db.transaction(function(tx) {
 
             // demonstrate PRAGMA:
-            db.executeSql("pragma table_info (test_table);", [], function(res) {
+            db.executeSql("pragma table_info (mqtt_table);", [], function(res) {
                 console.log("PRAGMA res: " + JSON.stringify(res));
             });
 
             db.transaction(function(tx) {
 
-                tx.executeSql("select * from test_table;", [], function(tx, res) {
+                tx.executeSql("select * from mqtt_table;", [], function(tx, res) {
                     var len = res.rows.length;
                     for (var i=0; i<len; i++) {
                         document.getElementById("hostInfo").innerHTML = res.rows.item(i).host
