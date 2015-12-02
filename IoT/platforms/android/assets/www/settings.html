@@ -81,6 +81,8 @@
 
 <script>
 
+    var numbers = /^[0-9]+$/;
+
     // Through SQLite query, the Host Name field is updated in the MQTT table
     function updateHost(){
 
@@ -110,6 +112,12 @@
     function updatePort(){
 
         var portNumber=prompt("Please enter the port number","");
+        //check if the input is numeric
+        if (!portNumber.match(numbers)) {
+            alert('Port number should be numeric');
+            return false;
+        };
+
         if (portNumber!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {

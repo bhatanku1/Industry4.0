@@ -63,6 +63,8 @@
 
 <script>
 
+    var numbers = /^[0-9]+$/;
+
     /* Call this function when the screen loads
        Through SQLite query, the threshold values are retrieved
     */
@@ -117,6 +119,12 @@
     function updateThresholdX(){
 
         var thresholdX=prompt("Please enter the threshold for X-moment","");
+        //check if the input is numeric
+        if (!thresholdX.match(numbers)) {
+            alert('Threshold value should be numeric');
+            return false;
+        };
+
         if (thresholdX!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
@@ -142,6 +150,12 @@
     function updateThresholdY(){
 
         var thresholdY=prompt("Please enter the threshold for Y-moment","");
+        //check if the input is numeric
+        if (!thresholdY.match(numbers)) {
+            alert('Threshold value should be numeric');
+            return false;
+        };
+
         if (thresholdY!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
@@ -167,6 +181,11 @@
     function updateThresholdZ(){
 
         var thresholdZ=prompt("Please enter the threshold for Z-moment","");
+        //check if the input is numeric
+        if (!thresholdZ.match(numbers)) {
+            alert('Threshold value should be numeric');
+            return false;
+        };
         if (thresholdZ!=null) {
             var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
             db.transaction(function(tx) {
