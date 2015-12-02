@@ -15,9 +15,6 @@
    specific language governing permissions and limitations
    under the License.
 */
-
-
-
 buildscript {
     repositories {
         mavenCentral()
@@ -41,19 +38,15 @@ buildscript {
         }
     }
 }
-
 apply plugin: 'android-library'
-
 android {
-    compileSdkVersion cdvCompileSdkVersion
-    buildToolsVersion cdvBuildToolsVersion
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
     publishNonDefault true
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
         targetCompatibility JavaVersion.VERSION_1_6
     }
-
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -73,4 +66,12 @@ android {
 
 
     }
+    defaultConfig {
+        minSdkVersion 19
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
 }

@@ -1,11 +1,19 @@
 <!DOCTYPE html>
+
+
+<!-- HTML page for Settings screen: contains HTML and JavaScript codes
+     User can be directed to this page from
+     the Welcome screen in case the MQTT connection is not successful
+
+     User can navigate to
+     the Welcome screen
+-->
+
 <html>
 <meta charset="UTF-8">
 
 <head>
 
-    <script src="js/jquery-1.11.3.min.js"></script>
-    <script src="js/jquery.blockUI.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="cordova_plugins.js"></script>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
@@ -20,7 +28,6 @@
 
     <a href = "index.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
     <h1 class="title">MQTT Settings</h1>
-    <!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
 
 </div>
 
@@ -73,6 +80,7 @@
 
 <script>
 
+    // Through SQLite query, the Host Name field is updated in the MQTT table
     function updateHost(){
 
         var hostName=prompt("Please enter the host name","");
@@ -97,6 +105,7 @@
         };
     }
 
+    // Through SQLite query, the Port Number field is updated in the MQTT table
     function updatePort(){
 
         var portNumber=prompt("Please enter the port number","");
@@ -121,6 +130,7 @@
         };
     }
 
+    // Through SQLite query, the Client ID field is updated in the MQTT table
     function updateClient(){
 
         var clientId=prompt("Please enter the client id","");
@@ -145,6 +155,7 @@
         };
     }
 
+    // Through SQLite query, the Username field is updated in the MQTT table
     function updateUser(){
 
         var userName=prompt("Please enter the user name","");
@@ -169,6 +180,7 @@
         };
     }
 
+    // Through SQLite query, the Password field is updated in the MQTT table
     function updatePassword(){
 
         var password1=prompt("Please enter the new password","");

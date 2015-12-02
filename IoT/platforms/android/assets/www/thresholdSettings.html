@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+
+<!-- HTML page for Threshold Settings screen: contains HTML and JavaScript codes
+     User can be directed to this page from
+     the Settings screen
+
+     User can navigate to
+     the Settings screen
+-->
+
 <html>
 <meta charset="UTF-8">
 
@@ -20,9 +29,7 @@
 
     <a href = "mainsettings.html"><button class="button button-clear button-light ion-android-arrow-back"></button></a>
     <h1 class="title">Threshold Settings</h1>
-    <!--<a class="button button-right button-clear button-light ion-loop" href = "thresholdSettings.html"></a>-->
     <a class="button button-right button-clear button-light ion-home" href = "ui.html"></a>
-    <!--<button id="btn_settings" class="button button-right button-clear button-light ion-gear-a" ><a href = "settings.html"></a></button> -->
 
 </div>
 
@@ -30,6 +37,8 @@
 <br>
 <br>
 
+<!-- this list card shows the threshold information
+-->
 <div class="list card">
 
     <a href="#" class="item item-icon-left">
@@ -54,7 +63,9 @@
 
 <script>
 
-    //var len1 = 0;
+    /* Call this function when the screen loads
+       Through SQLite query, the threshold values are retrieved
+    */
     function onDeviceReady() {
 	    var db = window.sqlitePlugin.openDatabase({name: "myanother.db"});
         db.transaction(function(tx) {
@@ -84,17 +95,16 @@
         },
 
         function() {
-            // OK to close here:
             console.log('transaction ok');
             db.close(function() {
                 console.log('database is closed ok');
             });
         },
 
+        // Error handler
         function(e) {
             console.log("ERROR: " + e.message);
             db.close();
-            //});  pulaMod_fr_14:58
         });
     }
 
@@ -103,6 +113,7 @@
         document.addEventListener("deviceready", onDeviceReady, false);
     }
 
+    // Update the threshold for Force X in the database
     function updateThresholdX(){
 
         var thresholdX=prompt("Please enter the threshold for X-moment","");
@@ -127,6 +138,7 @@
         };
     }
 
+    // Update the threshold for Force Y in the database
     function updateThresholdY(){
 
         var thresholdY=prompt("Please enter the threshold for Y-moment","");
@@ -151,6 +163,7 @@
         };
     }
 
+    // Update the threshold for Force Z in the database
     function updateThresholdZ(){
 
         var thresholdZ=prompt("Please enter the threshold for Z-moment","");
