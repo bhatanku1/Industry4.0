@@ -12,7 +12,7 @@
         <param name="android-package" value="MqttPlugin" />
     </feature>
     <allow-intent href="market:*" />
-    <name>industry</name>
+    <name>Industry 4.0</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>
